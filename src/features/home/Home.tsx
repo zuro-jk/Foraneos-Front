@@ -46,7 +46,7 @@ const Home = () => {
     <div className="w-full">
 
       {/* Sección Foraneos IA */}
-      <section className="min-h-screen flex items-center bg-[#f8f8d8]">
+      <section className="min-h-screen flex items-center">
         <div className="px-[5%] py-10 max-w-[1200px] mx-auto w-full">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
             {/* Texto */}

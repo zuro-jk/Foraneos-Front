@@ -1,18 +1,21 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/pages/login/Login";
-import Footer from "./shared/footer/Footer";
-import Navbar from "./shared/navbar/Navbar";
+import Signup from "./features/auth/pages/signup/Signup";
+import Schedule from "./features/calendar/pages/schedule/Schedule";
 import Home from "./features/home/Home";
+import Layout from "./shared/layout/Layout";
 
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Agrega aquí más rutas si las necesitas */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="schedule" element={<Schedule />} />
+        </Route>
       </Routes>
-      <Footer />
     </>
   );
 }

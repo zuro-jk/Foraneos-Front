@@ -114,6 +114,10 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.rdp-button {
+  cursor: pointer;
+}
+
 @font-face {
   font-family: "Cookie";
   src: url("/fonts/Cookie-Regular.ttf") format("woff2");

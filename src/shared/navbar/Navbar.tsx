@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
   return (
     <nav className="bg-[#f8f8d8] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
@@ -40,13 +42,20 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/perfil">
-            <img
-              src="/images/auth/login.webp"
-              alt="login"
-              className="w-8 h-8 rounded-full object-cover border-2 hover:scale-105 transition"
-            />
-          </Link>
+          {isAuth ? (
+            <Link to="/perfil">
+              <img
+                src="/images/auth/login.webp"
+                alt="login"
+                className="w-8 h-8 rounded-full object-cover border-2 hover:scale-105 transition"
+              />
+            </Link>
+          ) : (
+            <div className="flex gap-2">
+              <Button onClick={() => setIsAuth(true)}>Iniciar Sesion</Button>
+              <Button variant="outline">Registrarse</Button>
+            </div>
+          )}
         </li>
       </ul>
 
