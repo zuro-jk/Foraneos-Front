@@ -1,12 +1,19 @@
+import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/pages/login/Login";
-import Signup from "./features/auth/pages/signup/Signup";
+import Footer from "./shared/footer/Footer";
+import Navbar from "./shared/navbar/Navbar";
+import Home from "./features/home/Home";
 
 function App() {
   return (
-    <div className="bg-primary-foraneos">
-      <Login />
-      <Signup />
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* Agrega aquí más rutas si las necesitas */}
+      </Routes>
+      <Footer />
+    </>
   );
 }
 
