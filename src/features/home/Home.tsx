@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import comidaImg from '/images/inicio/comida-img-foraneos.webp';
-import fondoCarrusel from '/images/inicio/arboles-fondo-carrusel.webp';
+import { useState } from "react";
+import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
+import fondoCarrusel from "/images/inicio/arboles-fondo-carrusel.webp";
+import comidaImg from "/images/inicio/comida-img-foraneos.webp";
 
 const reviews = [
   {
@@ -39,12 +39,17 @@ const reviews = [
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prev = () => setCurrentIndex((prevIndex) => (prevIndex === 0 ? reviews.length - 1 : prevIndex - 1));
-  const next = () => setCurrentIndex((prevIndex) => (prevIndex === reviews.length - 1 ? 0 : prevIndex + 1));
+  const prev = () =>
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
+    );
+  const next = () =>
+    setCurrentIndex((prevIndex) =>
+      prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+    );
 
   return (
     <div className="w-full">
-
       {/* Sección Foraneos IA */}
       <section className="min-h-screen flex items-center">
         <div className="px-[5%] py-10 max-w-[1200px] mx-auto w-full">
@@ -55,8 +60,9 @@ const Home = () => {
                 Foraneos <span className="text-base font-mono">IA</span>
               </h1>
               <p className="mt-5 leading-relaxed text-base text-black">
-                Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
-                Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500
+                Lorem Ipsum es simplemente el texto de relleno de las imprentas
+                y archivos de texto. Lorem Ipsum ha sido el texto de relleno
+                estándar de las industrias desde el año 1500
               </p>
               <button className="mt-5 bg-black text-white py-2 px-5 rounded-md hover:bg-gray-800 transition">
                 Comenzar
@@ -66,7 +72,7 @@ const Home = () => {
             {/* Imagen */}
             <div className="flex-1 flex justify-center">
               <img
-                src={comidaImg}
+                src="/images/inicio/comida-img-foraneos.webp"
                 alt="comida saludable"
                 className="max-w-[300px] md:max-w-[400px] rounded-full shadow-[0_0_30px_#c5ff43]"
               />
@@ -78,7 +84,11 @@ const Home = () => {
       {/* Carrusel */}
       <section
         className="min-h-screen relative flex items-center justify-center text-white"
-        style={{ backgroundImage: `url(${fondoCarrusel})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{
+          backgroundImage: `url(${fondoCarrusel})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         {/* Capa oscura transparente */}
         <div className="absolute inset-0 bg-[#1e293b]/80 backdrop-blur-sm z-0"></div>
@@ -87,10 +97,16 @@ const Home = () => {
         <div className="relative z-10 px-[5%] max-w-[1200px] w-full">
           {/* Navegación */}
           <div className="flex justify-between items-center mb-4 px-4">
-            <button onClick={prev} className="text-xl text-white hover:text-gray-300">
+            <button
+              onClick={prev}
+              className="text-xl text-white hover:text-gray-300"
+            >
               <FaChevronLeft />
             </button>
-            <button onClick={next} className="text-xl text-white hover:text-gray-300">
+            <button
+              onClick={next}
+              className="text-xl text-white hover:text-gray-300"
+            >
               <FaChevronRight />
             </button>
           </div>
@@ -111,14 +127,20 @@ const Home = () => {
                       👤
                     </div>
                     <div className="bg-green-200 rounded-lg p-2 text-xs">
-                      <p className="font-bold text-sm text-black">¡{review.name} opina!</p>
+                      <p className="font-bold text-sm text-black">
+                        ¡{review.name} opina!
+                      </p>
                       <p>{review.review}</p>
                     </div>
                   </div>
 
                   {/* Imagen comida */}
                   <div className="bg-green-200 rounded-lg overflow-hidden">
-                    <img src={review.img} alt="comida" className="object-cover w-full h-40" />
+                    <img
+                      src={review.img}
+                      alt="comida"
+                      className="object-cover w-full h-40"
+                    />
                     <div className="flex items-center justify-center gap-2 p-2">
                       <span className="w-4 h-2 bg-black rounded-full"></span>
                       <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
@@ -137,7 +159,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };
