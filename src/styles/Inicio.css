@@ -1,0 +1,46 @@
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8d8;
+  height: 100vh;
+  padding: 0 5%;
+  position: relative;
+}
+
+.home-left {
+  flex: 1;
+  max-width: 500px;
+}
+
+.title {
+  font-size: 3rem;
+  font-family: 'Brush Script MT', cursive;
+  color: #556b2f;
+}
+
+.title span {
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+}
+
+.home-left p {
+  margin-top: 20px;
+  line-height: 1.5;
+}
+
+.home-left button {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.home-right img {
+  max-width: 400px;
+  border-radius: 50%;
+  box-shadow: 0 0 30px #c5ff43;
+}
