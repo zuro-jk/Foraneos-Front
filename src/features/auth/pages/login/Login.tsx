@@ -12,7 +12,7 @@ const Login = () => {
             <div className="flex items-end">
               <span className="text-[51px] [font-family:'Cookie',sans-serif] text-[#324001]">
                 Foraneos
-                <span className="text-lg relative top-2 [font-family:'RibeyeMarrow']">
+                <span className="text-lg relative top-2 [font-family:'RibeyeMarrow'] uppercase">
                   IA
                 </span>
               </span>

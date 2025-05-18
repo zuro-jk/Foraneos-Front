@@ -10,9 +10,13 @@ const Navbar = () => {
   return (
     <nav className="bg-[#f8f8d8] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
       {/* Logo */}
-      <div className="text-[1.8rem] font-semibold text-[#3b3b3b]">
-        <span className="font-[cursive]">Foraneos</span>{" "}
-        <span className="text-sm font-mono">IA</span>
+      <div className="text-[1.8rem] text-[#3b3b3b]">
+        <span className="text-3xl [font-family:'Cookie',sans-serif] text-[#324001]">
+          Foraneos
+          <span className="text-xs relative top-2 [font-family:'RibeyeMarrow'] uppercase">
+            IA
+          </span>
+        </span>
       </div>
 
       {/* Icono Hamburguesa (solo visible en móviles) */}
@@ -27,18 +31,27 @@ const Navbar = () => {
       {/* Menú Desktop */}
       <ul className="hidden md:flex items-center gap-8 text-black font-bold text-base">
         <li>
-          <Link to="/" className="hover:text-green-600 transition">
-            INICIO
+          <Link
+            to="/"
+            className="hover:text-green-600 transition uppercase"
+          >
+            Inicio
           </Link>
         </li>
         <li>
-          <Link to="/planes" className="hover:text-green-600 transition">
-            PLANES
+          <Link
+            to="/planes"
+            className="hover:text-green-600 transition uppercase"
+          >
+            Planes
           </Link>
         </li>
         <li>
-          <Link to="/nosotros" className="hover:text-green-600 transition">
-            NOSOTROS
+          <Link
+            to="/nosotros"
+            className="hover:text-green-600 transition uppercase"
+          >
+            Nosotros
           </Link>
         </li>
         <li>
@@ -90,7 +103,10 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/perfil" onClick={() => setIsOpen(false)}>
+            <Link
+              to="/perfil"
+              onClick={() => setIsOpen(false)}
+            >
               <img
                 src="src/public/image/login.webp"
                 alt="login"

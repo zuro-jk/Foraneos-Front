@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+body {
+  font-family: 'Roboto';
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -133,8 +137,10 @@
 }
 
 @font-face {
-  font-family: "";
-  src: url();
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Regular.ttf") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @layer base {

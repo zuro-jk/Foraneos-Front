@@ -1,3 +1,4 @@
+import { Button } from "@/shared/ui/button";
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
 import fondoCarrusel from "/images/inicio/arboles-fondo-carrusel.webp";
@@ -49,37 +50,172 @@ const Home = () => {
     );
 
   return (
-    <div className="w-full">
+    <div className="relative">
       {/* Sección Foraneos IA */}
-      <section className="min-h-screen flex items-center">
-        <div className="px-[5%] py-10 max-w-[1200px] mx-auto w-full">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
-            {/* Texto */}
-            <div className="flex-1 max-w-xl text-center lg:text-left">
-              <h1 className="text-5xl font-semibold text-[#556b2f] font-[Brush Script MT]">
-                Foraneos <span className="text-base font-mono">IA</span>
-              </h1>
-              <p className="mt-5 leading-relaxed text-base text-black">
-                Lorem Ipsum es simplemente el texto de relleno de las imprentas
-                y archivos de texto. Lorem Ipsum ha sido el texto de relleno
-                estándar de las industrias desde el año 1500
-              </p>
-              <button className="mt-5 bg-black text-white py-2 px-5 rounded-md hover:bg-gray-800 transition">
-                Comenzar
-              </button>
-            </div>
+      <section className="flex items-center justify-center h-[93vh] gap-42">
+        <div className="flex flex-col justify-center gap-4 w-[50rem]">
+          <img
+            src="/images/inicio/title-header.png"
+            alt="Title"
+            className="w-[10rem] md:w-[15rem] lg:w-[20rem] xl:w-[55rem]"
+          />
+          <span className="lg:ml-28 xl:ml-56">
+            Foráneos IA te ayuda a encontrar los mejores platillos y servicios
+            para sentirte como en casa, estés donde estés. Descubre
+            recomendaciones personalizadas y disfruta de una experiencia única.
+          </span>
+          <Button className="w-fit lg:ml-28 xl:ml-56">Comenzar</Button>
+        </div>
+        <img
+          src="/images/inicio/food-plato-hojas.png"
+          alt="Comida Saludable"
+          className="w-[20rem] h-[20rem] lg:w-[40rem] lg:h-[40rem] pointer-events-none"
+        />
+      </section>
 
-            {/* Imagen */}
-            <div className="flex-1 flex justify-center">
-              <img
-                src="/images/inicio/comida-img-foraneos.webp"
-                alt="comida saludable"
-                className="max-w-[300px] md:max-w-[400px] rounded-full shadow-[0_0_30px_#c5ff43]"
-              />
+      {/* Imagen hoja superpuesta */}
+      <img
+        src="/images/inicio/hoja.png"
+        alt="hoja"
+        className="absolute top-[75vh] -translate-y-18  w-96 select-none z-20 pointer-events-none"
+      />
+
+      {/* Seccion acerca de */}
+      <section
+        className="h-[100vh] bg-white"
+        style={{
+          backgroundImage: `url(/images/inicio/about-us.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <img
+          src="/images/inicio/ingredients-food.png"
+          alt="food"
+          className="absolute top-[22%] left-1/2 -translate-x-1/2 pointer-events-none h-[40rem] w-[40rem]"
+        />
+        <img
+          src="/images/inicio/content-of-food.png"
+          alt="Content"
+          className="absolute top-[35%] right-10 -translate-y-1/2 pointer-events-none"
+        />
+        <div
+          className="absolute top-[23%] left-[70%] w-[30rem] text-center"
+          style={{ zIndex: 3 }}
+        >
+          <span className="text-7xl [font-family:'Cookie',sans-serif] relative">
+            ¿Qué es Foraneos ?
+            <span className="text-lg absolute top-[60%] [font-family:'RibeyeMarrow'] uppercase">
+              IA
+            </span>
+          </span>
+          <p className="">
+            Foráneos IA es una plataforma que utiliza inteligencia artificial
+            para recomendarte los mejores platillos y servicios en tu ciudad.
+            Nuestro objetivo es ayudarte a sentirte como en casa, descubriendo
+            sabores y experiencias únicas adaptadas a tus gustos y necesidades.
+          </p>
+        </div>
+        <div
+          className="absolute top-[38%] left-[40%] w-[30rem] text-center"
+          style={{ zIndex: 3 }}
+        >
+          <span className="text-7xl [font-family:'Cookie',sans-serif] relative">
+            ¿Es saludable?
+            <span className="text-lg absolute top-[60%] [font-family:'RibeyeMarrow'] uppercase">
+              IA
+            </span>
+          </span>
+          <p className="">
+            Sí, Foráneos IA se preocupa por tu bienestar. Nuestras
+            recomendaciones priorizan opciones saludables y equilibradas,
+            adaptadas a tus preferencias alimenticias. Queremos que disfrutes de
+            platillos deliciosos sin descuidar tu salud.
+          </p>
+        </div>
+      </section>
+
+      <section
+        className="h-[110vh] bg-white border-b border-black"
+        style={{
+          backgroundImage: `url(/images/inicio/card-plan.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex items-center justify-center h-full">
+          <div className="bg-gradient-to-br from-[#B3D98F] to-[#bce2c3] shadow-xl w-[30rem] rounded-xl flex flex-col gap-12 p-8 items-center justify-center relative">
+            <div className="absolute bg-black w-[30rem] h-[1rem] -top-1 rounded-tl-xl rounded-tr-2xl z-10" />
+            <span className="font-bold text-3xl">Te Ofrecemos</span>
+            <ul className="flex flex-col gap-2">
+              <li className="flex items-center gap-2">
+                <span
+                  role="img"
+                  aria-label="Recomendaciones"
+                >
+                  🍽️
+                </span>
+                Recomendaciones de comida solo para ti
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  role="img"
+                  aria-label="Saludable"
+                >
+                  🥗
+                </span>
+                Opciones saludables y variadas
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  role="img"
+                  aria-label="Opiniones"
+                >
+                  💬
+                </span>
+                Opiniones de otros usuarios
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  role="img"
+                  aria-label="Facil de usar"
+                >
+                  📱
+                </span>
+                Fácil de usar en cualquier momento
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  role="img"
+                  aria-label="Soporte"
+                >
+                  🤝
+                </span>
+                Soporte personalizado
+              </li>
+            </ul>
+            <div className="relative">
+              <span className="absolute -top-1 -left-4">S/</span>
+              <span className="text-5xl font-bold">7.99</span>
+              <span className="absolute top-6">/mes</span>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <Button className="bg-[#B1DF88] text-black font-bold hover:bg-[#a4cf7e]/80">
+                Continuar sin anuncios
+              </Button>
+              <span className="text-[8px] underline">
+                Continuar con anuncios
+              </span>
             </div>
           </div>
         </div>
       </section>
+
+      <img
+        src="/images/inicio/hoja.png"
+        alt="hoja"
+        className="absolute top-[80%] -translate-y-18  w-96 select-none z-20 pointer-events-none"
+      />
 
       {/* Carrusel */}
       <section
