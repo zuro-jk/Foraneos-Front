@@ -1,54 +1,56 @@
+import Footer from "@/shared/footer/Footer";
 import { Button } from "@/shared/ui/button";
-import { useState } from "react";
-import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
-import fondoCarrusel from "/images/inicio/arboles-fondo-carrusel.webp";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/shared/ui/carousel";
+import { User } from "lucide-react";
+import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import comidaImg from "/images/inicio/comida-img-foraneos.webp";
 
 const reviews = [
   {
     id: 1,
     name: "Hector",
-    review: "No me gusto ningun plato, extraño a mi viejita, pipipipi",
+    review:
+      "Gracias a Foráneos IA encontré un menú que me recordó a casa. ¡La sopa de pollo fue increíble!",
     img: comidaImg,
   },
   {
     id: 2,
     name: "Joe",
-    review: "El servicio fue excelente y la comida deliciosa. ¡Volveré pronto!",
+    review:
+      "Me encantó la variedad de opciones saludables. Ahora comer bien es mucho más fácil.",
     img: comidaImg,
   },
   {
     id: 3,
     name: "Aaron",
-    review: "El servicio fue excelente y la comida deliciosa. ¡Volveré pronto!",
+    review:
+      "El sistema de recomendaciones es muy preciso. Probé un platillo nuevo y fue un éxito.",
     img: comidaImg,
   },
   {
     id: 4,
     name: "Marcelo",
-    review: "El servicio fue excelente y la comida deliciosa. ¡Volveré pronto!",
+    review:
+      "La atención al cliente es excelente y la app es muy intuitiva. ¡Recomendado para todos los foráneos!",
     img: comidaImg,
   },
   {
     id: 5,
     name: "Hugo",
-    review: "El servicio fue excelente y la comida deliciosa. ¡Volveré pronto!",
+    review:
+      "Nunca pensé que encontraría comida tan rica lejos de casa. ¡Gracias por las sugerencias!",
     img: comidaImg,
   },
 ];
 
 const Home = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prev = () =>
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
-    );
-  const next = () =>
-    setCurrentIndex((prevIndex) =>
-      prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
-    );
-
   return (
     <div className="relative">
       {/* Sección Foraneos IA */}
@@ -64,7 +66,9 @@ const Home = () => {
             para sentirte como en casa, estés donde estés. Descubre
             recomendaciones personalizadas y disfruta de una experiencia única.
           </span>
-          <Button className="w-fit lg:ml-28 xl:ml-56">Comenzar</Button>
+          <Link to="/login">
+            <Button className="w-fit lg:ml-28 xl:ml-56">Comenzar</Button>
+          </Link>
         </div>
         <img
           src="/images/inicio/food-plato-hojas.png"
@@ -135,14 +139,12 @@ const Home = () => {
         </div>
       </section>
 
-      <section
-        className="h-[110vh] bg-white border-b border-black"
-        style={{
-          backgroundImage: `url(/images/inicio/card-plan.png)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <section className="h-[120vh] bg-white border-b border-black relative">
+        <img
+          src="/images/inicio/card-plan.png"
+          alt="fondo"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        />
         <div className="flex items-center justify-center h-full">
           <div className="bg-gradient-to-br from-[#B3D98F] to-[#bce2c3] shadow-xl w-[30rem] rounded-xl flex flex-col gap-12 p-8 items-center justify-center relative">
             <div className="absolute bg-black w-[30rem] h-[1rem] -top-1 rounded-tl-xl rounded-tr-2xl z-10" />
@@ -214,87 +216,68 @@ const Home = () => {
       <img
         src="/images/inicio/hoja.png"
         alt="hoja"
-        className="absolute top-[80%] -translate-y-18  w-96 select-none z-20 pointer-events-none"
+        className="absolute top-[72%] left-[1521px] -translate-y-18 w-96 select-none z-20 pointer-events-none -scale-x-100"
       />
 
       {/* Carrusel */}
-      <section
-        className="min-h-screen relative flex items-center justify-center text-white"
-        style={{
-          backgroundImage: `url(${fondoCarrusel})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Capa oscura transparente */}
-        <div className="absolute inset-0 bg-[#1e293b]/80 backdrop-blur-sm z-0"></div>
-
-        {/* Contenido del carrusel */}
-        <div className="relative z-10 px-[5%] max-w-[1200px] w-full">
-          {/* Navegación */}
-          <div className="flex justify-between items-center mb-4 px-4">
-            <button
-              onClick={prev}
-              className="text-xl text-white hover:text-gray-300"
-            >
-              <FaChevronLeft />
-            </button>
-            <button
-              onClick={next}
-              className="text-xl text-white hover:text-gray-300"
-            >
-              <FaChevronRight />
-            </button>
-          </div>
-
-          {/* Reseñas */}
-          <div className="flex flex-wrap justify-center gap-10">
-            {reviews
-              .slice(currentIndex, currentIndex + 2)
-              .concat(currentIndex === reviews.length - 1 ? [reviews[0]] : [])
-              .map((review, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white bg-opacity-80 text-black w-full max-w-[350px] p-4 rounded-xl shadow-xl"
+      <section className="bg-[url('/images/inicio/fondo-carruseles.png')] bg-white bg-cover bg-[position:center_10%] py-24">
+        <div className="h-full flex items-center justify-center">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full max-w-6xl"
+          >
+            <CarouselContent>
+              {reviews.map((review) => (
+                <CarouselItem
+                  key={review.id}
+                  className="w-full md:basis-1/2 lg:basis-1/2"
                 >
-                  {/* Usuario y mensaje */}
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center text-2xl">
-                      👤
+                  <div className="bg-black/45 rounded-xl p-12 flex flex-col gap-4 h-[35rem]">
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center shadow">
+                        <User className="w-8 h-8" />
+                      </div>
+                      <div className="flex flex-col bg-green-200 p-4 rounded-xl max-w-[25rem]">
+                        <span className="font-bold text-xl truncate">
+                          {review.name}
+                        </span>
+                        <p className="text-sm break-words">{review.review}</p>
+                      </div>
                     </div>
-                    <div className="bg-green-200 rounded-lg p-2 text-xs">
-                      <p className="font-bold text-sm text-black">
-                        ¡{review.name} opina!
-                      </p>
-                      <p>{review.review}</p>
+                    <div className="bg-green-200 p-8 rounded-xl flex flex-col gap-4">
+                      <img
+                        src="/images/inicio/card-comida-carousel.png"
+                        alt="Comida"
+                        className="object-cover w-full h-64 "
+                      />
+                      <div className="flex gap-2">
+                        <div className="bg-black rounded-xl w-8 h-3"></div>
+                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
+                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
+                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
+                      </div>
+                    </div>
+                    <div className="flex">
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <FaStar
+                          className="text-yellow-400"
+                          key={i}
+                        />
+                      ))}
                     </div>
                   </div>
-
-                  {/* Imagen comida */}
-                  <div className="bg-green-200 rounded-lg overflow-hidden">
-                    <img
-                      src={review.img}
-                      alt="comida"
-                      className="object-cover w-full h-40"
-                    />
-                    <div className="flex items-center justify-center gap-2 p-2">
-                      <span className="w-4 h-2 bg-black rounded-full"></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
-                    </div>
-                  </div>
-
-                  {/* Estrellas */}
-                  <div className="flex gap-1 pt-2 text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
-                </div>
+                </CarouselItem>
               ))}
-          </div>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

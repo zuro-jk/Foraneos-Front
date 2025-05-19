@@ -2,6 +2,7 @@ import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -21,7 +22,10 @@ const Login = () => {
               Bienvenido a nuestra web, inicia sesión para continuar
             </span>
           </div>
-          <Button variant="outline" className="cursor-pointer w-full">
+          <Button
+            variant="outline"
+            className="cursor-pointer w-full"
+          >
             <svg
               enable-background="new 0 0 128 128"
               id="Social_Icons"
@@ -74,8 +78,16 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <Input type="email" placeholder="Correo" className="" />
-            <Input type="password" placeholder="Contraseña" className="" />
+            <Input
+              type="email"
+              placeholder="Correo"
+              className=""
+            />
+            <Input
+              type="password"
+              placeholder="Contraseña"
+              className=""
+            />
           </div>
 
           <div className="flex items-start gap-2">
@@ -87,7 +99,9 @@ const Login = () => {
           </Button>
           <p className="flex items-center justify-center gap-2 text-xs ">
             ¿No tienes una cuenta creada?
-            <span className="text-yellow-500">Registrate</span>
+            <Link to="/signup">
+              <span className="text-yellow-500">Registrate</span>
+            </Link>
           </p>
         </div>
         <img

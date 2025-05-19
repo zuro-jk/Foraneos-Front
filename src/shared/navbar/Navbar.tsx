@@ -10,14 +10,17 @@ const Navbar = () => {
   return (
     <nav className="bg-[#f8f8d8] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
       {/* Logo */}
-      <div className="text-[1.8rem] text-[#3b3b3b]">
+      <Link
+        to="/"
+        className="text-[1.8rem] text-[#3b3b3b]"
+      >
         <span className="text-3xl [font-family:'Cookie',sans-serif] text-[#324001]">
           Foraneos
           <span className="text-xs relative top-2 [font-family:'RibeyeMarrow'] uppercase">
             IA
           </span>
         </span>
-      </div>
+      </Link>
 
       {/* Icono Hamburguesa (solo visible en móviles) */}
       <button

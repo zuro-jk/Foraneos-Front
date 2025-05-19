@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
 
 const Layout = () => {
@@ -9,7 +8,7 @@ const Layout = () => {
       <main className="flex-1 bg-[#f8f8d8]">
         <Outlet />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
