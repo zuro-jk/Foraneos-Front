@@ -44,7 +44,7 @@ const ChartMacronutrients = () => {
             data={chartData}
             dataKey="calories"
             nameKey="name"
-            innerRadius={60}
+            innerRadius={100}
           />
         </PieChart>
       </ChartContainer>

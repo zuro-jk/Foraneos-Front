@@ -6,7 +6,7 @@ import {
   type ChartConfig,
 } from "@/shared/ui/chart";
 import { Calendar } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 const chartData = [
   { day: "Monday", calories: 2100 },
@@ -57,10 +57,12 @@ const ChartCalories = () => {
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey="day"
-          tickLine={false}
           tickMargin={10}
-          axisLine={false}
           tickFormatter={(value) => value.slice(0, 3)}
+        />
+        <YAxis
+          tickMargin={10}
+          width={40}
         />
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
         <Bar

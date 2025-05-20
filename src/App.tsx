@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import ForgotPassword from "./features/auth/pages/forgot-password/ForgotPassword";
 import Login from "./features/auth/pages/login/Login";
 import Signup from "./features/auth/pages/signup/Signup";
-import Schedule from "./features/calendar/pages/schedule/Schedule";
 import Home from "./features/home/pages/home/Home";
 import PaymentConfirmation from "./features/payment/pages/payment-confirmation/PaymentConfirmation";
 import PaymentMethod from "./features/payment/pages/payment-method/PaymentMethod";
@@ -18,6 +17,7 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
+import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
 
 function App() {
   return (
