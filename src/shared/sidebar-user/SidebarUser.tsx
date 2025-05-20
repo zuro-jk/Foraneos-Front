@@ -1,25 +1,22 @@
 import { cn } from "@/lib/utils";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Goal, HeartHandshake, LogOut } from "lucide-react";
 import {
   FaAppleAlt,
   FaBars,
   FaCalendarAlt,
-  FaCog,
   FaCreditCard,
-  FaHome,
-  FaUser,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSidebarUserStore } from "./useSidebarUserStore";
 
 const menu = [
-  { label: "Dashboard", icon: <FaHome />, to: "/user/main-dashboard" },
-  { label: "Perfil", icon: <FaUser />, to: "/user/profile" },
+  { label: "Resumen", icon: <HeartHandshake />, to: "/user/main-dashboard" },
+  { label: "Recetas", icon: <FaAppleAlt />, to: "/user/recipes" },
   { label: "Calendario", icon: <FaCalendarAlt />, to: "/user/schedule" },
-  { label: "Ingredientes", icon: <FaAppleAlt />, to: "/user/ingredients" },
-  { label: "Pagos", icon: <FaCreditCard />, to: "/user/payment-method" },
-  { label: "Configuración", icon: <FaCog />, to: "/user/settings" },
+  { label: "Metas", icon: <Goal />, to: "/user/targets" },
+  { label: "Metodos de pago", icon: <FaCreditCard />, to: "/user/payment-method" },
+  { label: "Logout", icon: <LogOut />, to: "/user/logout" },
 ];
 
 const SidebarUser = () => {

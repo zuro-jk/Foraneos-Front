@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Bell, LogOut, Moon, Settings, Sun, User } from "lucide-react";
+import { Bell, LogOut, Moon, Search, Settings, Sun, User } from "lucide-react";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { FaBars } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { useSidebarUserStore } from "../sidebar-user/useSidebarUserStore";
 import { useTheme } from "../theme-provider/useTheme";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import NotificationCard from "./components/notification-card/NotificationCard";
 
@@ -30,7 +32,7 @@ const NavbarUser = () => {
   useHotkeys(
     "shift+p",
     () => {
-      navigate("/user/profile");
+      navigate("/user/account/profile");
     },
     { preventDefault: true }
   );
@@ -38,7 +40,7 @@ const NavbarUser = () => {
   useHotkeys(
     "shift+c",
     () => {
-      navigate("/user/settings");
+      navigate("/user/account/settings");
     },
     { preventDefault: true }
   );
@@ -72,6 +74,26 @@ const NavbarUser = () => {
             IA
           </span>
         </Link>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className="relative w-48">
+              <Input
+                className="pl-8 w-full relative"
+                placeholder="Buscar..."
+                type="text"
+              />
+              <Search
+                className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400"
+                size={18}
+              />
+            </div>
+          </DialogTrigger>
+          <DialogContent className="max-w-lg">
+            <div>
+              <h2 className="font-bold text-lg mb-2">Buscar en tu nutrición</h2>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="flex items-center gap-4">
@@ -208,17 +230,23 @@ const NavbarUser = () => {
             <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User /> Mi Perfil
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              <DropdownMenuItem asChild>
+                <Link to="/user/account/profile">
+                  <User /> Mi Perfil
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings /> Configuración
-                <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+              <DropdownMenuItem asChild>
+                <Link to="/user/account/settings">
+                  <Settings /> Configuración
+                  <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LogOut /> Cerrar sesión
-                <DropdownMenuShortcut>⇧⌘T</DropdownMenuShortcut>
+              <DropdownMenuItem asChild>
+                <Link to="/user/logout">
+                  <LogOut /> Cerrar sesión
+                  <DropdownMenuShortcut>⇧⌘T</DropdownMenuShortcut>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
