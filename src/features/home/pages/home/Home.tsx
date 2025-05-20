@@ -7,10 +7,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shared/ui/carousel";
+import AutoScroll from "embla-carousel-auto-scroll";
 import { User } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import comidaImg from "/images/inicio/comida-img-foraneos.webp";
+import comidaImg from "/images/inicio/card-comida-carousel.png";
 
 const reviews = [
   {
@@ -38,7 +39,7 @@ const reviews = [
     id: 4,
     name: "Marcelo",
     review:
-      "La atención al cliente es excelente y la app es muy intuitiva. ¡Recomendado para todos los foráneos!",
+      "La atención al cliente es excelente y la app es muy intuitiva.!",
     img: comidaImg,
   },
   {
@@ -223,8 +224,15 @@ const Home = () => {
       <section className="bg-[url('/images/inicio/fondo-carruseles.png')] bg-white bg-cover bg-[position:center_10%] py-24">
         <div className="h-full flex items-center justify-center">
           <Carousel
+            plugins={[
+              AutoScroll({
+                speed: 3,
+                stopOnInteraction: false,
+              }),
+            ]}
             opts={{
               align: "start",
+              loop: true,
             }}
             className="w-full max-w-6xl"
           >
@@ -232,34 +240,38 @@ const Home = () => {
               {reviews.map((review) => (
                 <CarouselItem
                   key={review.id}
-                  className="w-full md:basis-1/2 lg:basis-1/2"
+                  className="w-full md:basis-1/2 lg:basis-1/3 p-4"
                 >
-                  <div className="bg-black/45 rounded-xl p-12 flex flex-col gap-4 h-[35rem]">
-                    <div className="flex items-center justify-center gap-4">
-                      <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center shadow">
-                        <User className="w-8 h-8" />
+                  <div className="bg-white/90 rounded-2xl shadow-2xl p-4 flex flex-col items-center gap-6 max-w-md mx-auto border border-green-100 h-[28rem]">
+                    {/* Avatar y nombre */}
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="bg-green-200 rounded-full w-20 h-20 flex items-center justify-center shadow-lg mb-2">
+                        <User className="w-10 h-10 text-green-800" />
                       </div>
-                      <div className="flex flex-col bg-green-200 p-4 rounded-xl max-w-[25rem]">
-                        <span className="font-bold text-xl truncate">
-                          {review.name}
-                        </span>
-                        <p className="text-sm break-words">{review.review}</p>
-                      </div>
+                      <span className="font-bold text-2xl text-green-900">
+                        {review.name}
+                      </span>
                     </div>
-                    <div className="bg-green-200 p-8 rounded-xl flex flex-col gap-4">
-                      <img
-                        src="/images/inicio/card-comida-carousel.png"
-                        alt="Comida"
-                        className="object-cover w-full h-64 "
-                      />
-                      <div className="flex gap-2">
-                        <div className="bg-black rounded-xl w-8 h-3"></div>
-                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
-                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
-                        <div className="bg-black/50 rounded-xl w-8 h-3"></div>
-                      </div>
-                    </div>
-                    <div className="flex">
+                    {/* Review */}
+                    <p className="italic text-center text-gray-700 text-lg relative px-4">
+                      <span className="text-3xl text-green-400 absolute left-0 -top-2">
+                        “
+                      </span>
+                      <span className="text-md">
+                      {review.review}
+                      </span>
+                      <span className="text-3xl text-green-400 absolute right-0 -bottom-2">
+                        ”
+                      </span>
+                    </p>
+                    {/* Imagen de comida */}
+                    <img
+                      src={review.img}
+                      alt="Comida"
+                      className="object-cover w-40 h-28 rounded-xl shadow"
+                    />
+                    {/* Estrellas */}
+                    <div className="flex gap-1 justify-center">
                       {Array.from({ length: 5 }, (_, i) => (
                         <FaStar
                           className="text-yellow-400"

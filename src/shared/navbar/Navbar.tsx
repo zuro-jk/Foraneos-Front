@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
 
   return (
     <nav className="bg-[#f8f8d8] px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
@@ -36,7 +34,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/"
-            className="hover:text-green-600 transition uppercase"
+            className="hover:text-green-600 transition-colors"
           >
             Inicio
           </Link>
@@ -44,7 +42,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/planes"
-            className="hover:text-green-600 transition uppercase"
+            className="hover:text-green-600 transition-colors"
           >
             Planes
           </Link>
@@ -52,26 +50,24 @@ const Navbar = () => {
         <li>
           <Link
             to="/nosotros"
-            className="hover:text-green-600 transition uppercase"
+            className="hover:text-green-600 transition-colors"
           >
             Nosotros
           </Link>
         </li>
         <li>
-          {isAuth ? (
-            <Link to="/perfil">
-              <img
-                src="/images/auth/login.webp"
-                alt="login"
-                className="w-8 h-8 rounded-full object-cover border-2 hover:scale-105 transition"
-              />
+          <div className="flex gap-2">
+            <Link to="/login">
+              <button className="cursor-pointer px-4 py-2 bg-yellow-500/60 rounded text-black hover:bg-yellow-500 transition-colors">
+                Iniciar Sesion
+              </button>
             </Link>
-          ) : (
-            <div className="flex gap-2">
-              <Button onClick={() => setIsAuth(true)}>Iniciar Sesion</Button>
-              <Button variant="outline">Registrarse</Button>
-            </div>
-          )}
+            <Link to="/signup">
+              <button className="cursor-pointer px-4 py-2 border border-yellow-500 rounded text-black hover:bg-yellow-500 transition-colors">
+                Registrarse
+              </button>
+            </Link>
+          </div>
         </li>
       </ul>
 

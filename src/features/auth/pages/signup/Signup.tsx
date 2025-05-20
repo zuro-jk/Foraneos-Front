@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
   return (
-    <div className="container mx-auto h-[100vh] flex items-center justify-center">
+    <div className="container mx-auto h-[90vh] flex items-center justify-center">
       <div className="flex bg-white shadow-xl rounded-3xl overflow-hidden items-stretch">
         <img
           src="/images/auth/AuthFoodImage.png"
@@ -100,9 +100,9 @@ const Signup = () => {
             />
           </div>
 
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2">
             <Checkbox id="remember-me" />
-            <Label htmlFor="remember-me">Recuerdame</Label>
+            <Label htmlFor="remember-me">Terminos y condiciones</Label>
           </div>
           <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
             Registrarse

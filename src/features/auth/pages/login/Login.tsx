@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="container mx-auto h-[100vh] flex items-center justify-center">
+    <div className="container mx-auto h-[90vh] flex items-center justify-center">
       <div className="flex bg-white shadow-xl rounded-3xl overflow-hidden items-stretch">
         <div className="flex flex-col justify-center gap-4 px-24 py-14 w-[30rem]">
           <div className="flex flex-col items-center justify-center gap-2">
@@ -88,9 +88,15 @@ const Login = () => {
               placeholder="Contraseña"
               className=""
             />
+            <Link
+              to="/forgot-password"
+              className="text-xs text-[#888888ec] hover:text-[#324001] transition duration-300"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
           </div>
 
-          <div className="flex items-start gap-2">
+          <div className="flex items-center gap-2">
             <Checkbox id="remember-me" />
             <Label htmlFor="remember-me">Recuerdame</Label>
           </div>
