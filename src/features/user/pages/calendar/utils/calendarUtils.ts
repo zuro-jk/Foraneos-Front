@@ -1,13 +1,4 @@
-export type CalendarEvent = {
-  id: string;
-  day: number;
-  hour: number;
-  duration: number;
-  label: string;
-  category: string;
-  description: string;
-  location: string;
-};
+import type { CalendarEvent } from "../store/useScheduleStore";
 
 export type Placed = { index: number; count: number };
 
