@@ -26,7 +26,7 @@ const WeeklyCalendar = ({
   setActiveEvent,
   handleDragEnd,
 }: WeeklyCalendarProps) => {
-  console.log(timeSlots);
+  
   return (
     <>
       {/* Encabezado */}
@@ -71,11 +71,11 @@ const WeeklyCalendar = ({
             })}
           </div>
           <DragOverlay>
-            {activeEvent ? (
+            {activeEvent && (
               <DraggableEvent
                 {...activeEvent}
               />
-            ) : null}
+            )}
           </DragOverlay>
         </DndContext>
       </ScrollArea>

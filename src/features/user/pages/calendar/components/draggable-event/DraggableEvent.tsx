@@ -59,14 +59,6 @@ function DraggableEvent({
     id,
   });
 
-  const duration = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
-  const startMinutes = startDate.getHours() * 60 + startDate.getMinutes();
-  const endMinutes = endDate.getHours() * 60 + endDate.getMinutes();
-  const calendarStartMinutes = 0; // Si tu calendario empieza a las 00:00, si no, ajusta aquí
-
-  const pxPerMinute = 48 / 60; // 48px por hora
-  const top = (startMinutes - calendarStartMinutes) * pxPerMinute;
-  const height = Math.max((endMinutes - startMinutes) * pxPerMinute, 40); // 40px mínimo
 
   if (compact) {
     return (
@@ -102,16 +94,9 @@ function DraggableEvent({
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={{
-        position: "absolute",
-        top: `${top}px`,
-        height: `${height}px`,
-        minHeight: "40px",
-        maxHeight: `${height}px`,
-        overflow: "hidden",
-      }}
+
       className={cn(
-        `w-full rounded-[5px] px-1 py-2 overflow-hidden ${CATEGORY_COLORS[category]}`,
+        `w-full rounded-[5px] h-full overflow-hidden ${CATEGORY_COLORS[category]}`,
         isDragging ? "cursor-grabbing opacity-70" : "cursor-grab"
       )}
       onClick={onClick}
@@ -133,7 +118,7 @@ function DraggableEvent({
               })}`}
         </span>
       </div>
-      {description && duration > 1 && (
+      {description && (
         <span
           className="text-xs text-gray-600 truncate block w-full max-w-full overflow-hidden text-ellipsis"
           style={{ maxHeight: "32px" }}

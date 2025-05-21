@@ -36,15 +36,11 @@ function DroppableCell({
   );
 }
 
-const ScheduleDayColumn = ({
-  dayIdx,
-  timeSlots,
-  dayEvents,
-}: Props) => {
+const ScheduleDayColumn = ({ dayIdx, timeSlots, dayEvents }: Props) => {
   const placed = getPlacedEvents(dayEvents);
-
   const slotHeight = `calc(100% / ${timeSlots.length})`;
 
+  const MINUTES_IN_DAY = 24 * 60;
 
   return (
     <div className="relative flex-1">
@@ -59,9 +55,33 @@ const ScheduleDayColumn = ({
       ))}
       {dayEvents.map((event) => {
         const { index, count } = placed[event.id];
-        
+        const left = `${(100 / count) * index}%`;
+        const width = `${100 / count}%`;
+
+        const startMinutes =
+          event.startDate.getHours() * 60 + event.startDate.getMinutes();
+        const endMinutes =
+          event.endDate.getHours() * 60 + event.endDate.getMinutes();
+
+        // Calcula top y height en porcentaje
+        const top = (startMinutes / MINUTES_IN_DAY) * 100;
+        const height = ((endMinutes - startMinutes) / MINUTES_IN_DAY) * 100;
+
         return (
-          <div key={event.id}>
+          <div
+            key={event.id}
+            style={{
+              position: "absolute",
+              top: `${top}%`,
+              left,
+              width,
+              height: `${height}%`,
+              zIndex: 10,
+              paddingRight: "2px",
+              paddingLeft: "2px",
+              boxSizing: "border-box",
+            }}
+          >
             <DraggableEvent
               id={event.id}
               title={event.title}
