@@ -7,7 +7,7 @@ export function getPlacedEvents(events: CalendarEvent[]) {
   );
   const placement: Record<number, { index: number; count: number }> = {};
 
-  let groups: CalendarEvent[][] = [];
+  const groups: CalendarEvent[][] = [];
   let currentGroup: CalendarEvent[] = [];
 
   for (let i = 0; i < sorted.length; i++) {
