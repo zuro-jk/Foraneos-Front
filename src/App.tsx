@@ -10,7 +10,7 @@ import MainDashboard from "./features/user/pages/main-dashboard/MainDashboard";
 import Notifications from "./features/user/pages/notifications/Notifications";
 import Preferences from "./features/user/pages/preferences/Preferences";
 import Profile from "./features/user/pages/profile/Profile";
-import Recipes from "./features/user/pages/recipes/Recipes";
+import Recipes from "./features/user/pages/recipes/pages/recipes/Recipes";
 import Security from "./features/user/pages/security/Security";
 import Targets from "./features/user/pages/targets/Targets";
 import AccountLayout from "./shared/layout/AccountLayout";
@@ -18,6 +18,8 @@ import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
 import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
+import DetailRecipe from "./features/user/pages/recipes/pages/detail-recipe/DetailRecipe";
+import RecipeForm from "./features/user/pages/recipes/pages/recipe-form/RecipeForm";
 
 function App() {
   return (
@@ -63,6 +65,14 @@ function App() {
             element={<Recipes />}
           />
           <Route
+            path="recipes/new"
+            element={<RecipeForm />}
+          />
+          <Route
+            path="recipes/:recipeId"
+            element={<DetailRecipe />}
+          />
+          <Route
             path="schedule"
             element={<Schedule />}
           />
@@ -73,6 +83,11 @@ function App() {
           <Route
             path="payment-method"
             element={<PaymentMethod />}
+          />
+
+          <Route
+            path="payment-confirmation"
+            element={<PaymentConfirmation />}
           />
 
           <Route
@@ -101,11 +116,6 @@ function App() {
               element={<Billing />}
             />
           </Route>
-
-          <Route
-            path="payment-confirmation"
-            element={<PaymentConfirmation />}
-          />
         </Route>
       </Routes>
     </>
