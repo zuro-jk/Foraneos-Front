@@ -54,12 +54,12 @@ const NavbarUser = () => {
   );
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-white dark:bg-zinc-900 shadow-lg dark:border-zinc-800 border flex items-center justify-between px-4 py-2 h-16">
+    <nav className="sticky top-0 z-40 w-full bg-white/70 backdrop-blur-[31.8px] dark:bg-zinc-900 shadow-lg dark:border-zinc-800 border flex items-center justify-between px-4 py-2 h-16">
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="icon"
-          className="md:hidden mr-2 cursor-pointer"
+          className="mr-2 cursor-pointer md:hidden"
           onClick={() => setMobileOpen(true)}
         >
           <FaBars size={20} />
@@ -78,19 +78,19 @@ const NavbarUser = () => {
           <DialogTrigger asChild>
             <div className="relative w-48">
               <Input
-                className="pl-8 w-full relative"
+                className="relative w-full pl-8"
                 placeholder="Buscar..."
                 type="text"
               />
               <Search
-                className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute text-gray-400 -translate-y-1/2 left-2 top-1/2"
                 size={18}
               />
             </div>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <div>
-              <h2 className="font-bold text-lg mb-2">Buscar en tu nutrición</h2>
+              <h2 className="mb-2 text-lg font-bold">Buscar en tu nutrición</h2>
             </div>
           </DialogContent>
         </Dialog>
@@ -130,20 +130,20 @@ const NavbarUser = () => {
               className="relative cursor-pointer"
               aria-label="Ver notificaciones"
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="w-5 h-5" />
               <span className="absolute bg-yellow-500 h-2 w-2 rounded-full bottom-2.5 right-2" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-96 p-0 rounded-lg shadow-lg">
+          <PopoverContent className="p-0 rounded-lg shadow-lg w-96">
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between pt-4 px-4">
+              <div className="flex items-center justify-between px-4 pt-4">
                 <span className="font-bold ">Notificaciones</span>
-                <span className="underline font-semibold text-xs">
+                <span className="text-xs font-semibold underline">
                   Marcar todo como leido
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 px-4 gap-4">
+              <div className="flex items-center justify-between gap-4 px-4 border-b border-gray-200 dark:border-zinc-800">
                 <div className="flex gap-4">
                   <button
                     className={cn(
@@ -185,7 +185,7 @@ const NavbarUser = () => {
                   </button>
                 </div>
 
-                <button className="cursor-pointer rounded px-2 py-1 text-gray-500">
+                <button className="px-2 py-1 text-gray-500 rounded cursor-pointer">
                   <Settings size={18} />
                 </button>
               </div>
@@ -202,14 +202,14 @@ const NavbarUser = () => {
                 )}
                 {tab === "unread" && (
                   <div className="flex flex-col gap-2">
-                    <div className="text-gray-400 dark:text-gray-500 text-center py-8">
+                    <div className="py-8 text-center text-gray-400 dark:text-gray-500">
                       No tienes notificaciones no leídas
                     </div>
                   </div>
                 )}
                 {tab === "archived" && (
                   <div className="flex flex-col gap-2">
-                    <div className="text-gray-400 dark:text-gray-500 text-center py-8">
+                    <div className="py-8 text-center text-gray-400 dark:text-gray-500">
                       No tienes notificaciones archivadas
                     </div>
                   </div>

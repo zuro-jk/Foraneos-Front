@@ -67,7 +67,7 @@ const SidebarUser = () => {
 
       <aside
         className={cn(
-          `flex flex-col min-h-screen bg-white dark:bg-zinc-900/80 shadow-lg py-4 px-4 transition-all duration-300 border-r border-gray-200 dark:border-zinc-800 fixed top-0 left-0 z-50 md:translate-x-0 md:flex md:top-16 md:h-[calc(100vh-4rem)]`,
+          `flex flex-col min-h-screen bg-white/80 dark:bg-zinc-900/80 shadow-lg py-4 px-4 transition-all duration-300 border-r border-gray-200 dark:border-zinc-800 fixed top-0 left-0 z-50 md:translate-x-0 md:flex md:top-16 md:h-[calc(100vh-4rem)] backdrop-blur-[31.8px]`,
           collapsable ? "w-16 items-center" : "w-64",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}

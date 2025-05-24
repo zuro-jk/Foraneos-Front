@@ -18,6 +18,7 @@ import PaginationFoodModal from "./components/pagination-food-modal/PaginationFo
 interface AddFoodModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  removeFoodEverywhere: (food: Food) => void;
 }
 
 const allFoods: Food[] = [
@@ -126,10 +127,12 @@ const allFoods: Food[] = [
   },
 ];
 
-// TODO Arreglar el input de busqueda
-
-const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
-  const { selectedFoods, addFood, removeFood } = useFoodStore();
+const AddFoodModal = ({
+  open,
+  onOpenChange,
+  removeFoodEverywhere,
+}: AddFoodModalProps) => {
+  const { selectedFoods, addFood } = useFoodStore();
 
   const [search, setSearch] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -146,7 +149,7 @@ const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
 
   const toggleFood = (food: Food) => {
     if (selectedFoods.find((item) => item.id === food.id)) {
-      removeFood(food);
+      removeFoodEverywhere(food);
     } else {
       addFood(food);
     }
@@ -193,7 +196,7 @@ const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
               placeholder="Buscar comida..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="border p-2 rounded w-full"
+              className="w-full p-2 border rounded"
             />
           </div>
         </div>
@@ -202,7 +205,7 @@ const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
           <>
             <div className="grid grid-cols-2 gap-4 max-h-[35rem] overflow-y-auto">
               {filteredFoods.length === 0 && search ? (
-                <span className="text-gray-500 p-2 col-span-3">
+                <span className="col-span-3 p-2 text-gray-500">
                   No se encontraron resultados
                 </span>
               ) : (
@@ -228,9 +231,9 @@ const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
         ) : (
           viewMode === "list" && (
             <>
-              <ul className="max-h-96 overflow-y-auto mb-2 p-2">
+              <ul className="p-2 mb-2 overflow-y-auto max-h-96">
                 {filteredFoods.length === 0 && search ? (
-                  <li className="text-gray-500 p-2">
+                  <li className="p-2 text-gray-500">
                     No se encontraron resultados
                   </li>
                 ) : (
@@ -264,20 +267,20 @@ const AddFoodModal = ({ open, onOpenChange }: AddFoodModalProps) => {
                   <Badge
                     key={food.id}
                     variant="outline"
-                    className="px-3 py-1 rounded-full text-xs font-medium cursor-pointer hover:bg-zinc-900/20"
+                    className="px-3 py-1 text-xs font-medium rounded-full cursor-pointer hover:bg-zinc-900/20"
                     onClick={() => toggleFood(food)}
                   >
                     {food.name} <X />
                   </Badge>
                 ))}
                 {selectedFoods.length > 5 && (
-                  <span className="px-3 py-1 rounded-full bg-zinc-200 text-xs font-medium text-zinc-700">
+                  <span className="px-3 py-1 text-xs font-medium rounded-full bg-zinc-200 text-zinc-700">
                     +{selectedFoods.length - 5} más
                   </span>
                 )}
               </>
             ) : (
-              <span className="text-gray-500 text-sm">Ninguna</span>
+              <span className="text-sm text-gray-500">Ninguna</span>
             )}
           </div>
         </div>

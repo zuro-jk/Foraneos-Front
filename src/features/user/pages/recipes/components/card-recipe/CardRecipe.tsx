@@ -1,5 +1,6 @@
 import { Button } from "@/shared/ui/button";
-import { Clock } from "lucide-react";
+import { Clock, ThumbsUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface CardRecipeProps {
   title: string;
@@ -20,29 +21,33 @@ const CardRecipe = ({
   fats,
   className = "",
 }: CardRecipeProps) => {
+  const navigate = useNavigate();
+
   return (
     <div
-      className={`flex flex-col gap-1 p-4 rounded drop-shadow-2xl shadow-xl ${className ? className : "bg-white"}`}
+      className={`flex flex-col gap-1 p-4 rounded drop-shadow-2xl shadow-xl ${
+        className ? className : "bg-white"
+      }`}
     >
-      <div className="flex justify-center items-center bg-gray-200 rounded">
+      <div className="flex items-center justify-center bg-gray-200 rounded">
         <img
           src="/images/recipes/receta-1.png"
           alt="receta"
-          className="w-full h-42 object-cover rounded"
+          className="object-cover w-full rounded h-42"
         />
       </div>
       <div className="flex flex-col gap-1">
         <span className="font-semibold">{title}</span>
         <div className="flex gap-1">
-          <span className="text-gray-500 flex items-center gap-2 text-sm">
+          <span className="flex items-center gap-2 text-sm text-gray-500">
             <Clock className="w-4 h-4" />
           </span>
-          <span className="text-gray-500 flex items-center gap-1 text-xs">
+          <span className="flex items-center gap-1 text-xs text-gray-500">
             {time}
           </span>
         </div>
       </div>
-      <div className="flex justify-between items-center flex-wrap px-4 py-2 text-sm">
+      <div className="flex flex-wrap items-center justify-between px-4 py-2 text-sm">
         <div className="flex flex-col items-center justify-center">
           <span>{kcal}</span>
           <span className="text-gray-500">kcal</span>
@@ -63,12 +68,18 @@ const CardRecipe = ({
           <span className="text-gray-500">Grasas</span>
         </div>
       </div>
-      <Button
-        className="cursor-pointer shadow-lg w-fit"
-        variant="outline"
-      >
-        Ver Receta
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button
+          className="cursor-pointer shadow/25 w-fit"
+          variant="outline"
+          onClick={() => navigate("/user/recipes/1")}
+        >
+          Ver Receta
+        </Button>
+        <ThumbsUp
+        className="w-5 h-5 text-gray-500 transition-colors duration-200 ease-in-out cursor-pointer hover:text-green-500"
+        />
+      </div>
     </div>
   );
 };

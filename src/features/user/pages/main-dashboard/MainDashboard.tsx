@@ -1,4 +1,18 @@
 import { cn } from "@/lib/utils";
+import { Button } from "@/shared/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/ui/dialog";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+import type { DragEndEvent } from "@dnd-kit/core";
+import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import {
   ArrowUpRight,
   BarChart,
@@ -17,9 +31,9 @@ import ChartCalories from "./components/chart-activity/ChartCalories";
 import ChartMacronutrients from "./components/chart-activity/ChartMacronutrients";
 import ChartTotalCalories from "./components/chart-activity/ChartTotalCalories";
 import DraggableFood from "./components/draggable-food/DraggableFood";
+import MealDropzone from "./components/meal-dropzone/MealDropzone";
 import { useFoodStore } from "./store/foodStore";
-import { DndContext } from "@dnd-kit/core";
-import type { Food } from "./types/food";
+import type { Food, Meal } from "./types/food";
 
 const informationActivity = [
   {
@@ -64,34 +78,35 @@ const informationActivity = [
   },
 ];
 
+const dataMeals = [
+  { id: 1, title: "Desayuno", foods: [] },
+  { id: 2, title: "Almuerzo", foods: [] },
+  { id: 3, title: "Cena", foods: [] },
+  { id: 4, title: "Snacks", foods: [] },
+];
+
+interface modalState {
+  open: boolean;
+  type: "comida" | "ejercicio" | "objetivo";
+}
+
+// TODO permitir añadir otro meal segun el usuario quiero
+// TODO ordenamiento de meals para que prefiera cual va primero
+// TODO terminar el dialog de ejercicio
+// TODO terminar el dialog de objetivo
 
 const MainDashboard = () => {
-  const [openModal, setOpenModal] = useState<
-    null | "comida" | "ejercicio" | "objetivo"
-  >(null);
-  const selectedFoods = useFoodStore((state) => state.selectedFoods);
+  const [openModal, setOpenModal] = useState<modalState["type"] | null>(null);
+  const { selectedFoods, removeFood } = useFoodStore();
 
-  const [meals, setMeals] = useState<
-    { id: number; title: string; foods: Food[] }[]
-  >([
-    { id: 1, title: "Desayuno", foods: [] },
-    { id: 2, title: "Almuerzo", foods: [] },
-    { id: 3, title: "Cena", foods: [] },
-    { id: 4, title: "Snacks", foods: [] },
-  ]);
+  const [meals, setMeals] = useState<Meal[]>(dataMeals);
+  const [newMealTitle, setNewMealTitle] = useState("");
 
   const unassignedFoods = selectedFoods.filter(
     (food) => !meals.some((meal) => meal.foods.some((f) => f.id === food.id))
   );
 
-  const addMeal = () => {
-    setMeals([
-      ...meals,
-      { id: Date.now(), title: `Comida ${meals.length + 1}`, foods: [] },
-    ]);
-  };
-
-  const removeFoodFromMeal = (mealId: number, foodId: number) => {
+  const handleRemoveFoodFromMeal = (mealId: number, foodId: number) => {
     setMeals((prev) =>
       prev.map((meal) =>
         meal.id === mealId
@@ -101,11 +116,22 @@ const MainDashboard = () => {
     );
   };
 
-  // Drag & drop handler
-  const handleDragEnd = (event: any) => {
+  const handleRemoveFoodEverywhere = (food: Food) => {
+    // Quita de selectedFoods
+    removeFood(food);
+    // Quita de todos los meals
+    setMeals((prev) =>
+      prev.map((meal) => ({
+        ...meal,
+        foods: meal.foods.filter((f) => f.id !== food.id),
+      }))
+    );
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
-    const foodId = active.id;
+    const foodId = Number(active.id);
     const mealId = Number(over.id);
 
     // Encuentra el alimento
@@ -124,17 +150,28 @@ const MainDashboard = () => {
     );
   };
 
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <div className="container mx-auto">
         <div className="grid grid-cols-12 gap-8 p-8">
           <div className="col-span-12">
-            <h1 className="font-bold text-2xl">Dashboard</h1>
+            <h1 className="text-2xl font-bold">Dashboard</h1>
             <span className="text-gray-500 text-normal">
               Seguimiento de sus objetivos de nutrición y salud
             </span>
           </div>
-  
+
           {informationActivity.map((item, index) => (
             <div
               className="col-span-3"
@@ -152,56 +189,58 @@ const MainDashboard = () => {
               />
             </div>
           ))}
-  
-          
-          <button
+
+          <div
             className={cn(
-              "border-2 border-gray-300 border-dashed rounded shadow p-4 col-span-4 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition duration-200 ease-in-out",
+              "border-2 border-gray-300 border-dashed rounded shadow col-span-4 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition duration-200 ease-in-out bg-white",
               selectedFoods && selectedFoods.length > 0 ? "bg-gray-100" : ""
             )}
             onClick={() => setOpenModal("comida")}
           >
-            {selectedFoods && selectedFoods.length > 0 ? (
-              <div className="flex flex-row flex-wrap gap-2 max-h-[23.5rem] overflow-y-auto">
-                {selectedFoods.map((food) => (
+            {unassignedFoods.length > 0 ? (
+              <div className="grid grid-cols-2 p-4 items-center justify-center gap-6 max-h-[23.5rem] overflow-y-auto">
+                {unassignedFoods.map((food) => (
                   <DraggableFood
                     key={food.id}
                     food={food}
+                    removeFood={removeFood}
                   />
                 ))}
               </div>
             ) : (
-              <span className="text-lg flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center gap-2 text-lg">
                 <Plus />
                 Añadir Comida
               </span>
             )}
-          </button>
+          </div>
+
           <button
-            className="border-2 border-gray-300 border-dashed rounded shadow p-4 col-span-4 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition duration-200 ease-in-out"
+            className="flex items-center justify-center col-span-4 p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100"
             onClick={() => setOpenModal("ejercicio")}
           >
-            <span className="text-lg flex items-center justify-center gap-2">
+            <span className="flex items-center justify-center gap-2 text-lg">
               <Plus />
               Registrar Ejercicio
             </span>
           </button>
-          <button className="border-2 border-gray-300 border-dashed rounded shadow p-4 col-span-4 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition duration-200 ease-in-out">
-            <span
-              className="text-lg flex items-center justify-center gap-2"
-              onClick={() => setOpenModal("objetivo")}
-            >
+          <button
+            className="flex items-center justify-center col-span-4 p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100"
+            onClick={() => setOpenModal("objetivo")}
+          >
+            <span className="flex items-center justify-center gap-2 text-lg">
               <Plus />
               Fijar un nuevo objetivo
             </span>
           </button>
-  
+
           {openModal === "comida" && (
             <AddFoodModal
               open={openModal === "comida"}
               onOpenChange={(open) => {
                 if (!open) setOpenModal(null);
               }}
+              removeFoodEverywhere={handleRemoveFoodEverywhere}
             />
           )}
           {openModal === "ejercicio" && (
@@ -220,51 +259,108 @@ const MainDashboard = () => {
               }}
             />
           )}
-  
-          <div className="col-span-full flex flex-col gap-2 p-4 drop-shadow-lg rounded bg-white">
-            <span className="font-bold text-lg">Comidas de hoy</span>
+
+          <div className="flex flex-col gap-2 p-4 bg-white rounded col-span-full drop-shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-bold">Comidas de hoy</span>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded cursor-pointer hover:bg-blue-600">
+                    <Plus /> Añadir comida personalizada
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Añadir comida personalizada</DialogTitle>
+                    <DialogDescription>
+                      Añade otra comida a tu dieta
+                    </DialogDescription>
+                  </DialogHeader>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const title = newMealTitle.trim();
+                      if (!title) return;
+                      const newId =
+                        meals.length > 0
+                          ? Math.max(...meals.map((m) => m.id)) + 1
+                          : 1;
+                      setMeals([
+                        ...meals,
+                        {
+                          id: newId,
+                          title,
+                          foods: [],
+                        },
+                      ]);
+                      setNewMealTitle("");
+                    }}
+                  >
+                    <div>
+                      <Label
+                        className="text-sm font-semibold text-gray-700"
+                        htmlFor="custom-food-name"
+                      >
+                        Nombre de la comida
+                      </Label>
+                      <Input
+                        id="custom-food-name"
+                        placeholder="Nombre de la comida"
+                        value={newMealTitle}
+                        onChange={(e) => setNewMealTitle(e.target.value)}
+                      />
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        type="submit"
+                        className="mt-2 cursor-pointer"
+                      >
+                        Agregar
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
             <div className="grid grid-cols-4 gap-4">
               {meals.map((meal) => (
-                <div
+                <MealDropzone
                   key={meal.id}
-                  className="border border-solid rounded shadow p-4 flex flex-col gap-2 min-h-[120px]"
-                >
-                  <span className="font-bold">{meal.title}</span>
-                  <div className="flex flex-col gap-2 flex-1">
-                    <div className="border-2 border-dashed rounded p-2 text-center text-gray-400 cursor-pointer hover:bg-gray-100 transition">
-                      <Plus className="inline mr-1" /> Añadir{" "}
-                      {meal.title.toLowerCase()}
-                    </div>
-                  </div>
-                </div>
+                  meal={meal}
+                  removeFood={(food) =>
+                    handleRemoveFoodFromMeal(meal.id, food.id)
+                  }
+                />
               ))}
             </div>
           </div>
-  
-          <div className="bg-white drop-shadow-2xl rounded p-8 col-span-6">
-            <span className="font-bold text-lg">Consumo semanal de calorías</span>
+
+          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+            <span className="text-lg font-bold">
+              Consumo semanal de calorías
+            </span>
             <div className="flex flex-col items-center justify-center">
               <ChartTotalCalories />
             </div>
           </div>
-          <div className="bg-white drop-shadow-2xl rounded p-8 col-span-6">
-            <span className="font-bold text-lg">Total de calorías</span>
+          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+            <span className="text-lg font-bold">Total de calorías</span>
             <ChartCalories />
           </div>
-  
-          <div className="bg-white drop-shadow-2xl rounded p-8 col-span-6">
-            <span className="font-bold text-lg">
+
+          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+            <span className="text-lg font-bold">
               Distribución de macronutrientes
             </span>
             <ChartMacronutrients />
           </div>
-  
-          <div className="bg-white drop-shadow-2xl rounded p-8 col-span-6">
-            <span className="font-bold text-lg">Comidas registradas</span>
+
+          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+            <span className="text-lg font-bold">Comidas registradas</span>
             <div className="flex items-center justify-center h-full">
               <div className="bg-blue-800/10 w-[30rem] h-[16rem] p-4 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <span className="bg-gray-400/60 rounded-full px-4 py-1 w-fit text-white uppercase">
+                  <span className="px-4 py-1 text-white uppercase rounded-full bg-gray-400/60 w-fit">
                     Desayuno
                   </span>
                   <ChartTotalCalories
@@ -278,37 +374,37 @@ const MainDashboard = () => {
                     className="justify-end"
                   />
                 </div>
-                <div className="flex flex-col py-2 px-6">
-                  <div className="flex items-center justify-between border-b border-gray-300 py-2">
+                <div className="flex flex-col px-6 py-2">
+                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
                     <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 bg-red-300 rounded-full text-white">
+                      <span className="px-3 py-1 text-white bg-red-300 rounded-full">
                         P
                       </span>
                       <span>4 Huevos Blancos</span>
                     </div>
                     <span className="text-blue-700/80">60 Cal</span>
                   </div>
-                  <div className="flex items-center justify-between border-b border-gray-300 py-2">
+                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
                     <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 bg-green-300 rounded-full text-white">
+                      <span className="px-3 py-1 text-white bg-green-300 rounded-full">
                         F
                       </span>
                       <span>1 Aguacate</span>
                     </div>
                     <span className="text-blue-700/80">60 Cal</span>
                   </div>
-                  <div className="flex items-center justify-between border-b border-gray-300 py-2">
+                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
                     <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 bg-blue-300 rounded-full text-white">
+                      <span className="px-3 py-1 text-white bg-blue-300 rounded-full">
                         C
                       </span>
                       <span>1 Taza de avena</span>
                     </div>
                     <span className="text-blue-700/80">60 Cal</span>
                   </div>
-  
+
                   <div className="flex items-center justify-center">
-                    <button className="absolute left-1/2 bottom-10 -translate-x-1/2 cursor-pointer drop-shadow-xl bg-blue-500 text-white rounded-full p-2">
+                    <button className="absolute p-2 text-white -translate-x-1/2 bg-blue-500 rounded-full cursor-pointer left-1/2 bottom-10 drop-shadow-xl">
                       <Plus size={34} />
                     </button>
                   </div>

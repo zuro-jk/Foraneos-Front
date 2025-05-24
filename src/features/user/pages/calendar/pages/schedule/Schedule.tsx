@@ -68,9 +68,9 @@ const Schedule = () => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto mt-4 bg-white">
       <div className="flex flex-col gap-4 p-4">
-        <h1 className="font-bold text-3xl">Calendario Semanal</h1>
+        <h1 className="text-3xl font-bold">Calendario Semanal</h1>
         <ScheduleHeader
           date={currentDate}
           setDate={setCurrentDate}

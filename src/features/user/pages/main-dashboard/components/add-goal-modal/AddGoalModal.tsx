@@ -19,11 +19,20 @@ const AddGoalModal = ({ open, onOpenChange }: AddGoalModalProps) => {
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Hola</DialogTitle>
-          <DialogDescription>Hola que deseas hacer hoy ?</DialogDescription>
+          <DialogTitle>
+            <span className="text-2xl font-bold">Agregar Objetivo</span>
+          </DialogTitle>
+          <DialogDescription>
+            <span className="text-sm text-gray-500">
+              Selecciona un objetivo para tu entrenamiento.
+            </span>
+          </DialogDescription>
         </DialogHeader>
-        <div>
-          <span>Hola</span>
+        <div className="flex flex-col gap-4">
+          <div className="card">
+            <img src="/images/" alt="target" />
+            <span>Quemar Grasa</span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
