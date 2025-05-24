@@ -51,6 +51,8 @@ const ChartCalories = () => {
       className="min-h-[200px] w-full"
     >
       <BarChart
+        width={400}
+        height={400}
         accessibilityLayer
         data={chartData}
       >

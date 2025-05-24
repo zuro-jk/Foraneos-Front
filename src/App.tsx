@@ -6,20 +6,23 @@ import Home from "./features/home/pages/home/Home";
 import PaymentConfirmation from "./features/payment/pages/payment-confirmation/PaymentConfirmation";
 import PaymentMethod from "./features/payment/pages/payment-method/PaymentMethod";
 import Billing from "./features/user/pages/billing/Billing";
+import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
+import Calisthenics from "./features/user/pages/calisthenics/Calisthenics";
 import MainDashboard from "./features/user/pages/main-dashboard/MainDashboard";
 import Notifications from "./features/user/pages/notifications/Notifications";
+import NutritionistArtificial from "./features/user/pages/nutritionist-artificial/NutritionistArtificial";
 import Preferences from "./features/user/pages/preferences/Preferences";
 import Profile from "./features/user/pages/profile/Profile";
+import DetailRecipe from "./features/user/pages/recipes/pages/detail-recipe/DetailRecipe";
+import RecipeForm from "./features/user/pages/recipes/pages/recipe-form/RecipeForm";
 import Recipes from "./features/user/pages/recipes/pages/recipes/Recipes";
 import Security from "./features/user/pages/security/Security";
+import Social from "./features/user/pages/social/Social";
 import Targets from "./features/user/pages/targets/Targets";
 import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
-import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
-import DetailRecipe from "./features/user/pages/recipes/pages/detail-recipe/DetailRecipe";
-import RecipeForm from "./features/user/pages/recipes/pages/recipe-form/RecipeForm";
 
 function App() {
   return (
@@ -73,8 +76,20 @@ function App() {
             element={<DetailRecipe />}
           />
           <Route
+            path="nutritionist"
+            element={<NutritionistArtificial />}
+          />
+          <Route
             path="schedule"
             element={<Schedule />}
+          />
+          <Route
+            path="calisthenics"
+            element={<Calisthenics />}
+          />
+          <Route
+            path="social"
+            element={<Social />}
           />
           <Route
             path="targets"
