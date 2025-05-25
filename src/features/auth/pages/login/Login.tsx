@@ -1,10 +1,56 @@
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import { Link } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { z } from "zod";
+import { useLogin } from "../../hooks/useLogin";
+
+const loginSchema = z.object({
+  username: z
+    .string()
+    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+  remember: z.boolean().optional(),
+});
+
+type LoginValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const form = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+      remember: false,
+    },
+  });
+  const navigate = useNavigate();
+  const loginMutation = useLogin();
+
+  const onSubmit = (values: LoginValues) => {
+    loginMutation.mutate(values, {
+      onSuccess: (response) => {
+        localStorage.setItem("token", response.data.token);
+        navigate("/user")
+        toast("Inicio de sesión exitoso");
+      },
+      onError: (error: Error) => {
+        toast("Error al iniciar sesión: " + error.message);
+      }
+    });
+  };
+
   return (
     <div className="container mx-auto h-[90vh] flex items-center justify-center">
       <div className="flex bg-white shadow-xl rounded-3xl overflow-hidden items-stretch">
@@ -77,32 +123,80 @@ const Login = () => {
             <div className="h-[0.2px] bg-[#9A9A9AA8] flex-1"></div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <Input
-              type="email"
-              placeholder="Correo"
-              className=""
-            />
-            <Input
-              type="password"
-              placeholder="Contraseña"
-              className=""
-            />
-            <Link
-              to="/forgot-password"
-              className="text-xs text-[#888888ec] hover:text-[#324001] transition duration-300"
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-4"
             >
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Usuario</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="my-user"
+                        className=""
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="*****"
+                        className=""
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Link
+                to="/forgot-password"
+                className="text-xs text-[#888888ec] hover:text-[#324001] transition duration-300"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
 
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember-me" />
-            <Label htmlFor="remember-me">Recuerdame</Label>
-          </div>
-          <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black hover:bg-[#bcebc0]">
-            Iniciar Sesión
-          </Button>
+              <div className="flex items-center gap-2">
+                <FormField
+                  control={form.control}
+                  name="remember"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-2">
+                      <FormControl>
+                        <Checkbox
+                          id="remember-me"
+                          checked={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel htmlFor="remember-me">Recuerdame</FormLabel>
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Button
+                type="submit"
+                className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black hover:bg-[#bcebc0]"
+              >
+                Iniciar Sesión
+              </Button>
+            </form>
+          </Form>
           <p className="flex items-center justify-center gap-2 text-xs ">
             ¿No tienes una cuenta creada?
             <Link to="/signup">

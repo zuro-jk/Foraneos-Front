@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import NavbarUser from "../navbar-user/NavbarUser";
 import SidebarUser from "../sidebar-user/SidebarUser";
 import { useSidebarUserStore } from "../sidebar-user/useSidebarUserStore";
@@ -19,7 +18,6 @@ const UserLayout = () => {
           // className="bg-white dark:bg-zinc-900 flex-1 md:pt-0"
         >
           <Outlet />
-          <ToastContainer />
         </main>
       </div>
     </div>

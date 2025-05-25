@@ -1,18 +1,55 @@
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { z } from "zod";
+
+const signupSchema = z.object({
+  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
+  email: z.string().email("El correo no es válido"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "Debes aceptar los términos y condiciones",
+  }),
+});
+
+type SignupValues = z.infer<typeof signupSchema>;
 
 const Signup = () => {
+  const form = useForm<SignupValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      terms: false,
+    },
+  });
+
+  const onSubmit = (values: SignupValues) => {
+    console.log(values);
+  };
+
   return (
     <div className="container mx-auto h-[90vh] flex items-center justify-center">
       <div className="flex bg-white shadow-xl rounded-3xl overflow-hidden items-stretch">
-        <img
-          src="/images/auth/AuthFoodImage.png"
-          alt="Food Image"
-          className="object-cover h-full flex-1"
-        />
+        <div>
+          <img
+            src="/images/auth/AuthFoodImage.png"
+            alt="Food Image"
+            className="object-cover h-full flex-1"
+          />
+        </div>
         <div className="flex flex-col justify-center gap-4 px-24 py-14 w-[30rem]">
           <div className="flex flex-col items-center justify-center gap-2">
             <div className="flex items-end">
@@ -82,31 +119,89 @@ const Signup = () => {
             <div className="h-[0.2px] bg-[#9A9A9AA8] flex-1"></div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <Input
-              type="text"
-              placeholder="Nombre"
-              className=""
-            />
-            <Input
-              type="email"
-              placeholder="Correo"
-              className=""
-            />
-            <Input
-              type="password"
-              placeholder="Contraseña"
-              className=""
-            />
-          </div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-4"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombres</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Nombres"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Correo</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="Correo"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contraseña</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="Contraseña"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember-me" />
-            <Label htmlFor="remember-me">Terminos y condiciones</Label>
-          </div>
-          <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
-            Registrarse
-          </Button>
+              <FormField
+                control={form.control}
+                name="terms"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col justify-center gap-2">
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Checkbox
+                          id="terms"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel htmlFor="terms">
+                        Términos y condiciones
+                      </FormLabel>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
+                Registrarse
+              </Button>
+            </form>
+          </Form>
           <p className="flex items-center justify-center gap-2 text-xs ">
             ¿Tienes una cuenta creada?
             <Link to="/login">

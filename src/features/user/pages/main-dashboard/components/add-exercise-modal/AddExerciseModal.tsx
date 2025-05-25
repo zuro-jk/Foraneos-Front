@@ -10,6 +10,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { Grid2x2, List } from "lucide-react";
 import { useState } from "react";
+import { useExerciseStore } from "../../store/exerciseStore";
 
 interface AddExerciseModalProps {
   open: boolean;
@@ -55,14 +56,19 @@ const ejercicios = [
 ];
 
 const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
+  const { selectedExercises, addExercise, removeExercise } = useExerciseStore();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [search, setSearch] = useState<string>("");
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
-    setSelectedIds((prev) =>
-      checked ? [...prev, id] : prev.filter((selectedId) => selectedId !== id)
-    );
+    const selectedExercise = ejercicios.find((exercise) => exercise.id === id);
+    if (selectedExercise) {
+      if (checked) {
+        addExercise(selectedExercise);
+      } else {
+        removeExercise(selectedExercise);
+      }
+    }
   };
 
   const filteredExercises = ejercicios.filter(
@@ -70,6 +76,9 @@ const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
       exercise.name.toLowerCase().includes(search.toLowerCase()) ||
       exercise.description.toLowerCase().includes(search.toLowerCase())
   );
+
+  const isSelected = (id: number) =>
+    selectedExercises.some((exercise) => exercise.id === id);
 
   return (
     <Dialog
@@ -123,14 +132,12 @@ const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
                   key={ejercicio.id}
                   className={cn(
                     "relative p-2 border rounded shadow-xl cursor-pointer flex flex-col items-center",
-                    selectedIds.includes(ejercicio.id)
-                      ? "bg-gray-200"
-                      : "bg-white"
+                    isSelected(ejercicio.id) ? "bg-gray-200" : "bg-white"
                   )}
                   onClick={() =>
                     handleCheckboxChange(
                       ejercicio.id,
-                      !selectedIds.includes(ejercicio.id)
+                      !isSelected(ejercicio.id)
                     )
                   }
                   tabIndex={0}
@@ -139,7 +146,7 @@ const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
                     if (e.key === " " || e.key === "Enter") {
                       handleCheckboxChange(
                         ejercicio.id,
-                        !selectedIds.includes(ejercicio.id)
+                        !isSelected(ejercicio.id)
                       );
                     }
                   }}
@@ -168,14 +175,12 @@ const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
                     key={ejercicio.id}
                     className={cn(
                       "flex items-center p-4 mb-2 border rounded cursor-pointer",
-                      selectedIds.includes(ejercicio.id)
-                        ? "bg-gray-200"
-                        : "bg-white"
+                      isSelected(ejercicio.id) ? "bg-gray-200" : "bg-white"
                     )}
                     onClick={() =>
                       handleCheckboxChange(
                         ejercicio.id,
-                        !selectedIds.includes(ejercicio.id)
+                        !isSelected(ejercicio.id)
                       )
                     }
                     tabIndex={0}
@@ -184,14 +189,14 @@ const AddExerciseModal = ({ open, onOpenChange }: AddExerciseModalProps) => {
                       if (e.key === " " || e.key === "Enter") {
                         handleCheckboxChange(
                           ejercicio.id,
-                          !selectedIds.includes(ejercicio.id)
+                          !isSelected(ejercicio.id)
                         );
                       }
                     }}
                   >
                     <Checkbox
                       className="mr-4"
-                      checked={selectedIds.includes(ejercicio.id)}
+                      checked={isSelected(ejercicio.id)}
                       tabIndex={-1}
                       onClick={(e) => e.stopPropagation()}
                       onCheckedChange={(checked) =>

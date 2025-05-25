@@ -1,12 +1,6 @@
 import Footer from "@/shared/footer/Footer";
 import { Button } from "@/shared/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/shared/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { User } from "lucide-react";
 import { FaStar } from "react-icons/fa";
@@ -38,8 +32,7 @@ const reviews = [
   {
     id: 4,
     name: "Marcelo",
-    review:
-      "La atención al cliente es excelente y la app es muy intuitiva.!",
+    review: "La atención al cliente es excelente y la app es muy intuitiva.!",
     img: comidaImg,
   },
   {
@@ -55,26 +48,26 @@ const Home = () => {
   return (
     <div className="relative">
       {/* Sección Foraneos IA */}
-      <section className="flex items-center justify-center h-[93vh] gap-42">
-        <div className="flex flex-col justify-center gap-4 w-[50rem]">
+      <section className="flex flex-col lg:flex-row items-center justify-center h-[93vh] gap-4 lg:gap-42">
+        <div className="flex flex-col justify-center w-2/3 gap-4">
           <img
             src="/images/inicio/title-header.png"
             alt="Title"
             className="w-[10rem] md:w-[15rem] lg:w-[20rem] xl:w-[55rem]"
           />
-          <span className="lg:ml-28 xl:ml-56">
+          <span className="ml-0 md:ml-14 lg:ml-28 xl:ml-56">
             Foráneos IA te ayuda a encontrar los mejores platillos y servicios
             para sentirte como en casa, estés donde estés. Descubre
             recomendaciones personalizadas y disfruta de una experiencia única.
           </span>
           <Link to="/login">
-            <Button className="w-fit lg:ml-28 xl:ml-56">Comenzar</Button>
+            <Button className="ml-0 md:ml-14 lg:ml-28 xl:ml-56 w-fit">Comenzar</Button>
           </Link>
         </div>
         <img
           src="/images/inicio/food-plato-hojas.png"
           alt="Comida Saludable"
-          className="w-[20rem] h-[20rem] lg:w-[40rem] lg:h-[40rem] pointer-events-none"
+          className="w-[15rem] h-[15rem] md:w-[25rem] md:h-[25rem] lg:w-[35rem] lg:h-[35rem] pointer-events-none"
         />
       </section>
 
@@ -97,24 +90,24 @@ const Home = () => {
         <img
           src="/images/inicio/ingredients-food.png"
           alt="food"
-          className="absolute top-[22%] left-1/2 -translate-x-1/2 pointer-events-none h-[40rem] w-[40rem]"
+          className="absolute top-1/4 left-1/4 md:left-1/3 lg:left-1/2 -translate-x-1/2 pointer-events-none h-[10rem] w-[10rem] md:h-[15rem] md:w-[15rem] lg:h-[20rem] lg:w-[20rem] xl:h-[25rem] xl:w-[25rem] 2xl:h-[30rem] 2xl:w-[30rem] "
         />
         <img
           src="/images/inicio/content-of-food.png"
           alt="Content"
-          className="absolute top-[35%] right-10 -translate-y-1/2 pointer-events-none"
+          className="absolute h-24 -translate-y-1/2 pointer-events-none top-3/8 sm:h-24 md:h-58 lg:h-72 right-10"
         />
         <div
-          className="absolute top-[23%] left-[70%] w-[30rem] text-center"
+          className="absolute w-1/2 text-center md:w-1/3 top-1/4 left-4/7 max-sm:left-4/12 max-md:left-4/12 lg:left-4/9 xl:left-4/7 2xl:left-4/6"
           style={{ zIndex: 3 }}
         >
-          <span className="text-7xl [font-family:'Cookie',sans-serif] relative">
+          <span className="text-xl md:text-2xl lg:text-4xl xl:text-7xl [font-family:'Cookie',sans-serif] relative">
             ¿Qué es Foraneos ?
-            <span className="text-lg absolute top-[60%] [font-family:'RibeyeMarrow'] uppercase">
+            <span className="text-xs md:text-sm xl:text-lg absolute  top-[60%] [font-family:'RibeyeMarrow'] uppercase">
               IA
             </span>
           </span>
-          <p className="">
+          <p className="text-xs sm:text-sm md:text-lg">
             Foráneos IA es una plataforma que utiliza inteligencia artificial
             para recomendarte los mejores platillos y servicios en tu ciudad.
             Nuestro objetivo es ayudarte a sentirte como en casa, descubriendo
@@ -122,10 +115,10 @@ const Home = () => {
           </p>
         </div>
         <div
-          className="absolute top-[38%] left-[40%] w-[30rem] text-center"
+          className="absolute w-1/2 text-center top-1/3 left-2/5"
           style={{ zIndex: 3 }}
         >
-          <span className="text-7xl [font-family:'Cookie',sans-serif] relative">
+          <span className="text-xl sm:text-2xl md:text-4xl lg:text-7xl [font-family:'Cookie',sans-serif] relative">
             ¿Es saludable?
             <span className="text-lg absolute top-[60%] [font-family:'RibeyeMarrow'] uppercase">
               IA
@@ -144,12 +137,12 @@ const Home = () => {
         <img
           src="/images/inicio/card-plan.png"
           alt="fondo"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          className="absolute inset-0 object-cover w-full h-full pointer-events-none"
         />
         <div className="flex items-center justify-center h-full">
           <div className="bg-gradient-to-br from-[#B3D98F] to-[#bce2c3] shadow-xl w-[30rem] rounded-xl flex flex-col gap-12 p-8 items-center justify-center relative">
             <div className="absolute bg-black w-[30rem] h-[1rem] -top-1 rounded-tl-xl rounded-tr-2xl z-10" />
-            <span className="font-bold text-3xl">Te Ofrecemos</span>
+            <span className="text-3xl font-bold">Te Ofrecemos</span>
             <ul className="flex flex-col gap-2">
               <li className="flex items-center gap-2">
                 <span
@@ -217,12 +210,12 @@ const Home = () => {
       <img
         src="/images/inicio/hoja.png"
         alt="hoja"
-        className="absolute top-[72%] left-[1521px] -translate-y-18 w-96 select-none z-20 pointer-events-none -scale-x-100"
+        className="absolute right-0 z-20 translate-y-1/2 pointer-events-none select-none bottom-2/9 w-96 -scale-x-100 md:translate-y-0"
       />
 
       {/* Carrusel */}
       <section className="bg-[url('/images/inicio/fondo-carruseles.png')] bg-white bg-cover bg-[position:center_10%] py-24">
-        <div className="h-full flex items-center justify-center">
+        <div className="flex items-center justify-center h-full">
           <Carousel
             plugins={[
               AutoScroll({
@@ -240,27 +233,25 @@ const Home = () => {
               {reviews.map((review) => (
                 <CarouselItem
                   key={review.id}
-                  className="w-full md:basis-1/2 lg:basis-1/3 p-4"
+                  className="w-full p-4 md:basis-1/2 lg:basis-1/3"
                 >
                   <div className="bg-white/90 rounded-2xl shadow-2xl p-4 flex flex-col items-center gap-6 max-w-md mx-auto border border-green-100 h-[28rem]">
                     {/* Avatar y nombre */}
                     <div className="flex flex-col items-center gap-2">
-                      <div className="bg-green-200 rounded-full w-20 h-20 flex items-center justify-center shadow-lg mb-2">
+                      <div className="flex items-center justify-center w-20 h-20 mb-2 bg-green-200 rounded-full shadow-lg">
                         <User className="w-10 h-10 text-green-800" />
                       </div>
-                      <span className="font-bold text-2xl text-green-900">
+                      <span className="text-2xl font-bold text-green-900">
                         {review.name}
                       </span>
                     </div>
                     {/* Review */}
-                    <p className="italic text-center text-gray-700 text-lg relative px-4">
-                      <span className="text-3xl text-green-400 absolute left-0 -top-2">
+                    <p className="relative px-4 text-lg italic text-center text-gray-700">
+                      <span className="absolute left-0 text-3xl text-green-400 -top-2">
                         “
                       </span>
-                      <span className="text-md">
-                      {review.review}
-                      </span>
-                      <span className="text-3xl text-green-400 absolute right-0 -bottom-2">
+                      <span className="text-md">{review.review}</span>
+                      <span className="absolute right-0 text-3xl text-green-400 -bottom-2">
                         ”
                       </span>
                     </p>
@@ -268,10 +259,10 @@ const Home = () => {
                     <img
                       src={review.img}
                       alt="Comida"
-                      className="object-cover w-40 h-28 rounded-xl shadow"
+                      className="object-cover w-40 shadow h-28 rounded-xl"
                     />
                     {/* Estrellas */}
-                    <div className="flex gap-1 justify-center">
+                    <div className="flex justify-center gap-1">
                       {Array.from({ length: 5 }, (_, i) => (
                         <FaStar
                           className="text-yellow-400"
@@ -283,8 +274,8 @@ const Home = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            {/* <CarouselPrevious />
+            <CarouselNext /> */}
           </Carousel>
         </div>
       </section>

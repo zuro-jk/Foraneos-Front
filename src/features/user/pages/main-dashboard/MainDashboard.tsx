@@ -32,7 +32,9 @@ import ChartMacronutrients from "./components/chart-activity/ChartMacronutrients
 import ChartTotalCalories from "./components/chart-activity/ChartTotalCalories";
 import DraggableFood from "./components/draggable-food/DraggableFood";
 import MealDropzone from "./components/meal-dropzone/MealDropzone";
+import { useExerciseStore } from "./store/exerciseStore";
 import { useFoodStore } from "./store/foodStore";
+import { useGoalStore } from "./store/goalStore";
 import type { Food, Meal } from "./types/food";
 
 const informationActivity = [
@@ -90,14 +92,13 @@ interface modalState {
   type: "comida" | "ejercicio" | "objetivo";
 }
 
-// TODO permitir añadir otro meal segun el usuario quiero
 // TODO ordenamiento de meals para que prefiera cual va primero
-// TODO terminar el dialog de ejercicio
-// TODO terminar el dialog de objetivo
 
 const MainDashboard = () => {
   const [openModal, setOpenModal] = useState<modalState["type"] | null>(null);
   const { selectedFoods, removeFood } = useFoodStore();
+  const { selectedExercises } = useExerciseStore();
+  const { selectedGoals } = useGoalStore();
 
   const [meals, setMeals] = useState<Meal[]>(dataMeals);
   const [newMealTitle, setNewMealTitle] = useState("");
@@ -333,6 +334,63 @@ const MainDashboard = () => {
                 />
               ))}
             </div>
+          </div>
+
+          <div className="col-span-12 p-4 bg-white rounded drop-shadow-lg">
+            <span className="text-lg font-bold">Ejercicios de hoy</span>
+            {selectedExercises.length === 0 ? (
+              <div className="py-8 text-center text-gray-500">
+                No has registrado ejercicios hoy.
+              </div>
+            ) : (
+              <ul className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-4">
+                {selectedExercises.map((exercise) => (
+                  <li
+                    key={exercise.id}
+                    className="flex flex-col items-center p-4 border rounded shadow"
+                  >
+                    <img
+                      src={exercise.imagen}
+                      alt={exercise.name}
+                      className="object-cover w-24 h-24 mb-2 rounded"
+                    />
+                    <span className="font-semibold">{exercise.name}</span>
+                    <span className="text-xs text-center text-gray-500">
+                      {exercise.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Sección de metas */}
+          <div className="col-span-12 p-4 bg-white rounded drop-shadow-lg">
+            <span className="text-lg font-bold">Metas de hoy</span>
+            {selectedGoals.length === 0 ? (
+              <div className="py-8 text-center text-gray-500">
+                No tienes metas registradas.
+              </div>
+            ) : (
+              <ul className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-4">
+                {selectedGoals.map((goal) => (
+                  <li
+                    key={goal.id}
+                    className="flex flex-col items-center p-4 border rounded shadow"
+                  >
+                    <img
+                      src={goal.image}
+                      alt={goal.name}
+                      className="object-cover w-24 h-24 mb-2 rounded"
+                    />
+                    <span className="font-semibold">{goal.name}</span>
+                    <span className="text-xs text-center text-gray-500">
+                      {goal.type} - {goal.time} - {goal.calories} kcal
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">

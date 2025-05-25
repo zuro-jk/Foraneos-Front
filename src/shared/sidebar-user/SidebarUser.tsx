@@ -22,7 +22,7 @@ const menu = [
   },
   {
     label: "Calendario",
-    icon: <FaCalendarAlt size={24} />,
+    icon: FaCalendarAlt,
     to: "/user/schedule",
   },
   {
@@ -37,15 +37,15 @@ const menu = [
   },
   {
     label: "Metas",
-    icon: <Goal size={24} />,
+    icon: Goal,
     to: "/user/targets",
   },
   {
     label: "Metodos de pago",
-    icon: <FaCreditCard size={24} />,
+    icon: FaCreditCard,
     to: "/user/payment-method",
   },
-  { label: "Logout", icon: <LogOut size={24} />, to: "/user/logout" },
+  { label: "Logout", icon: LogOut, to: "/user/logout" },
 ];
 
 const SidebarUser = () => {
@@ -67,7 +67,7 @@ const SidebarUser = () => {
 
       <aside
         className={cn(
-          `flex flex-col min-h-screen bg-white/80 dark:bg-zinc-900/80 shadow-lg py-4 px-4 transition-all duration-300 border-r border-gray-200 dark:border-zinc-800 fixed top-0 left-0 z-50 md:translate-x-0 md:flex md:top-16 md:h-[calc(100vh-4rem)] backdrop-blur-[31.8px]`,
+          `flex flex-col min-h-screen bg-white/80 dark:bg-zinc-900/80 shadow-lg py-4 transition-all duration-300 border-r border-gray-200 dark:border-zinc-800 fixed top-0 left-0 z-50 md:translate-x-0 md:flex md:top-16 md:h-[calc(100vh-4rem)] backdrop-blur-[31.8px] px-2`,
           collapsable ? "w-16 items-center" : "w-64",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
@@ -93,11 +93,11 @@ const SidebarUser = () => {
           //     IA
           //   </span>
           // </Link>
-          <div className="flex items-center px-4 py-2 justify-start gap-2">
+          <div className="flex items-center justify-start gap-2 px-4 py-2">
             <User2 size={24} />
             <div className="flex flex-col">
               <span className="font-bold">Pedro Ramirez</span>
-              <span className="text-gray-500 text-xs">
+              <span className="text-xs text-gray-500">
                 eldiablo123@gmail.com
               </span>
             </div>
@@ -110,7 +110,7 @@ const SidebarUser = () => {
               to={item.to}
               className={`flex items-center gap-3 px-4 justify-start py-2 rounded font-medium transition ${
                 location.pathname === item.to
-                  ? "bg-green-100 dark:bg-green-700"
+                  ? "bg-[#A3E89D]/80 dark:bg-green-700"
                   : "hover:bg-green-50"
               }`}
             >
@@ -119,19 +119,23 @@ const SidebarUser = () => {
                   <img
                     src={item.icon}
                     alt={item.label}
+                    className="w-[20px] h-[20px] dark:invert"
                   />
                 ) : (
-                  item.icon
+                  <item.icon
+                    size={20}
+                    className="dark:text-white"
+                  />
                 )}
               </span>
               {!collapsable && (
-                <span className="dark:text-white">{item.label}</span>
+                <span className="text-sm dark:text-white">{item.label}</span>
               )}
             </Link>
           ))}
         </nav>
         {!collapsable && (
-          <div className="mt-auto text-xs text-gray-400 text-center pt-8">
+          <div className="pt-8 mt-auto text-xs text-center text-gray-400">
             © {new Date().getFullYear()} Foraneos IA - Todos los derechos
             reservados
           </div>

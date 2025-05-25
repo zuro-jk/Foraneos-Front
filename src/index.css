@@ -138,8 +138,22 @@ body {
 
 @font-face {
   font-family: "Roboto";
-  src: url("/fonts/Roboto-Regular.ttf") format("woff2");
+  src: url("/fonts/roboto/Roboto-Regular.ttf") format("woff2");
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/roboto/Roboto-Light.ttf") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/roboto/Roboto-ExtraLight.ttf") format("woff2");
+  font-weight: 200;
   font-style: normal;
 }
 

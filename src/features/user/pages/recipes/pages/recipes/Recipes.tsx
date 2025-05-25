@@ -21,11 +21,6 @@ const Recipes = () => {
     page * CARDS_PER_PAGE
   );
 
-  const handleTabChange = (tab: "desayuno" | "almuerzo" | "cena") => {
-    setActiveTab(tab);
-    setPage(1);
-  };
-
   return (
     <div className="bg-[url('/images/recipes/fondo.jpg')] bg-cover bg-no-repeat bg-center h-full">
       <div className="container py-4 mx-auto">

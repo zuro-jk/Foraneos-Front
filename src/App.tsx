@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./features/auth/pages/forgot-password/ForgotPassword";
 import Login from "./features/auth/pages/login/Login";
 import Signup from "./features/auth/pages/signup/Signup";
@@ -59,6 +59,15 @@ function App() {
           path="/user"
           element={<UserLayout />}
         >
+          <Route
+            index
+            element={
+              <Navigate
+                to="main-dashboard"
+                replace
+              />
+            }
+          />
           <Route
             path="main-dashboard"
             element={<MainDashboard />}
