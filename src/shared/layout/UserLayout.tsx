@@ -1,10 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import NavbarUser from "../navbar-user/NavbarUser";
 import SidebarUser from "../sidebar-user/SidebarUser";
 import { useSidebarUserStore } from "../sidebar-user/useSidebarUserStore";
+import { useUserStore } from "@/features/auth/store/userStore";
+import { useMe } from "@/features/auth/hooks/useAuth";
 
 const UserLayout = () => {
   const collapsable = useSidebarUserStore((state) => state.collapsable);
+  const token = useUserStore((state) => state.token);
+  const setUser = useUserStore((state) => state.setUser);
+
+  useMe({
+    enabled: !!token,
+    onSuccess: (res) => setUser(res.data),
+  });
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-[url('/images/recipes/fondo.jpg')] bg-cover bg-no-repeat bg-center">

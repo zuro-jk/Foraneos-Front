@@ -75,7 +75,7 @@ const Home = () => {
       <img
         src="/images/inicio/hoja.png"
         alt="hoja"
-        className="absolute top-[75vh] -translate-y-18  w-96 select-none z-20 pointer-events-none"
+        className="absolute z-20 w-1/4 pointer-events-none select-none max-md:hidden top-1/5 -translate-y-18"
       />
 
       {/* Seccion acerca de */}
@@ -95,7 +95,7 @@ const Home = () => {
         <img
           src="/images/inicio/content-of-food.png"
           alt="Content"
-          className="absolute h-24 -translate-y-1/2 pointer-events-none top-3/8 sm:h-24 md:h-58 lg:h-72 right-10"
+          className="absolute h-24 -translate-y-1/2 pointer-events-none max-md:-translate-y-9/3 top-3/8 sm:h-24 md:h-58 lg:h-72 right-10"
         />
         <div
           className="absolute w-1/2 text-center md:w-1/3 top-1/4 left-4/7 max-sm:left-4/12 max-md:left-4/12 lg:left-4/9 xl:left-4/7 2xl:left-4/6"
@@ -115,7 +115,7 @@ const Home = () => {
           </p>
         </div>
         <div
-          className="absolute w-1/2 text-center top-1/3 left-2/5"
+          className="absolute w-1/2 text-center lg:w-1/3 top-1/3 left-2/12 lg:left-2/5"
           style={{ zIndex: 3 }}
         >
           <span className="text-xl sm:text-2xl md:text-4xl lg:text-7xl [font-family:'Cookie',sans-serif] relative">
@@ -140,8 +140,8 @@ const Home = () => {
           className="absolute inset-0 object-cover w-full h-full pointer-events-none"
         />
         <div className="flex items-center justify-center h-full">
-          <div className="bg-gradient-to-br from-[#B3D98F] to-[#bce2c3] shadow-xl w-[30rem] rounded-xl flex flex-col gap-12 p-8 items-center justify-center relative">
-            <div className="absolute bg-black w-[30rem] h-[1rem] -top-1 rounded-tl-xl rounded-tr-2xl z-10" />
+          <div className="bg-gradient-to-br from-[#B3D98F] to-[#bce2c3] shadow-xl w-[20rem] lg:w-[30rem] rounded-xl flex flex-col gap-12 p-8 items-center justify-center relative">
+            <div className="absolute bg-black w-[20rem] lg:w-[30rem] h-[1rem] -top-1 rounded-tl-xl rounded-tr-2xl z-10" />
             <span className="text-3xl font-bold">Te Ofrecemos</span>
             <ul className="flex flex-col gap-2">
               <li className="flex items-center gap-2">
@@ -210,7 +210,7 @@ const Home = () => {
       <img
         src="/images/inicio/hoja.png"
         alt="hoja"
-        className="absolute right-0 z-20 translate-y-1/2 pointer-events-none select-none bottom-2/9 w-96 -scale-x-100 md:translate-y-0"
+        className="absolute right-0 z-20 w-1/4 translate-y-1/2 pointer-events-none select-none max-md:hidden max-lg:bottom-2/8 lg:bottom-2/9 -scale-x-100 md:translate-y-0"
       />
 
       {/* Carrusel */}

@@ -1,7 +1,8 @@
+import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
 import { Goal, LogOut, User2 } from "lucide-react";
 import { FaCalendarAlt, FaCreditCard } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebarUserStore } from "./useSidebarUserStore";
 
 const menu = [
@@ -49,9 +50,17 @@ const menu = [
 ];
 
 const SidebarUser = () => {
-  const { collapsable, setCollapsable, mobileOpen, setMobileOpen } =
-    useSidebarUserStore();
+  const { collapsable, mobileOpen, setMobileOpen } = useSidebarUserStore();
   const location = useLocation();
+  const navigate = useNavigate();
+  const resetUser = useUserStore((state) => state.reset);
+  const user = useUserStore((state) => state.user);
+
+
+  const handleLogout = () => {
+    resetUser();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -96,43 +105,56 @@ const SidebarUser = () => {
           <div className="flex items-center justify-start gap-2 px-4 py-2">
             <User2 size={24} />
             <div className="flex flex-col">
-              <span className="font-bold">Pedro Ramirez</span>
+              <span className="font-bold">{user?.name || "Usuario"}</span>
               <span className="text-xs text-gray-500">
-                eldiablo123@gmail.com
+                {user?.email || ""}
               </span>
             </div>
           </div>
         )}
         <nav className={cn(`flex flex-col  justify-center gap-2 mt-2`)}>
-          {menu.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={`flex items-center gap-3 px-4 justify-start py-2 rounded font-medium transition ${
-                location.pathname === item.to
-                  ? "bg-[#A3E89D]/80 dark:bg-green-700"
-                  : "hover:bg-green-50"
-              }`}
-            >
-              <span className={`dark:text-white`}>
-                {typeof item.icon === "string" ? (
-                  <img
-                    src={item.icon}
-                    alt={item.label}
-                    className="w-[20px] h-[20px] dark:invert"
-                  />
-                ) : (
-                  <item.icon
-                    size={20}
-                    className="dark:text-white"
-                  />
+          {menu.map((item) =>
+            item.label === "Logout" ? (
+              <button
+                key={item.to}
+                onClick={handleLogout}
+                className={`flex items-center gap-3 px-4 justify-start py-2 rounded font-medium transition hover:bg-green-50 text-red-500 cursor-pointer`}
+              >
+                <span>
+                  <item.icon size={20} />
+                </span>
+                {!collapsable && <span className="text-sm">Logout</span>}
+              </button>
+            ) : (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`flex items-center gap-3 px-4 justify-start py-2 rounded font-medium transition ${
+                  location.pathname === item.to
+                    ? "bg-[#A3E89D]/80 dark:bg-green-700"
+                    : "hover:bg-green-50"
+                }`}
+              >
+                <span className={`dark:text-white`}>
+                  {typeof item.icon === "string" ? (
+                    <img
+                      src={item.icon}
+                      alt={item.label}
+                      className="w-[20px] h-[20px] dark:invert"
+                    />
+                  ) : (
+                    <item.icon
+                      size={20}
+                      className="dark:text-white"
+                    />
+                  )}
+                </span>
+                {!collapsable && (
+                  <span className="text-sm dark:text-white">{item.label}</span>
                 )}
-              </span>
-              {!collapsable && (
-                <span className="text-sm dark:text-white">{item.label}</span>
-              )}
-            </Link>
-          ))}
+              </Link>
+            )
+          )}
         </nav>
         {!collapsable && (
           <div className="pt-8 mt-auto text-xs text-center text-gray-400">

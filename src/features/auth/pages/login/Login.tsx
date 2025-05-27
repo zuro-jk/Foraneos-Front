@@ -12,9 +12,10 @@ import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { z } from "zod";
 import { useLogin } from "../../hooks/useLogin";
+import { useUserStore } from "../../store/userStore";
 
 const loginSchema = z.object({
   username: z
@@ -27,6 +28,8 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const setToken = useUserStore((state) => state.setToken);
+
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -41,13 +44,13 @@ const Login = () => {
   const onSubmit = (values: LoginValues) => {
     loginMutation.mutate(values, {
       onSuccess: (response) => {
-        localStorage.setItem("token", response.data.token);
-        navigate("/user")
+        setToken(response.data.jwt);
+        navigate("/user");
         toast("Inicio de sesión exitoso");
       },
       onError: (error: Error) => {
         toast("Error al iniciar sesión: " + error.message);
-      }
+      },
     });
   };
 
@@ -204,11 +207,13 @@ const Login = () => {
             </Link>
           </p>
         </div>
-        <img
-          src="/images/auth/AuthFoodImage.png"
-          alt="Food Image"
-          className="object-cover h-full flex-1"
-        />
+        <div>
+          <img
+            src="/images/auth/AuthFoodImage.png"
+            alt="Food Image"
+            className="object-cover h-full flex-1"
+          />
+        </div>
       </div>
     </div>
   );

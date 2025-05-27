@@ -23,6 +23,7 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
+import CompleteProfile from "./features/user/pages/complete-profile/CompleteProfile";
 
 function App() {
   return (
@@ -49,7 +50,10 @@ function App() {
             path="forgot-password"
             element={<ForgotPassword />}
           />
-
+          <Route
+            path="complete-profile"
+            element={<CompleteProfile />}
+          />
           <Route
             path="*"
             element={<NotFound />}

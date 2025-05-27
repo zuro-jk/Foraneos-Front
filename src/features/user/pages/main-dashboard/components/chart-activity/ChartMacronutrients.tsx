@@ -33,9 +33,12 @@ const ChartMacronutrients = () => {
     <>
       <ChartContainer
         config={chartConfig}
-        className="w-full max-h-full"
+        className="mx-auto aspect-square max-h-[250px]"
       >
-        <PieChart>
+        <PieChart
+          width={250}
+          height={250}
+        >
           <ChartTooltip
             cursor={false}
             content={<ChartTooltipContent hideLabel />}
@@ -44,7 +47,10 @@ const ChartMacronutrients = () => {
             data={chartData}
             dataKey="calories"
             nameKey="name"
-            innerRadius={100}
+            innerRadius={60}
+            outerRadius={100}
+            strokeWidth={5}
+            isAnimationActive={false}
           />
         </PieChart>
       </ChartContainer>
@@ -52,11 +58,11 @@ const ChartMacronutrients = () => {
         {chartData.map((item) => (
           <div
             key={item.name}
-            className="flex items-center justify-center gap-2"
+            className="flex items-center gap-2"
           >
             <div
               className={cn(
-                `w-2.5 h-2.5 rounded-full`,
+                "w-3 h-3 rounded-full",
                 item.fill === "#5941F6" && "bg-[#5941F6]",
                 item.fill === "#45C95E" && "bg-[#45C95E]",
                 item.fill === "#DD44BC" && "bg-[#DD44BC]"

@@ -16,7 +16,7 @@ const MealDropzone = ({ meal, removeFood }: MealDropzoneProps) => {
   return (
     <div
       ref={setNodeRef}
-      className={`border border-solid rounded shadow p-4 flex flex-col gap-2 max-h-[30rem] transition ${
+      className={`max-sm:col-span-12 max-md:col-span-2 max-lg:col-span-2 col-span-1 border border-solid rounded shadow p-4 flex flex-col gap-2 max-h-[30rem] transition ${
         isOver ? "bg-blue-100" : ""
       }`}
     >

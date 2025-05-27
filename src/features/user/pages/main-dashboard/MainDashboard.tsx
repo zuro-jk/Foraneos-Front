@@ -175,7 +175,7 @@ const MainDashboard = () => {
 
           {informationActivity.map((item, index) => (
             <div
-              className="col-span-3"
+              className="col-span-12 sm:col-span-6 xl:col-span-3"
               key={index}
             >
               <CardActivityInformation
@@ -193,7 +193,7 @@ const MainDashboard = () => {
 
           <div
             className={cn(
-              "border-2 border-gray-300 border-dashed rounded shadow col-span-4 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition duration-200 ease-in-out bg-white",
+              "flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12 md:col-span-6 lg:col-span-4",
               selectedFoods && selectedFoods.length > 0 ? "bg-gray-100" : ""
             )}
             onClick={() => setOpenModal("comida")}
@@ -217,7 +217,7 @@ const MainDashboard = () => {
           </div>
 
           <button
-            className="flex items-center justify-center col-span-4 p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100"
+            className="flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12 md:col-span-6 lg:col-span-4"
             onClick={() => setOpenModal("ejercicio")}
           >
             <span className="flex items-center justify-center gap-2 text-lg">
@@ -226,7 +226,7 @@ const MainDashboard = () => {
             </span>
           </button>
           <button
-            className="flex items-center justify-center col-span-4 p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100"
+            className="flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12 md:col-span-12 lg:col-span-4"
             onClick={() => setOpenModal("objetivo")}
           >
             <span className="flex items-center justify-center gap-2 text-lg">
@@ -261,7 +261,7 @@ const MainDashboard = () => {
             />
           )}
 
-          <div className="flex flex-col gap-2 p-4 bg-white rounded col-span-full drop-shadow-lg">
+          <div className="flex flex-col gap-2 p-4 bg-white rounded drop-shadow-lg col-span-12">
             <div className="flex items-center justify-between">
               <span className="text-lg font-bold">Comidas de hoy</span>
               <Dialog>
@@ -336,14 +336,14 @@ const MainDashboard = () => {
             </div>
           </div>
 
-          <div className="col-span-12 p-4 bg-white rounded drop-shadow-lg">
+          <div className="p-4 bg-white rounded drop-shadow-lg col-span-12">
             <span className="text-lg font-bold">Ejercicios de hoy</span>
             {selectedExercises.length === 0 ? (
               <div className="py-8 text-center text-gray-500">
                 No has registrado ejercicios hoy.
               </div>
             ) : (
-              <ul className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-4">
+              <ul className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {selectedExercises.map((exercise) => (
                   <li
                     key={exercise.id}
@@ -372,7 +372,7 @@ const MainDashboard = () => {
                 No tienes metas registradas.
               </div>
             ) : (
-              <ul className="grid grid-cols-2 gap-4 mt-4 md:grid-cols-4">
+              <ul className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {selectedGoals.map((goal) => (
                   <li
                     key={goal.id}
@@ -393,7 +393,7 @@ const MainDashboard = () => {
             )}
           </div>
 
-          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+          <div className="p-8 bg-white rounded drop-shadow-2xl col-span-12 md:col-span-6 lg:col-span-4">
             <span className="text-lg font-bold">
               Consumo semanal de calorías
             </span>
@@ -401,19 +401,19 @@ const MainDashboard = () => {
               <ChartTotalCalories />
             </div>
           </div>
-          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+          <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
             <span className="text-lg font-bold">Total de calorías</span>
             <ChartCalories />
           </div>
 
-          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+          <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
             <span className="text-lg font-bold">
               Distribución de macronutrientes
             </span>
             <ChartMacronutrients />
           </div>
 
-          <div className="col-span-6 p-8 bg-white rounded drop-shadow-2xl">
+          <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
             <span className="text-lg font-bold">Comidas registradas</span>
             <div className="flex items-center justify-center h-full">
               <div className="bg-blue-800/10 w-[30rem] h-[16rem] p-4 flex flex-col gap-2">

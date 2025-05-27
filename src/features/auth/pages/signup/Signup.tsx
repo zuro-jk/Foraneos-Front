@@ -11,11 +11,14 @@ import {
 import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { useUserStore } from "../../store/userStore";
 
 const signupSchema = z.object({
-  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
+  firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  lastName: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
+  username: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
   email: z.string().email("El correo no es válido"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   terms: z.boolean().refine((val) => val === true, {
@@ -26,10 +29,14 @@ const signupSchema = z.object({
 type SignupValues = z.infer<typeof signupSchema>;
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const setSignupData = useUserStore((state) => state.setSignupData);
   const form = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
+      username: "",
       email: "",
       password: "",
       terms: false,
@@ -37,11 +44,12 @@ const Signup = () => {
   });
 
   const onSubmit = (values: SignupValues) => {
-    console.log(values);
+    setSignupData(values);
+    navigate("/complete-profile");
   };
 
   return (
-    <div className="container mx-auto h-[90vh] flex items-center justify-center">
+    <div className="container mx-auto min-h-screen py-8 flex items-center justify-center">
       <div className="flex bg-white shadow-xl rounded-3xl overflow-hidden items-stretch">
         <div>
           <img
@@ -126,7 +134,7 @@ const Signup = () => {
             >
               <FormField
                 control={form.control}
-                name="name"
+                name="firstName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nombres</FormLabel>
@@ -135,6 +143,40 @@ const Signup = () => {
                         {...field}
                         type="text"
                         placeholder="Nombres"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Apellidos</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Apellidos"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Usuario</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Username"
                       />
                     </FormControl>
                     <FormMessage />

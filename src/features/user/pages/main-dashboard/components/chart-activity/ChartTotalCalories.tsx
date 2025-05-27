@@ -45,7 +45,7 @@ const ChartTotalCalories = ({
         <svg
           viewBox={`0 0 ${baseSize} ${baseSize}`}
           width={size}
-          height="auto"
+          height={size}
           style={{ display: "block" }}
         >
           {/* Fondo */}

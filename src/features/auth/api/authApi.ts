@@ -11,3 +11,5 @@ export const signupApi = (
   password: string
 ) =>
   api.post("auth/sign-up", { firstName, lastName, email, username, password });
+
+  export const getMe = () => api.get("/user/me");
