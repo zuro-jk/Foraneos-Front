@@ -19,6 +19,7 @@ import {
   ChevronDown,
   Clock,
   Heart,
+  List,
   Plus,
   Siren,
 } from "lucide-react";
@@ -36,6 +37,7 @@ import { useExerciseStore } from "./store/exerciseStore";
 import { useFoodStore } from "./store/foodStore";
 import { useGoalStore } from "./store/goalStore";
 import type { Food, Meal } from "./types/food";
+import { useNavigate } from "react-router-dom";
 
 const informationActivity = [
   {
@@ -99,6 +101,7 @@ const MainDashboard = () => {
   const { selectedFoods, removeFood } = useFoodStore();
   const { selectedExercises } = useExerciseStore();
   const { selectedGoals } = useGoalStore();
+  const navigate = useNavigate();
 
   const [meals, setMeals] = useState<Meal[]>(dataMeals);
   const [newMealTitle, setNewMealTitle] = useState("");
@@ -264,64 +267,73 @@ const MainDashboard = () => {
           <div className="flex flex-col gap-2 p-4 bg-white rounded drop-shadow-lg col-span-12">
             <div className="flex items-center justify-between">
               <span className="text-lg font-bold">Comidas de hoy</span>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded cursor-pointer hover:bg-blue-600">
-                    <Plus /> Añadir comida personalizada
-                  </button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Añadir comida personalizada</DialogTitle>
-                    <DialogDescription>
-                      Añade otra comida a tu dieta
-                    </DialogDescription>
-                  </DialogHeader>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const title = newMealTitle.trim();
-                      if (!title) return;
-                      const newId =
-                        meals.length > 0
-                          ? Math.max(...meals.map((m) => m.id)) + 1
-                          : 1;
-                      setMeals([
-                        ...meals,
-                        {
-                          id: newId,
-                          title,
-                          foods: [],
-                        },
-                      ]);
-                      setNewMealTitle("");
-                    }}
-                  >
-                    <div>
-                      <Label
-                        className="text-sm font-semibold text-gray-700"
-                        htmlFor="custom-food-name"
-                      >
-                        Nombre de la comida
-                      </Label>
-                      <Input
-                        id="custom-food-name"
-                        placeholder="Nombre de la comida"
-                        value={newMealTitle}
-                        onChange={(e) => setNewMealTitle(e.target.value)}
-                      />
-                    </div>
-                    <DialogFooter>
-                      <Button
-                        type="submit"
-                        className="mt-2 cursor-pointer"
-                      >
-                        Agregar
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <div className="flex items-center">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded cursor-pointer hover:bg-blue-600">
+                      <Plus /> Añadir comida personalizada
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Añadir comida personalizada</DialogTitle>
+                      <DialogDescription>
+                        Añade otra comida a tu dieta
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const title = newMealTitle.trim();
+                        if (!title) return;
+                        const newId =
+                          meals.length > 0
+                            ? Math.max(...meals.map((m) => m.id)) + 1
+                            : 1;
+                        setMeals([
+                          ...meals,
+                          {
+                            id: newId,
+                            title,
+                            foods: [],
+                          },
+                        ]);
+                        setNewMealTitle("");
+                      }}
+                    >
+                      <div>
+                        <Label
+                          className="text-sm font-semibold text-gray-700"
+                          htmlFor="custom-food-name"
+                        >
+                          Nombre de la comida
+                        </Label>
+                        <Input
+                          id="custom-food-name"
+                          placeholder="Nombre de la comida"
+                          value={newMealTitle}
+                          onChange={(e) => setNewMealTitle(e.target.value)}
+                        />
+                      </div>
+                      <DialogFooter>
+                        <Button
+                          type="submit"
+                          className="mt-2 cursor-pointer"
+                        >
+                          Agregar
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+                <Button
+                  variant="outline"
+                  className="ml-2 cursor-pointer"
+                  onClick={() => navigate("/user/food-history")}
+                >
+                  <List /> Ver Historial
+                </Button>
+              </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
               {meals.map((meal) => (

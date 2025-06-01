@@ -23,7 +23,9 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
-import CompleteProfile from "./features/user/pages/complete-profile/CompleteProfile";
+import CompleteProfile from "./features/auth/pages/signup/pages/complete-profile/CompleteProfile";
+import FoodHistory from "./features/user/pages/food-history/pages/FoodHistory";
+import AddEditMeal from "./features/user/pages/food-history/pages/add-edit-meal/AddEditMeal";
 
 function App() {
   return (
@@ -116,6 +118,19 @@ function App() {
           <Route
             path="payment-confirmation"
             element={<PaymentConfirmation />}
+          />
+
+          <Route
+            path="food-history"
+            element={<FoodHistory />}
+          />
+          <Route
+            path="food-history/add"
+            element={<AddEditMeal />}
+          />
+          <Route
+            path="food-history/add/:mealId"
+            element={<AddEditMeal />}
           />
 
           <Route

@@ -1,9 +1,10 @@
 import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
-import { Goal, LogOut, User2 } from "lucide-react";
+import { Beef, Goal, LogOut} from "lucide-react";
 import { FaCalendarAlt, FaCreditCard } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebarUserStore } from "./useSidebarUserStore";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const menu = [
   {
@@ -42,10 +43,16 @@ const menu = [
     to: "/user/targets",
   },
   {
+    label: "Comidas",
+    icon: Beef,
+    to: "/user/food-history",
+  },
+  {
     label: "Metodos de pago",
     icon: FaCreditCard,
     to: "/user/payment-method",
   },
+
   { label: "Logout", icon: LogOut, to: "/user/logout" },
 ];
 
@@ -55,7 +62,6 @@ const SidebarUser = () => {
   const navigate = useNavigate();
   const resetUser = useUserStore((state) => state.reset);
   const user = useUserStore((state) => state.user);
-
 
   const handleLogout = () => {
     resetUser();
@@ -103,11 +109,16 @@ const SidebarUser = () => {
           //   </span>
           // </Link>
           <div className="flex items-center justify-start gap-2 px-4 py-2">
-            <User2 size={24} />
+            <Avatar className="cursor-pointer">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
             <div className="flex flex-col">
-              <span className="font-bold">{user?.name || "Usuario"}</span>
+              <span className="font-bold">
+                {user?.firstName.concat(" ", user?.lastName) || "Usuario Anónimo"}
+              </span>
               <span className="text-xs text-gray-500">
-                {user?.email || ""}
+                {user?.email || "email@mail.com"}
               </span>
             </div>
           </div>

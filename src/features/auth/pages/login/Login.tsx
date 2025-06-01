@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { useLogin } from "../../hooks/useLogin";
 import { useUserStore } from "../../store/userStore";
+import { useLogin } from "../../hooks/useAuth";
 
 const loginSchema = z.object({
   username: z

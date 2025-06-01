@@ -36,16 +36,18 @@ export const useUserStore = create<UserState>()(
       token: null,
       isProfileComplete: false,
       signupData: null,
+      user: null,
       setToken: (token) => set({ token }),
       setProfileComplete: (complete) => set({ isProfileComplete: complete }),
       setSignupData: (data) => set({ signupData: data }),
       setUser: (user) => set({ user }),
-      reset: () => set({ 
-        token: null,
-        isProfileComplete: false,
-        signupData: null,
-        user: null,
-      }),
+      reset: () =>
+        set({
+          token: null,
+          isProfileComplete: false,
+          signupData: null,
+          user: null,
+        }),
     }),
     {
       name: "user-storage",
@@ -53,7 +55,7 @@ export const useUserStore = create<UserState>()(
         token: state.token,
         isProfileComplete: state.isProfileComplete,
         user: state.user,
-      })
+      }),
     }
   )
 );

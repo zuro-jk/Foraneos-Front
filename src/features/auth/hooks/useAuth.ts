@@ -1,6 +1,5 @@
-import {useMutation, useQuery} from '@tanstack/react-query';
-import {loginApi} from '../api/authApi';
-import { getMe } from "../api/authApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getMe, loginApi } from "../api/authApi";
 
 export interface UserProfileResponse {
   id: number;
@@ -17,20 +16,22 @@ export interface UserProfileResponse {
   dietaryRestrictions: string;
 }
 
-
 export function useLogin() {
   return useMutation({
-    mutationFn: ({username, password} : {username: string; password: string}) => loginApi(username, password),
-  })
+    mutationFn: ({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }) => loginApi(username, password),
+  });
 }
 
-export function useMe(
-  token?: string,
-  options?: Omit<UseQueryOptions<User>, "queryKey" | "queryFn">
-) {
+export function useMe(token?: string) {
   return useQuery<UserProfileResponse>({
     queryKey: ["me"],
     queryFn: () => getMe().then((res) => res.data as UserProfileResponse),
-    ...options,
+    enabled: !!token,
   });
 }

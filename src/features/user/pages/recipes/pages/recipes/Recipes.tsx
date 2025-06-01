@@ -3,18 +3,20 @@ import { Button } from "@/shared/ui/button";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import CardRecipe from "../../components/card-recipe/CardRecipe";
-import { recipes } from "../../data/recipes-data";
-
-const CARDS_PER_PAGE = 6;
+import { useRecipes } from "../../hooks/useRecipe";
 
 const Recipes = () => {
+  const { data: recipes, isLoading, isError } = useRecipes();
   const [activeTab, setActiveTab] = useState<"desayuno" | "almuerzo" | "cena">(
     "desayuno"
   );
   const [page, setPage] = useState(1);
 
-  const filteredRecipes = recipes;
+  if (isLoading) return <div>Cargando recetas...</div>;
+  if (isError) return <div>Error al cargar recetas.</div>;
 
+  const CARDS_PER_PAGE = 6;
+  const filteredRecipes = recipes ?? [];
   const totalPages = Math.ceil(filteredRecipes.length / CARDS_PER_PAGE);
   const paginatedRecipes = filteredRecipes.slice(
     (page - 1) * CARDS_PER_PAGE,
@@ -78,12 +80,12 @@ const Recipes = () => {
                     {paginatedRecipes.map((recipe) => (
                       <CardRecipe
                         key={recipe.id}
-                        title={recipe.title}
-                        time={recipe.time}
-                        kcal={recipe.kcal}
+                        title={recipe.name}
+                        time={"5 min"}
+                        kcal={recipe.calories}
                         protein={recipe.protein}
                         carbs={recipe.carbs}
-                        fats={recipe.fats}
+                        fats={recipe.fat}
                       />
                     ))}
                   </div>

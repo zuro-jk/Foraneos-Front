@@ -22,12 +22,19 @@ import {
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import NotificationCard from "./components/notification-card/NotificationCard";
+import { useUserStore } from "@/features/auth/store/userStore";
 
 const NavbarUser = () => {
   const { setTheme } = useTheme();
   const navigate = useNavigate();
   const setMobileOpen = useSidebarUserStore((state) => state.setMobileOpen);
   const [tab, setTab] = useState<"all" | "unread" | "archived">("all");
+  const resetUser = useUserStore((state) => state.reset);
+
+  const handleLogout = () => {
+    resetUser();
+    navigate("/login");
+  };
 
   useHotkeys(
     "shift+p",
@@ -243,10 +250,10 @@ const NavbarUser = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/user/logout">
+                <button onClick={handleLogout}>
                   <LogOut /> Cerrar sesión
                   <DropdownMenuShortcut>⇧⌘T</DropdownMenuShortcut>
-                </Link>
+                </button>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
