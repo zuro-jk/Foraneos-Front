@@ -2,12 +2,16 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./features/auth/pages/forgot-password/ForgotPassword";
 import Login from "./features/auth/pages/login/Login";
 import Signup from "./features/auth/pages/signup/Signup";
+import CompleteProfile from "./features/auth/pages/signup/pages/complete-profile/CompleteProfile";
 import Home from "./features/home/pages/home/Home";
 import PaymentConfirmation from "./features/payment/pages/payment-confirmation/PaymentConfirmation";
 import PaymentMethod from "./features/payment/pages/payment-method/PaymentMethod";
 import Billing from "./features/user/pages/billing/Billing";
 import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
 import Calisthenics from "./features/user/pages/calisthenics/Calisthenics";
+import FoodHistory from "./features/user/pages/food-history/pages/FoodHistory";
+import AddEditMeal from "./features/user/pages/food-history/pages/add-edit-meal/AddEditMeal";
+import Foods from "./features/user/pages/foods/pages/Foods";
 import MainDashboard from "./features/user/pages/main-dashboard/MainDashboard";
 import Notifications from "./features/user/pages/notifications/Notifications";
 import NutritionistArtificial from "./features/user/pages/nutritionist-artificial/NutritionistArtificial";
@@ -23,9 +27,7 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
-import CompleteProfile from "./features/auth/pages/signup/pages/complete-profile/CompleteProfile";
-import FoodHistory from "./features/user/pages/food-history/pages/FoodHistory";
-import AddEditMeal from "./features/user/pages/food-history/pages/add-edit-meal/AddEditMeal";
+import FoodForm from "./features/user/pages/foods/components/food-form/FoodForm";
 
 function App() {
   return (
@@ -118,6 +120,19 @@ function App() {
           <Route
             path="payment-confirmation"
             element={<PaymentConfirmation />}
+          />
+
+          <Route
+            path="foods"
+            element={<Foods />}
+          />
+          <Route
+            path="foods/add"
+            element={<FoodForm />}
+          />
+          <Route
+            path="foods/edit/:foodId"
+            element={<FoodForm />}
           />
 
           <Route

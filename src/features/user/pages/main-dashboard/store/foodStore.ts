@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import type { Food } from "../types/food";
+import type { FoodResponse } from "../../foods/dto/response/foodResponse";
 
 interface FoodState {
-  selectedFoods: Food[];
-  setSelectedFoods: (foods: Food[]) => void;
-  addFood: (food: Food) => void;
-  removeFood: (food: Food) => void;
+  selectedFoods: FoodResponse[];
+  setSelectedFoods: (foods: FoodResponse[]) => void;
+  addFood: (food: FoodResponse) => void;
+  removeFood: (food: FoodResponse) => void;
   clearSelectedFoods: () => void;
 }
 
@@ -18,9 +18,7 @@ export const useFoodStore = create<FoodState>((set) => ({
     })),
   removeFood: (food) =>
     set((state) => ({
-      selectedFoods: state.selectedFoods.filter(
-        (item) => item.id !== food.id
-      ),
+      selectedFoods: state.selectedFoods.filter((item) => item.id !== food.id),
     })),
   clearSelectedFoods: () => set({ selectedFoods: [] }),
 }));

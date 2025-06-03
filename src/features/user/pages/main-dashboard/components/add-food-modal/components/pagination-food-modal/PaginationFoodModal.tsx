@@ -1,17 +1,17 @@
+import type { FoodResponse } from "@/features/user/pages/foods/dto/response/foodResponse";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Food } from "../../../../types/food";
 
 interface PaginationFoodModalProps {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  filteredFoods: Food[];
+  filteredFoods: FoodResponse[];
   pageSize: number;
 }
 
 const PaginationFoodModal = ({
   page,
   setPage,
-  filteredFoods,
+  filteredFoods = [],
   pageSize,
 }: PaginationFoodModalProps) => {
   return (

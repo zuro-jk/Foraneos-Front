@@ -9,6 +9,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { Grid2x2, List, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { FoodResponse } from "../../../foods/dto/response/foodResponse";
+import { useGetFoodsFromUser } from "../../../foods/hooks/useFoods";
 import { useFoodStore } from "../../store/foodStore";
 import type { Food } from "../../types/food";
 import CardFoodModalGrid from "./components/card-food-modal-grid/CardFoodModalGrid";
@@ -21,119 +23,14 @@ interface AddFoodModalProps {
   removeFoodEverywhere: (food: Food) => void;
 }
 
-const allFoods: Food[] = [
-  {
-    id: 1,
-    name: "Pollo",
-    description: "Delicioso pollo a la parrilla, jugoso y lleno de sabor.",
-  },
-  {
-    id: 2,
-    name: "Pasta",
-    description: "Pasta al dente con salsa de tomate casera y especias.",
-  },
-  {
-    id: 3,
-    name: "Ensalada",
-    description: "Ensalada fresca con vegetales variados y aderezo ligero.",
-  },
-  {
-    id: 4,
-    name: "Arroz",
-    description: "Arroz blanco cocido al vapor, perfecto como acompañamiento.",
-  },
-  {
-    id: 5,
-    name: "Pescado",
-    description: "Pescado a la plancha con un toque de limón y hierbas.",
-  },
-  {
-    id: 6,
-    name: "Frutas",
-    description: "Frutas variadas de temporada, frescas y saludables.",
-  },
-  {
-    id: 7,
-    name: "Verduras",
-    description: "Verduras al vapor con aceite de oliva y sal marina.",
-  },
-  {
-    id: 8,
-    name: "Yogur",
-    description: "Yogur natural sin azúcar, ideal para el desayuno o snack.",
-  },
-  {
-    id: 9,
-    name: "Nueces",
-    description:
-      "Nueces mixtas sin sal, fuente de energía y grasas saludables.",
-  },
-  {
-    id: 10,
-    name: "Batido de proteínas",
-    description:
-      "Batido de proteínas de vainilla, perfecto para después de entrenar.",
-  },
-  {
-    id: 11,
-    name: "Tortilla",
-    description:
-      "Tortilla española con patatas y cebolla, tradicional y sabrosa.",
-  },
-  {
-    id: 12,
-    name: "Sopa",
-    description:
-      "Sopa caliente de verduras y pollo, reconfortante y nutritiva.",
-  },
-  {
-    id: 13,
-    name: "Pizza",
-    description:
-      "Pizza artesanal con salsa de tomate, queso y tus ingredientes favoritos.",
-  },
-  {
-    id: 14,
-    name: "Hamburguesa",
-    description: "Hamburguesa de res con lechuga, tomate y pan suave.",
-  },
-  {
-    id: 15,
-    name: "Tacos",
-    description: "Tacos mexicanos con carne, cebolla, cilantro y salsa.",
-  },
-  {
-    id: 16,
-    name: "Sushi",
-    description:
-      "Sushi de arroz y pescado fresco, acompañado de salsa de soya.",
-  },
-  {
-    id: 17,
-    name: "Galletas",
-    description: "Galletas caseras de chocolate, crujientes y dulces.",
-  },
-  {
-    id: 18,
-    name: "Helado",
-    description:
-      "Helado cremoso de vainilla y chocolate, perfecto para el postre.",
-  },
-  {
-    id: 19,
-    name: "Brownie",
-    description:
-      "Brownie de chocolate suave y húmedo, ideal para los amantes del dulce.",
-  },
-];
-
 const AddFoodModal = ({
   open,
   onOpenChange,
   removeFoodEverywhere,
 }: AddFoodModalProps) => {
-  const { selectedFoods, addFood } = useFoodStore();
+  const { data: userFoods } = useGetFoodsFromUser();
 
+  const { selectedFoods, addFood } = useFoodStore();
   const [search, setSearch] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
@@ -143,11 +40,11 @@ const AddFoodModal = ({
     setPage(1);
   }, [search, viewMode]);
 
-  const filteredFoods = allFoods.filter((food) =>
+  const filteredFoods = userFoods?.filter((food) =>
     food.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const toggleFood = (food: Food) => {
+  const toggleFood = (food: FoodResponse) => {
     if (selectedFoods.find((item) => item.id === food.id)) {
       removeFoodEverywhere(food);
     } else {
@@ -204,13 +101,13 @@ const AddFoodModal = ({
         {viewMode === "grid" ? (
           <>
             <div className="grid grid-cols-2 gap-4 max-h-[35rem] overflow-y-auto">
-              {filteredFoods.length === 0 && search ? (
+              {filteredFoods?.length === 0 && search ? (
                 <span className="col-span-3 p-2 text-gray-500">
                   No se encontraron resultados
                 </span>
               ) : (
                 filteredFoods
-                  .slice((page - 1) * pageSize, page * pageSize)
+                  ?.slice((page - 1) * pageSize, page * pageSize)
                   .map((food) => (
                     <CardFoodModalGrid
                       key={food.id}
@@ -224,7 +121,7 @@ const AddFoodModal = ({
             <PaginationFoodModal
               page={page}
               setPage={setPage}
-              filteredFoods={filteredFoods}
+              filteredFoods={filteredFoods!}
               pageSize={pageSize}
             />
           </>
@@ -232,13 +129,13 @@ const AddFoodModal = ({
           viewMode === "list" && (
             <>
               <ul className="p-2 mb-2 overflow-y-auto max-h-96">
-                {filteredFoods.length === 0 && search ? (
+                {filteredFoods?.length === 0 && search ? (
                   <li className="p-2 text-gray-500">
                     No se encontraron resultados
                   </li>
                 ) : (
                   filteredFoods
-                    .slice((page - 1) * pageSize, page * pageSize)
+                    ?.slice((page - 1) * pageSize, page * pageSize)
                     .map((food) => (
                       <CardFoodModalList
                         key={food.id}
@@ -252,7 +149,7 @@ const AddFoodModal = ({
               <PaginationFoodModal
                 page={page}
                 setPage={setPage}
-                filteredFoods={filteredFoods}
+                filteredFoods={filteredFoods!}
                 pageSize={pageSize}
               />
             </>

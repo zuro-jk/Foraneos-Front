@@ -2,6 +2,7 @@ import { useMe } from "@/features/auth/hooks/useAuth";
 import { useUserStore } from "@/features/auth/store/userStore";
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import NavbarUser from "../navbar-user/NavbarUser";
 import SidebarUser from "../sidebar-user/SidebarUser";
 import { useSidebarUserStore } from "../sidebar-user/useSidebarUserStore";
@@ -42,6 +43,7 @@ const UserLayout = () => {
           <Outlet />
         </main>
       </div>
+      <ToastContainer />
     </div>
   );
 };

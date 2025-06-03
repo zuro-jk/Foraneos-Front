@@ -1,6 +1,6 @@
 import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
-import { Beef, Goal, LogOut} from "lucide-react";
+import { Beef, Drumstick, Goal, LogOut} from "lucide-react";
 import { FaCalendarAlt, FaCreditCard } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebarUserStore } from "./useSidebarUserStore";
@@ -46,6 +46,11 @@ const menu = [
     label: "Comidas",
     icon: Beef,
     to: "/user/food-history",
+  },
+  {
+    label: "Alimentos",
+    icon: Drumstick,
+    to: "/user/foods",
   },
   {
     label: "Metodos de pago",

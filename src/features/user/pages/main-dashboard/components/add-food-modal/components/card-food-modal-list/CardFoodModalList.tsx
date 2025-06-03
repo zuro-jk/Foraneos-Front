@@ -1,11 +1,11 @@
 import { Badge } from "@/shared/ui/badge";
 import { Checkbox } from "@/shared/ui/checkbox";
-import type { Food } from "../../../../types/food";
+import type { FoodResponse } from "@/features/user/pages/foods/dto/response/foodResponse";
 
 interface CardModalListProps {
-  food: Food;
-  selectedFoods: Food[];
-  toggleFood: (food: Food) => void;
+  food: FoodResponse;
+  selectedFoods: FoodResponse[];
+  toggleFood: (food: FoodResponse) => void;
 }
 
 const CardFoodModalList = ({

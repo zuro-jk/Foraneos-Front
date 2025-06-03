@@ -1,22 +1,51 @@
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/ui/dialog";
+import { Input } from "@/shared/ui/input";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import CardRecipe from "../../components/card-recipe/CardRecipe";
 import { useRecipes } from "../../hooks/useRecipe";
+import ErrorRecipes from "./components/ErrorRecipes";
+import LoadingRecipes from "./components/LoadingRecipes";
 
 const Recipes = () => {
   const { data: recipes, isLoading, isError } = useRecipes();
+
   const [activeTab, setActiveTab] = useState<"desayuno" | "almuerzo" | "cena">(
     "desayuno"
   );
   const [page, setPage] = useState(1);
+  const [newIngredient, setNewIngredient] = useState({
+    name: "",
+    type: "",
+    amount: "",
+  });
+  const [showIngredientModal, setShowIngredientModal] = useState(false);
+  const [userIngredients, setUserIngredients] = useState<
+    { name: string; type: string; amount: string }[]
+  >([]);
 
-  if (isLoading) return <div>Cargando recetas...</div>;
-  if (isError) return <div>Error al cargar recetas.</div>;
+  const handleAddIngredient = () => {
+    if (newIngredient.name && newIngredient.type && newIngredient.amount) {
+      setUserIngredients((prev) => [...prev, newIngredient]);
+      setNewIngredient({ name: "", type: "", amount: "" });
+      setShowIngredientModal(false);
+    }
+  };
+
+  if (isLoading) return <LoadingRecipes />;
+  if (isError) return <ErrorRecipes />;
 
   const CARDS_PER_PAGE = 6;
-  const filteredRecipes = recipes ?? [];
+  const filteredRecipes = recipes?.filter((r) => r.mealType === activeTab) ?? [];
   const totalPages = Math.ceil(filteredRecipes.length / CARDS_PER_PAGE);
   const paginatedRecipes = filteredRecipes.slice(
     (page - 1) * CARDS_PER_PAGE,
@@ -91,9 +120,35 @@ const Recipes = () => {
                   </div>
                 )}
                 {activeTab === "almuerzo" && (
-                  <div className="p-4 bg-white"></div>
+                  <div className="grid grid-cols-3 gap-4">
+                    {paginatedRecipes.map((recipe) => (
+                      <CardRecipe
+                        key={recipe.id}
+                        title={recipe.name}
+                        time={"5 min"}
+                        kcal={recipe.calories}
+                        protein={recipe.protein}
+                        carbs={recipe.carbs}
+                        fats={recipe.fat}
+                      />
+                    ))}
+                  </div>
                 )}
-                {activeTab === "cena" && <div className="p-4 bg-white"></div>}
+                {activeTab === "cena" && (
+                  <div className="grid grid-cols-3 gap-4">
+                    {paginatedRecipes.map((recipe) => (
+                      <CardRecipe
+                        key={recipe.id}
+                        title={recipe.name}
+                        time={"5 min"}
+                        kcal={recipe.calories}
+                        protein={recipe.protein}
+                        carbs={recipe.carbs}
+                        fats={recipe.fat}
+                      />
+                    ))}
+                  </div>
+                )}
                 <div className="flex justify-center gap-2 mt-4">
                   <button
                     className="px-2 py-1 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
@@ -124,9 +179,6 @@ const Recipes = () => {
                     Ingredientes disponibles
                   </span>
                 </div>
-                <button className="cursor-pointer h-fit">
-                  <PlusCircle className="w-4 h-4" />
-                </button>
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge
@@ -178,46 +230,70 @@ const Recipes = () => {
                   Condimentos
                 </Badge>
               </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
-                <div className="flex flex-col">
-                  <span className="font-bold">Huevo</span>
-                  <span className="text-xs font-extralight">Proteina</span>
+              {userIngredients.map((ing, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25"
+                >
+                  <div className="flex flex-col">
+                    <span className="font-bold">{ing.name}</span>
+                    <span className="text-xs font-extralight">{ing.type}</span>
+                  </div>
+                  <span>{ing.amount}</span>
                 </div>
-                <span>4 unidades</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
-                <div className="flex flex-col">
-                  <span className="font-bold">Pollo/Pierna</span>
-                  <span className="text-xs font-extralight">Proteina</span>
-                </div>
-                <span>1 unidades</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
-                <div className="flex flex-col">
-                  <span className="font-bold">Sal</span>
-                  <span className="text-xs font-extralight">Condimentos</span>
-                </div>
-                <span>500 gramos</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
-                <div className="flex flex-col">
-                  <span className="font-bold">Atún</span>
-                  <span className="text-xs font-extralight">Proteina</span>
-                </div>
-                <span>4 unidades</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
-                <div className="flex flex-col">
-                  <span className="font-bold">Azucar</span>
-                  <span className="text-xs font-extralight">Condimentos</span>
-                </div>
-                <span>1k gramo</span>
-              </div>
+              ))}
 
-              <Button className="cursor-pointer shadow/25">
-                <PlusCircle className="w-4 h-4 " />
-                Añadir ingrediente
-              </Button>
+              <Dialog
+                open={showIngredientModal}
+                onOpenChange={setShowIngredientModal}
+              >
+                <DialogTrigger asChild>
+                  <Button className="cursor-pointer shadow/25">
+                    <PlusCircle className="w-4 h-4 " />
+                    Añadir ingrediente
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Añadir ingrediente</DialogTitle>
+                  </DialogHeader>
+                  <div className="flex flex-col gap-3">
+                    <Input
+                      placeholder="Nombre"
+                      value={newIngredient.name}
+                      onChange={(e) =>
+                        setNewIngredient({
+                          ...newIngredient,
+                          name: e.target.value,
+                        })
+                      }
+                    />
+                    <Input
+                      placeholder="Tipo (ej: Proteina)"
+                      value={newIngredient.type}
+                      onChange={(e) =>
+                        setNewIngredient({
+                          ...newIngredient,
+                          type: e.target.value,
+                        })
+                      }
+                    />
+                    <Input
+                      placeholder="Cantidad (ej: 2 unidades)"
+                      value={newIngredient.amount}
+                      onChange={(e) =>
+                        setNewIngredient({
+                          ...newIngredient,
+                          amount: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <DialogFooter>
+                    <Button onClick={handleAddIngredient}>Guardar</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>

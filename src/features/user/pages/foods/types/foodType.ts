@@ -1,4 +1,3 @@
-
 export interface Ingredient {
   name: string;
   amount: number;
@@ -11,7 +10,7 @@ export interface PreparationStep {
   description: string;
 }
 
-export interface Recipe {
+export interface FoodType {
   id: number;
   name: string;
   calories: number;
@@ -24,5 +23,16 @@ export interface Recipe {
   ingredients: Ingredient[];
   preparationSteps: PreparationStep[];
   userId: number;
-  mealType: string;
+}
+
+export interface FoodCategory {
+  id: number;
+  name: string;
+}
+
+export interface FoodUnit {
+  id: number;
+  name: string;
+  abbrevation: string;
+  type: string;
 }
