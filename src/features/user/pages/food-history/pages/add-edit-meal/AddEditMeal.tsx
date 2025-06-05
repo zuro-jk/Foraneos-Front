@@ -1,3 +1,4 @@
+import { useUserStore } from "@/features/auth/store/userStore";
 import { Button } from "@/shared/ui/button";
 import {
   Form,
@@ -9,81 +10,55 @@ import {
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ImagePlus, Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import AddFoodModal from "../../../main-dashboard/components/add-food-modal/AddFoodModal";
-
-const FOOD_OPTIONS = [
-  {
-    id: 1,
-    name: "Pollo a la plancha",
-    calories: 200,
-    image:
-      "https://www.paulinacocina.net/wp-content/uploads/2023/06/pollo-a-la-plancha-receta.jpg",
-  },
-  {
-    id: 2,
-    name: "Arroz integral",
-    calories: 150,
-    image:
-      "https://cdn7.kiwilimon.com/recetaimagen/37043/640x640/37043.jpg.jpg",
-  },
-  {
-    id: 3,
-    name: "Ensalada mixta",
-    calories: 80,
-    image:
-      "https://www.recetasnestle.com.mx/sites/default/files/styles/recipe_detail_desktop/public/srh_recipes/7e7e3e7e8e3e8e3e8e3e8e3e8e3e8e3e.jpg",
-  },
-];
-
-const mealSchema = z.object({
-  name: z.string().min(1, "El nombre es obligatorio"),
-  emoji: z.string().min(1, "El emoji es obligatorio"),
-});
-
-type MealFormValues = z.infer<typeof mealSchema>;
+import type { FoodResponse } from "../../../foods/dto/response/foodResponse";
+import { useGetFoodsFromUser } from "../../../foods/hooks/useFoods";
+import { mealSchema, type MealFormValues } from "../../types/mealFormType";
 
 const AddEditMeal = () => {
   const { mealId } = useParams();
   const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
-  const [selectedFoods, setSelectedFoods] = useState<typeof FOOD_OPTIONS>([]);
-  const [showFoodModal, setShowFoodModal] = useState(false);
+  const [selectedFoods, setSelectedFoods] = useState<FoodResponse[]>([]);
+
+  const { user } = useUserStore();
+  const { data: foodsFromUser } = useGetFoodsFromUser();
 
   const form = useForm<MealFormValues>({
     resolver: zodResolver(mealSchema),
     defaultValues: {
       name: "",
-      emoji: "",
+      dateTime: new Date().toISOString(),
+      userId: user?.id,
+      foodIds: [],
     },
   });
 
   useEffect(() => {
     if (mealId) {
-      // Aquí puedes cargar los datos de la comida para editar
-      // form.reset({ name: "Ejemplo", emoji: "🍽️" });
+      console.log(mealId);
     }
   }, [mealId]);
 
-  const filteredFoods = FOOD_OPTIONS.filter(
-    (food) =>
-      food.name.toLowerCase().includes(search.toLowerCase()) &&
-      !selectedFoods.some((f) => f.id === food.id)
-  );
-
   // Agregar alimento
-  const handleAddFood = (food: (typeof FOOD_OPTIONS)[0]) => {
-    setSelectedFoods((prev) => [...prev, food]);
-    setSearch("");
+  const handleAddFood = (food: FoodResponse) => {
+    if (!selectedFoods.some((f) => f.id === food.id)) {
+      setSelectedFoods((prev) => [...prev, food]);
+      form.setValue("foodIds", [...form.getValues("foodIds"), food.id]);
+    }
   };
 
   // Quitar alimento
   const handleRemoveFood = (id: number) => {
     setSelectedFoods((prev) => prev.filter((f) => f.id !== id));
+    form.setValue(
+      "foodIds",
+      form.getValues("foodIds").filter((fid) => fid !== id)
+    );
   };
 
   const onSubmit = (data: MealFormValues) => {
@@ -132,7 +107,7 @@ const AddEditMeal = () => {
                   )}
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              {/* <div className="flex flex-col gap-2">
                 <FormField
                   control={form.control}
                   name="emoji"
@@ -169,7 +144,7 @@ const AddEditMeal = () => {
                     Subir imagen
                   </Button>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Columna 2: Selección de alimentos */}
@@ -186,12 +161,17 @@ const AddEditMeal = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                {/* El botón solo muestra sugerencias, no es necesario para buscar */}
               </div>
               {/* Sugerencias de alimentos */}
-              {search && filteredFoods.length > 0 && (
-                <div className="bg-gray-50 rounded-lg shadow p-2 mt-2">
-                  {filteredFoods.map((food) => (
+              <div className="bg-gray-50 rounded-lg shadow p-2 mt-2">
+                <span className="text-gray-500 text-xs mb-1">
+                  Alimentos disponibles:
+                </span>
+                {foodsFromUser
+                  ?.filter(
+                    (food) => !selectedFoods.some((f) => f.id === food.id)
+                  )
+                  .map((food) => (
                     <div
                       key={food.id}
                       className="flex items-center justify-between p-2 hover:bg-green-100 rounded cursor-pointer"
@@ -199,7 +179,7 @@ const AddEditMeal = () => {
                     >
                       <div className="flex items-center gap-2">
                         <img
-                          src={food.image}
+                          src={food.imagePath}
                           alt={food.name}
                           className="w-8 h-8 rounded object-cover border"
                         />
@@ -211,13 +191,11 @@ const AddEditMeal = () => {
                       <Plus size={16} />
                     </div>
                   ))}
-                </div>
-              )}
+              </div>
               <div className="flex flex-col gap-3 mt-4">
                 <span className="text-gray-500 text-xs mb-1">
                   Alimentos añadidos:
                 </span>
-                {/* Lista de alimentos seleccionados */}
                 {selectedFoods.length > 0 ? (
                   selectedFoods.map((food) => (
                     <div
@@ -226,7 +204,7 @@ const AddEditMeal = () => {
                     >
                       <div className="flex items-center gap-3">
                         <img
-                          src={food.image}
+                          src={food.imagePath}
                           alt={food.name}
                           className="w-10 h-10 rounded object-cover border"
                         />
@@ -256,11 +234,6 @@ const AddEditMeal = () => {
                     </div>
                   </div>
                 )}
-                <AddFoodModal
-                  open={showFoodModal}
-                  onOpenChange={setShowFoodModal}
-                  removeFoodEverywhere={(food) => handleRemoveFood(food.id)}
-                />
               </div>
             </div>
 

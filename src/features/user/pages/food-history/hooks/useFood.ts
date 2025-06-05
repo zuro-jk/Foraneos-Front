@@ -1,35 +1,47 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  addFoodToHistory,
-  deleteFoodFromHistory,
-  getFoodHistory,
-  updateFoodInHistory,
+  addMealByUserIdWithFoods,
+  getMealsByUserAndDate,
 } from "../api/foodApi";
-import type { Food } from "../types/food";
+import type { MealRequest } from "../dto/request/MealRequest";
 
-export function useFoodHistory(userId: number) {
+export function useGetMealsByUserAndDate(userId: number, date: string) {
   return useQuery({
-    queryKey: ["foodHistory", userId],
-    queryFn: () => getFoodHistory(userId),
-    enabled: !!userId,
+    queryKey: ["meals", userId, date],
+    queryFn: () => getMealsByUserAndDate(userId, date),
+    enabled: !!userId && !!date,
   });
 }
 
-export function useAddFoodToHistory(userId: number) {
+export function useAddMealByUserIdWithFoods() {
   return useMutation({
-    mutationFn: (foodItem: Food) => addFoodToHistory(userId, foodItem),
+    mutationFn: (meal: MealRequest) => addMealByUserIdWithFoods(meal),
   });
 }
 
-export function useDeleteFoodFromHistory(userId: number) {
-  return useMutation({
-    mutationFn: (foodId: number) => deleteFoodFromHistory(userId, foodId),
-  });
-}
+// export function useFoodHistory(userId: number) {
+//   return useQuery({
+//     queryKey: ["foodHistory", userId],
+//     queryFn: () => getFoodHistory(userId),
+//     enabled: !!userId,
+//   });
+// }
 
-export function useUpdateFoodInHistory(userId: number) {
-  return useMutation({
-    mutationFn: ({ foodId, foodItem }: { foodId: number; foodItem: Food }) =>
-      updateFoodInHistory(userId, foodId, foodItem),
-  });
-}
+// export function useAddFoodToHistory(userId: number) {
+//   return useMutation({
+//     mutationFn: (foodItem: Food) => addFoodToHistory(userId, foodItem),
+//   });
+// }
+
+// export function useDeleteFoodFromHistory(userId: number) {
+//   return useMutation({
+//     mutationFn: (foodId: number) => deleteFoodFromHistory(userId, foodId),
+//   });
+// }
+
+// export function useUpdateFoodInHistory(userId: number) {
+//   return useMutation({
+//     mutationFn: ({ foodId, foodItem }: { foodId: number; foodItem: Food }) =>
+//       updateFoodInHistory(userId, foodId, foodItem),
+//   });
+// }

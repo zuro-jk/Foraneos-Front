@@ -144,7 +144,7 @@ function App() {
             element={<AddEditMeal />}
           />
           <Route
-            path="food-history/add/:mealId"
+            path="food-history/edit/:mealId"
             element={<AddEditMeal />}
           />
 

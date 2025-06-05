@@ -26,6 +26,7 @@ export interface FoodResponse {
   id: number;
   name: string;
   description: string;
+  imagePath: string;
   calories: number;
   protein: number;
   carbs: number;

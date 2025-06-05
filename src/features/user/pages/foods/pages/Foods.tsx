@@ -123,12 +123,16 @@ const Foods = () => {
       <div className="bg-white p-4 rounded-lg">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Mis alimentos</h1>
-          <button
-            className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer"
+          <Button
+            className="cursor-pointer"
             onClick={() => navigate("add")}
+            title="Añadir nuevo alimento"
+            variant="outline"
+            size="icon"
+
           >
-            <Plus size={18} /> Crear alimento
-          </button>
+            <Plus size={18} />
+          </Button>
         </div>
         <div className="flex items-center justify-between gap-4">
           <input
