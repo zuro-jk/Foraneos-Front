@@ -1,4 +1,11 @@
 import { useUserStore } from "@/features/auth/store/userStore";
+import {
+  useAddFoodFromUser,
+  useDeleteFoodFromUser,
+  useGetCategoriesOfFoods,
+  useGetFoodsFromGeneral,
+  useGetFoodsFromUser,
+} from "@/features/user/hooks/foods/useFoods";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
@@ -7,15 +14,8 @@ import { Edit2, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import type { FoodPayload } from "../dto/request/foodPayload";
-import type { FoodResponse } from "../dto/response/foodResponse";
-import {
-  useAddFoodFromUser,
-  useDeleteFoodFromUser,
-  useGetCategoriesOfFoods,
-  useGetFoodsFromGeneral,
-  useGetFoodsFromUser,
-} from "../hooks/useFoods";
+import type { FoodPayload } from "../../../dto/request/food/foodPayload";
+import type { FoodResponse } from "../../../dto/response/food/foodResponse";
 
 const Foods = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -119,7 +119,7 @@ const Foods = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl py-8">
+    <div className="py-4">
       <div className="bg-white p-4 rounded-lg">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Mis alimentos</h1>
@@ -129,7 +129,6 @@ const Foods = () => {
             title="Añadir nuevo alimento"
             variant="outline"
             size="icon"
-
           >
             <Plus size={18} />
           </Button>

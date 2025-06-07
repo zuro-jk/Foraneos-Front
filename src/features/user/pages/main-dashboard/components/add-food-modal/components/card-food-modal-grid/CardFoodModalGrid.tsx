@@ -1,4 +1,4 @@
-import type { FoodResponse } from "@/features/user/pages/foods/dto/response/foodResponse";
+import type { FoodResponse } from "@/features/user/dto/response/food/foodResponse";
 import { Badge } from "@/shared/ui/badge";
 
 interface CardFoodModalGridProps {
@@ -29,9 +29,7 @@ const CardFoodModalGrid = ({
       />
       <div className="p-2">
         <h3 className="font-bold text-sm">{food.name}</h3>
-        <p className="line-clamp-2 text-xs text-gray-600">
-          {food.description}
-        </p>
+        <p className="line-clamp-2 text-xs text-gray-600">{food.description}</p>
         <ul className="flex flex-wrap mt-2">
           <li className="text-xs">
             <Badge variant="outline">Calorias | 515</Badge>

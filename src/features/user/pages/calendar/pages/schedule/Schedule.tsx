@@ -1,11 +1,11 @@
+import { useWeekDays } from "@/features/user/hooks/calendar/useWeekDays";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
+import { useScheduleStore } from "../../../../store/calendar/useScheduleStore";
 import MonthlyCalendar from "../../components/monthly-calendar/MonthlyCalendar";
 import ScheduleHeader from "../../components/schedule-header/ScheduleHeader";
 import WeeklyCalendar from "../../components/weekly-calendar/WeeklyCalendar";
 import { INITIAL_EVENTS } from "../../data/data";
-import { useWeekDays } from "../../hooks/useWeekDays";
-import { useScheduleStore } from "../../store/useScheduleStore";
 
 const Schedule = () => {
   const {

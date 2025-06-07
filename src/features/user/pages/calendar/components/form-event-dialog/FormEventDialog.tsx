@@ -32,8 +32,8 @@ import { Textarea } from "@/shared/ui/textarea";
 import { CalendarIcon, Check, ChevronsUpDown, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 import { EVENT_CATEGORIES } from "../../data/data";
-import type { CalendarEvent } from "../../store/useScheduleStore";
 
 interface FormEventDialogProps {
   open: boolean;

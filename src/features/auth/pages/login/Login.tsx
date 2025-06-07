@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { useAuthLogin } from "../../hooks/useAuth";
 import { useUserStore } from "../../store/userStore";
-import { useLogin } from "../../hooks/useAuth";
 
 const loginSchema = z.object({
   username: z
@@ -39,12 +39,12 @@ const Login = () => {
     },
   });
   const navigate = useNavigate();
-  const loginMutation = useLogin();
+  const loginMutation = useAuthLogin();
 
   const onSubmit = (values: LoginValues) => {
     loginMutation.mutate(values, {
       onSuccess: (response) => {
-        setToken(response.data.jwt);
+        setToken(response.jwt);
         navigate("/user");
         toast("Inicio de sesión exitoso");
       },
@@ -184,7 +184,7 @@ const Login = () => {
                         <Checkbox
                           id="remember-me"
                           checked={field.value}
-                          onChange={field.onChange}
+                          onCheckedChange={field.onChange}
                         />
                       </FormControl>
                       <FormLabel htmlFor="remember-me">Recuerdame</FormLabel>

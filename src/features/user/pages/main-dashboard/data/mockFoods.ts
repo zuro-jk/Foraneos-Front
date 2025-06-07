@@ -1,4 +1,4 @@
-import type { Food } from "../types/food";
+import type { Food } from "../../../types/foods/food";
 
 export const allFoods: Food[] = [
   {

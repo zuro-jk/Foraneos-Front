@@ -1,22 +1,43 @@
 import { useUserStore } from "@/features/auth/store/userStore";
+import {
+  useDeleteMealById,
+  useGetMealsByUserAndDate,
+} from "@/features/user/hooks/foods/useFoods";
+import { useGetSummaryByUserAuth } from "@/features/user/hooks/summary/useSummary";
 import { format } from "date-fns";
-import { BarChart2, Calendar, Pencil, Plus, Trash2 } from "lucide-react";
+import { BarChart2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { macroGoals, macroToday } from "../data/mockMeals";
-import { useGetMealsByUserAndDate } from "../hooks/useFood";
 
 const FoodHistory = () => {
+  const mainMealsOrder = ["Desayuno", "Almuerzo", "Cena", "Snack"];
+
   const [selectedDate, setSelectedDate] = useState(
     format(new Date(), "yyyy-MM-dd")
   );
   const navigate = useNavigate();
   const { user } = useUserStore();
 
-  const { data: meals } = useGetMealsByUserAndDate(
+  const { data: meals, refetch } = useGetMealsByUserAndDate(
     Number(user?.id),
     selectedDate
   );
+  const { data: summary } = useGetSummaryByUserAuth();
+
+  const { mutate: deleteMeal } = useDeleteMealById();
+
+  const sortedMeals = meals
+    ? [
+        // Primero los principales en el orden definido
+        ...mainMealsOrder
+          .map((main) => meals.find((meal) => meal.name === main))
+          .filter(Boolean),
+        // Luego los demás (que no están en los principales)
+        ...meals.filter((meal) => !mainMealsOrder.includes(meal.name)),
+      ]
+    : [];
 
   const dailyTotals = meals?.reduce(
     (totals, meal) => {
@@ -37,12 +58,20 @@ const FoodHistory = () => {
   };
 
   const handleDeleteMeal = (mealId: number) => {
-    // Lógica para eliminar la comida
+    deleteMeal(mealId, {
+      onSuccess: () => {
+        toast("Comida eliminada correctamente");
+        refetch();
+      },
+      onError: (error) => {
+        toast(`Error al eliminar la comida: ${error.message}`);
+      },
+    });
   };
 
   const handleAddMeal = () => navigate(`/user/food-history/add`);
 
-  const handleViewWeekly = () => alert("Ver historial semanal");
+  const handleViewWeekly = () => navigate("/user/food-history/weekly");
 
   return (
     <div className="container mx-auto max-w-4xl p-6">
@@ -63,18 +92,14 @@ const FoodHistory = () => {
           </div>
         </div>
         <div className="flex gap-2">
-          <button
-            className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition cursor-pointer"
-            onClick={() => document.getElementById("date-input")?.focus()}
-          >
-            <Calendar size={18} /> Cambiar fecha
-          </button>
           <input
-            id="date-input"
+            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             type="date"
+            name="fecha"
+            id="fecha"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="hidden"
+            max={format(new Date(), "yyyy-MM-dd")}
           />
           <button
             className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition cursor-pointer"
@@ -90,49 +115,46 @@ const FoodHistory = () => {
         <div className="bg-blue-50 rounded-lg p-4 flex flex-col items-center">
           <span className="font-semibold text-blue-700">Calorías</span>
           <span className="text-lg font-bold">
-            {dailyTotals?.calories} / {macroGoals.calories}
+            {dailyTotals?.calories} / {summary?.recommendedCalories} kcal
           </span>
         </div>
         <div className="bg-green-50 rounded-lg p-4 flex flex-col items-center">
           <span className="font-semibold text-green-700">Proteínas</span>
           <span className="text-lg font-bold">
-            {dailyTotals?.protein}g / {macroGoals.protein}g
+            {dailyTotals?.protein}g / {summary?.recommendedProteins}g
           </span>
         </div>
         <div className="bg-yellow-50 rounded-lg p-4 flex flex-col items-center">
           <span className="font-semibold text-yellow-700">Carbohidratos</span>
           <span className="text-lg font-bold">
-            {dailyTotals?.carbs}g / {macroGoals.carbs}g
+            {dailyTotals?.carbs}g / {summary?.recommendedCarbs}g
           </span>
         </div>
         <div className="bg-pink-50 rounded-lg p-4 flex flex-col items-center">
           <span className="font-semibold text-pink-700">Grasas</span>
           <span className="text-lg font-bold">
-            {dailyTotals?.fat}g / {macroGoals.fat}g
+            {dailyTotals?.fat}g / {summary?.recommendedFats}g
           </span>
         </div>
       </div>
 
       {/* Comidas del día */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {meals?.map((meal) => (
+        {sortedMeals?.map((meal) => (
           <div
-            key={meal.id}
+            key={meal?.id}
             className="bg-white rounded-xl shadow-lg p-5 flex flex-col gap-3"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-lg font-semibold flex items-center gap-2">
-                <span className="text-2xl">
-                  🍳
-                  {/* {meal.icon} */}
-                </span>
-                {meal.name}
+                <span className="text-2xl">🍳</span>
+                {meal?.name}
               </span>
               <div className="flex gap-2">
                 <button
                   className="p-2 rounded-full hover:bg-blue-100 transition"
                   title="Editar comida"
-                  onClick={() => handleEditMeal(meal.id)}
+                  onClick={() => handleEditMeal(meal!.id)}
                 >
                   <Pencil
                     size={18}
@@ -142,28 +164,29 @@ const FoodHistory = () => {
                 <button
                   className="p-2 rounded-full hover:bg-red-100 transition"
                   title="Eliminar comida"
-                  onClick={() => handleDeleteMeal(meal.id)}
+                  onClick={() => handleDeleteMeal(meal!.id)}
                 >
                   <Trash2
                     size={18}
                     className="text-red-600"
+                    onClick={() => handleDeleteMeal(meal!.id)}
                   />
                 </button>
               </div>
             </div>
             <ul className="flex flex-col gap-1">
-              {meal.foods.length === 0 ? (
+              {meal!.foods.length === 0 ? (
                 <li className="text-gray-400 italic">
                   Vacío{" "}
                   <button
                     className="ml-2 text-blue-600 underline text-xs"
-                    onClick={handleAddMeal}
+                    onClick={() => handleEditMeal(meal!.id)}
                   >
                     Agregar
                   </button>
                 </li>
               ) : (
-                meal.foods.map((food) => (
+                meal!.foods.map((food) => (
                   <li
                     key={food.id}
                     className="flex justify-between items-center bg-gray-50 rounded px-3 py-1"
@@ -188,7 +211,11 @@ const FoodHistory = () => {
             <div className="flex justify-between items-center mt-2">
               <span className="text-sm font-semibold text-gray-600">
                 {/* Total: {getMealTotal(meal)} kcal */}
-                Total: {meal.foods.reduce((sum, f) => sum + f.calories, 0)} kcal
+                Total: {meal!.foods.reduce(
+                  (sum, f) => sum + f.calories,
+                  0
+                )}{" "}
+                kcal
               </span>
             </div>
           </div>
@@ -198,7 +225,7 @@ const FoodHistory = () => {
       {/* Ver historial semanal */}
       <div className="flex justify-center mt-10">
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-blue-50 text-blue-700 rounded-full shadow hover:bg-blue-100 transition font-semibold text-lg"
+          className="flex items-center gap-2 px-4 py-2 rounded shadow bg-white hover:bg-white/80 cursor-pointer transition font-semibold text-lg"
           onClick={handleViewWeekly}
         >
           <BarChart2 size={22} /> Ver historial semanal

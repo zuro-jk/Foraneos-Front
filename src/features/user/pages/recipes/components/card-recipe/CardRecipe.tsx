@@ -1,8 +1,9 @@
 import { Button } from "@/shared/ui/button";
-import { Clock, ThumbsUp } from "lucide-react";
+import { Clock, Eye, ThumbsUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface CardRecipeProps {
+  id: number;
   title: string;
   time: string;
   kcal: number;
@@ -13,6 +14,7 @@ interface CardRecipeProps {
 }
 
 const CardRecipe = ({
+  id,
   title,
   time,
   kcal,
@@ -72,13 +74,20 @@ const CardRecipe = ({
         <Button
           className="cursor-pointer shadow/25 w-fit"
           variant="outline"
-          onClick={() => navigate("/user/recipes/1")}
         >
-          Ver Receta
+          Guardar
         </Button>
-        <ThumbsUp
-        className="w-5 h-5 text-gray-500 transition-colors duration-200 ease-in-out cursor-pointer hover:text-green-500"
-        />
+        <div className="flex items-center gap-2">
+          <Eye
+            className="text-gray-500 transition-colors duration-200 ease-in-out cursor-pointer hover:text-blue-500"
+            onClick={() => navigate(`/user/recipes/${id}`)}
+            size={20}
+          />
+          <ThumbsUp
+            className="text-gray-500 transition-colors duration-200 ease-in-out cursor-pointer hover:text-green-500"
+            size={20}
+          />
+        </div>
       </div>
     </div>
   );

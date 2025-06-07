@@ -1,4 +1,11 @@
+import type { SignupUserRequest } from "@/features/auth/dto/request/authUserRequest";
+import { useAuthSignup } from "@/features/auth/hooks/useAuth";
 import { useUserStore } from "@/features/auth/store/userStore";
+import {
+  completeProfileSchema,
+  type CompleteProfileValues,
+} from "@/features/auth/types/signupSchema";
+
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import {
@@ -10,9 +17,10 @@ import {
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { toast } from "react-toastify";
 
 const restrictionOptions = [
   "Sin gluten",
@@ -23,33 +31,14 @@ const restrictionOptions = [
   "Sin huevo",
 ];
 
-const completeProfileSchema = z.object({
-  age: z.number().min(18, "You must be at least 18 years old"),
-  weight: z.number().min(30, "Weight must be at least 30 kg"),
-  height: z.number().min(100, "Height must be at least 100 cm"),
-  gender: z.enum(["male", "female", "other"], {
-    errorMap: () => ({ message: "Gender is required" }),
-  }),
-  activityLevel: z.enum(
-    ["sedentary", "light", "moderate", "active", "very_active"],
-    {
-      errorMap: () => ({ message: "Activity level is required" }),
-    }
-  ),
-  goal: z.enum(["lose_weight", "maintain_weight", "gain_weight"], {
-    errorMap: () => ({ message: "Goal is required" }),
-  }),
-  restrictions: z.array(z.string()).optional(),
-});
-
-type CompleteProfileValues = z.infer<typeof completeProfileSchema>;
-
 const CompleteProfile = () => {
   const navigate = useNavigate();
   const signupData = useUserStore((state) => state.signupData);
   const resetUserStore = useUserStore((state) => state.reset);
+  const signupMutation = useAuthSignup();
 
   const form = useForm<CompleteProfileValues>({
+    resolver: zodResolver(completeProfileSchema),
     defaultValues: {
       age: undefined,
       weight: undefined,
@@ -62,12 +51,27 @@ const CompleteProfile = () => {
   });
 
   const onSubmit = (values: CompleteProfileValues) => {
-    const registrationPayload = {
+    if (!signupData) {
+      toast("No se encontraron datos de registro previos");
+      return;
+    }
+
+    const registrationPayload: SignupUserRequest = {
       ...signupData,
       ...values,
-    };
-    resetUserStore();
-    navigate("/user/main-dashboard");
+    } as SignupUserRequest;
+
+    signupMutation.mutate(registrationPayload, {
+      onSuccess: () => {
+        toast("Perfil completado exitosamente");
+        useUserStore.getState().setProfileComplete(true);
+        resetUserStore();
+        navigate("/login");
+      },
+      onError: (error: Error) => {
+        toast("Error al completar el perfil: " + error.message);
+      },
+    });
   };
 
   return (
@@ -93,6 +97,14 @@ const CompleteProfile = () => {
                       type="number"
                       placeholder="Edad"
                       min={10}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,6 +123,14 @@ const CompleteProfile = () => {
                       type="number"
                       placeholder="Peso en kg"
                       min={20}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -129,6 +149,14 @@ const CompleteProfile = () => {
                       type="number"
                       placeholder="Altura en cm"
                       min={80}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -147,9 +175,9 @@ const CompleteProfile = () => {
                       className="w-full border rounded p-2"
                     >
                       <option value="">Selecciona</option>
-                      <option value="male">Masculino</option>
-                      <option value="female">Femenino</option>
-                      <option value="other">Otro</option>
+                      <option value="MALE">Masculino</option>
+                      <option value="FEMALE">Femenino</option>
+                      <option value="OTHER">Otro</option>
                     </select>
                   </FormControl>
                   <FormMessage />
@@ -189,9 +217,9 @@ const CompleteProfile = () => {
                       className="w-full border rounded p-2"
                     >
                       <option value="">Selecciona</option>
-                      <option value="lose">Bajar de peso</option>
-                      <option value="maintain">Mantener peso</option>
-                      <option value="gain">Ganar masa muscular</option>
+                      <option value="lose_weight">Bajar de peso</option>
+                      <option value="maintain_weight">Mantener peso</option>
+                      <option value="gain_weight">Ganar masa muscular</option>
                     </select>
                   </FormControl>
                   <FormMessage />

@@ -1,14 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { SignupUserRequest } from "../dto/request/authUserRequest";
 
-interface SignupData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-  terms: boolean;
-}
+type SignupData = Omit<
+  SignupUserRequest,
+  "goal" | "gender" | "weight" | "height" | "age" | "activityLevel"
+>;
 
 interface User {
   id: number;
@@ -22,11 +19,11 @@ interface UserState {
   token: string | null;
   isProfileComplete: boolean;
   signupData: SignupData | null;
+  setSignupData: (data: SignupData) => void;
   user: User | null;
+  setUser: (user: User) => void;
   setToken: (token: string) => void;
   setProfileComplete: (complete: boolean) => void;
-  setSignupData: (data: SignupData) => void;
-  setUser: (user: User) => void;
   reset: () => void;
 }
 

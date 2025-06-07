@@ -11,6 +11,8 @@ import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
 import Calisthenics from "./features/user/pages/calisthenics/Calisthenics";
 import FoodHistory from "./features/user/pages/food-history/pages/FoodHistory";
 import AddEditMeal from "./features/user/pages/food-history/pages/add-edit-meal/AddEditMeal";
+import WeeklyMeals from "./features/user/pages/food-history/pages/weekly-meals/WeeklyMeals";
+import FoodForm from "./features/user/pages/foods/components/food-form/FoodForm";
 import Foods from "./features/user/pages/foods/pages/Foods";
 import MainDashboard from "./features/user/pages/main-dashboard/MainDashboard";
 import Notifications from "./features/user/pages/notifications/Notifications";
@@ -27,7 +29,6 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
-import FoodForm from "./features/user/pages/foods/components/food-form/FoodForm";
 
 function App() {
   return (
@@ -138,6 +139,10 @@ function App() {
           <Route
             path="food-history"
             element={<FoodHistory />}
+          />
+          <Route
+            path="food-history/weekly"
+            element={<WeeklyMeals />}
           />
           <Route
             path="food-history/add"

@@ -8,8 +8,8 @@ import {
 } from "@/shared/ui/dialog";
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { CalculatorIcon, Grid2x2, List, Timer } from "lucide-react";
-import { useState, useEffect } from 'react';
-import { useGoalStore } from "../../store/goalStore";
+import { useEffect, useState } from "react";
+import { useGoalStore } from "../../../../store/overview/goalStore";
 
 const targetsData = [
   {

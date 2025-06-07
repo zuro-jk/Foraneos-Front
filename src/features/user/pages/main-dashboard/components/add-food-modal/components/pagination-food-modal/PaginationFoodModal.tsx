@@ -1,4 +1,4 @@
-import type { FoodResponse } from "@/features/user/pages/foods/dto/response/foodResponse";
+import type { FoodResponse } from "@/features/user/dto/response/food/foodResponse";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationFoodModalProps {

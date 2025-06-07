@@ -11,7 +11,7 @@ import { useState } from "react";
 import {
   useScheduleStore,
   type CalendarEvent,
-} from "../../store/useScheduleStore";
+} from "../../../../store/calendar/useScheduleStore";
 import DraggableEvent from "../draggable-event/DraggableEvent";
 import DroppableMonthCell from "../droppable-month-cell/DroppableMonthCell";
 import FormEventDialog from "../form-event-dialog/FormEventDialog";

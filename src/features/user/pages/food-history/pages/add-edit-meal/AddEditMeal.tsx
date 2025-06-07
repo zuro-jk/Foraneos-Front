@@ -1,4 +1,10 @@
 import { useUserStore } from "@/features/auth/store/userStore";
+import {
+  useAddMealByUserIdWithFoods,
+  useGetFoodsFromUser,
+  useGetMealById,
+  useUpdateMealById,
+} from "@/features/user/hooks/foods/useFoods";
 import { Button } from "@/shared/ui/button";
 import {
   Form,
@@ -10,23 +16,29 @@ import {
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import type { FoodResponse } from "../../../foods/dto/response/foodResponse";
-import { useGetFoodsFromUser } from "../../../foods/hooks/useFoods";
-import { mealSchema, type MealFormValues } from "../../types/mealFormType";
+import { toast } from "react-toastify";
+import {
+  mealSchema,
+  type MealFormValues,
+} from "../../../../types/meal/mealFormType";
 
 const AddEditMeal = () => {
   const { mealId } = useParams();
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
-  const [selectedFoods, setSelectedFoods] = useState<FoodResponse[]>([]);
 
   const { user } = useUserStore();
-  const { data: foodsFromUser } = useGetFoodsFromUser();
+  const { data: foodsFromUser } = useGetFoodsFromUser(search);
+  const { data: meal } = useGetMealById(
+    Number(mealId && !isNaN(Number(mealId)) ? mealId : undefined)
+  );
+  const { mutate: addMeal } = useAddMealByUserIdWithFoods();
+  const { mutate: updateMeal } = useUpdateMealById();
 
   const form = useForm<MealFormValues>({
     resolver: zodResolver(mealSchema),
@@ -40,29 +52,44 @@ const AddEditMeal = () => {
 
   useEffect(() => {
     if (mealId) {
-      console.log(mealId);
+      form.setValue("name", meal?.name || "");
+      form.setValue("foodIds", meal?.foods.map((food) => food.id) || []);
     }
-  }, [mealId]);
+  }, [meal, mealId, form]);
 
-  // Agregar alimento
-  const handleAddFood = (food: FoodResponse) => {
-    if (!selectedFoods.some((f) => f.id === food.id)) {
-      setSelectedFoods((prev) => [...prev, food]);
-      form.setValue("foodIds", [...form.getValues("foodIds"), food.id]);
-    }
-  };
-
-  // Quitar alimento
-  const handleRemoveFood = (id: number) => {
-    setSelectedFoods((prev) => prev.filter((f) => f.id !== id));
-    form.setValue(
-      "foodIds",
-      form.getValues("foodIds").filter((fid) => fid !== id)
-    );
-  };
+  const selectedFoodsIds = form.watch("foodIds");
+  const selectedFoods =
+    foodsFromUser?.filter((food) => selectedFoodsIds.includes(food.id)) || [];
+  console.log(foodsFromUser);
 
   const onSubmit = (data: MealFormValues) => {
-    console.log(data);
+    if (mealId) {
+      updateMeal(
+        {
+          mealId: Number(mealId),
+          data,
+        },
+        {
+          onSuccess: () => {
+            toast("Comida actualizada exitosamente");
+            navigate("/user/food-history");
+          },
+          onError: (error) => {
+            toast.error("Error al actualizar la comida: " + error.message);
+          },
+        }
+      );
+      return;
+    }
+    addMeal(data, {
+      onSuccess: () => {
+        toast("Comida guardada exitosamente");
+        navigate("/user/food-history");
+      },
+      onError: (error) => {
+        toast.error("Error al guardar la comida: " + error.message);
+      },
+    });
   };
 
   return (
@@ -107,44 +134,6 @@ const AddEditMeal = () => {
                   )}
                 />
               </div>
-              {/* <div className="flex flex-col gap-2">
-                <FormField
-                  control={form.control}
-                  name="emoji"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Icono o emoji</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Ej: 🍽️"
-                          maxLength={2}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-semibold text-gray-600">
-                  Imagen (opcional)
-                </label>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center border border-dashed border-gray-300">
-                    <ImagePlus
-                      className="text-gray-400"
-                      size={28}
-                    />
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                  >
-                    Subir imagen
-                  </Button>
-                </div>
-              </div> */}
             </div>
 
             {/* Columna 2: Selección de alimentos */}
@@ -166,74 +155,49 @@ const AddEditMeal = () => {
               <div className="bg-gray-50 rounded-lg shadow p-2 mt-2">
                 <span className="text-gray-500 text-xs mb-1">
                   Alimentos disponibles:
-                </span>
-                {foodsFromUser
-                  ?.filter(
-                    (food) => !selectedFoods.some((f) => f.id === food.id)
-                  )
-                  .map((food) => (
-                    <div
-                      key={food.id}
-                      className="flex items-center justify-between p-2 hover:bg-green-100 rounded cursor-pointer"
-                      onClick={() => handleAddFood(food)}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={food.imagePath}
-                          alt={food.name}
-                          className="w-8 h-8 rounded object-cover border"
-                        />
+                  {foodsFromUser
+                    ?.filter((food) => !selectedFoodsIds.includes(food.id))
+                    .map((food) => (
+                      <div
+                        key={food.id}
+                        className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          form.setValue("foodIds", [
+                            ...form.getValues("foodIds"),
+                            food.id,
+                          ]);
+                        }}
+                      >
                         <span>{food.name}</span>
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full ml-2">
-                          {food.calories} cal
+                        <span className="text-gray-400 text-xs">
+                          {food.calories} kcal
                         </span>
                       </div>
-                      <Plus size={16} />
-                    </div>
-                  ))}
+                    ))}
+                </span>
               </div>
               <div className="flex flex-col gap-3 mt-4">
                 <span className="text-gray-500 text-xs mb-1">
                   Alimentos añadidos:
-                </span>
-                {selectedFoods.length > 0 ? (
-                  selectedFoods.map((food) => (
+                  {selectedFoods.map((food) => (
                     <div
                       key={food.id}
-                      className="flex items-center justify-between bg-green-50 rounded-lg p-3 shadow-sm"
+                      className="flex items-center justify-between p-2 bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
+                      onClick={() => {
+                        const currentFoodIds = form.getValues("foodIds");
+                        form.setValue(
+                          "foodIds",
+                          currentFoodIds.filter((id) => id !== food.id)
+                        );
+                      }}
                     >
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={food.imagePath}
-                          alt={food.name}
-                          className="w-10 h-10 rounded object-cover border"
-                        />
-                        <span className="font-semibold">{food.name}</span>
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full ml-2">
-                          {food.calories} cal
-                        </span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-red-500 hover:bg-red-100"
-                        type="button"
-                        onClick={() => handleRemoveFood(food.id)}
-                      >
-                        ×
-                      </Button>
+                      <span>{food.name}</span>
+                      <span className="text-gray-400 text-xs">
+                        {food.calories} kcal
+                      </span>
                     </div>
-                  ))
-                ) : (
-                  <div className="flex items-center justify-between bg-green-50 rounded-lg p-3 shadow-sm opacity-60">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-gray-200 flex items-center justify-center text-gray-400">
-                        ?
-                      </div>
-                      <span className="font-semibold">Añade más alimentos</span>
-                    </div>
-                  </div>
-                )}
+                  ))}
+                </span>
               </div>
             </div>
 
@@ -264,7 +228,7 @@ const AddEditMeal = () => {
                 </div>
               </div>
               <Button
-                className="mt-6 w-full py-3 text-lg font-bold"
+                className="mt-6 w-full py-3 text-lg font-bold cursor-pointer"
                 variant="default"
                 type="submit"
               >

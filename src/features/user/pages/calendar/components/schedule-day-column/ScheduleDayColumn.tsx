@@ -1,7 +1,7 @@
+import { getPlacedEvents } from "@/features/user/utils/calendarUtils";
 import { useDroppable } from "@dnd-kit/core";
+import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 import DraggableEvent from "../../components/draggable-event/DraggableEvent";
-import type { CalendarEvent } from "../../store/useScheduleStore";
-import { getPlacedEvents } from "../../utils/calendarUtils";
 
 type Props = {
   dayIdx: number;

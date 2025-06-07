@@ -1,3 +1,4 @@
+import { useGetFoods } from "@/features/user/hooks/foods/useFoods";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {
@@ -9,52 +10,40 @@ import {
   DialogTrigger,
 } from "@/shared/ui/dialog";
 import { Input } from "@/shared/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/shared/ui/pagination";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import CardRecipe from "../../components/card-recipe/CardRecipe";
-import { useRecipes } from "../../hooks/useRecipe";
 import ErrorRecipes from "./components/ErrorRecipes";
 import LoadingRecipes from "./components/LoadingRecipes";
 
+const TABS = [
+  { key: "DESAYUNO", label: "Desayuno" },
+  { key: "ALMUERZO", label: "Almuerzo" },
+  { key: "CENA", label: "Cena" },
+];
+
 const Recipes = () => {
-  const { data: recipes, isLoading, isError } = useRecipes();
-
-  const [activeTab, setActiveTab] = useState<"desayuno" | "almuerzo" | "cena">(
-    "desayuno"
-  );
-  const [page, setPage] = useState(1);
-  const [newIngredient, setNewIngredient] = useState({
-    name: "",
-    type: "",
-    amount: "",
-  });
-  const [showIngredientModal, setShowIngredientModal] = useState(false);
-  const [userIngredients, setUserIngredients] = useState<
-    { name: string; type: string; amount: string }[]
-  >([]);
-
-  const handleAddIngredient = () => {
-    if (newIngredient.name && newIngredient.type && newIngredient.amount) {
-      setUserIngredients((prev) => [...prev, newIngredient]);
-      setNewIngredient({ name: "", type: "", amount: "" });
-      setShowIngredientModal(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState(TABS[0].key);
+  const { data: recipes, isLoading, isError } = useGetFoods();
 
   if (isLoading) return <LoadingRecipes />;
   if (isError) return <ErrorRecipes />;
 
-  const CARDS_PER_PAGE = 6;
-  const filteredRecipes = recipes?.filter((r) => r.mealType === activeTab) ?? [];
-  const totalPages = Math.ceil(filteredRecipes.length / CARDS_PER_PAGE);
-  const paginatedRecipes = filteredRecipes.slice(
-    (page - 1) * CARDS_PER_PAGE,
-    page * CARDS_PER_PAGE
-  );
+  const filteredRecipes =
+    recipes?.filter((recipe) => recipe.mealType === activeTab) || [];
 
   return (
     <div className="bg-[url('/images/recipes/fondo.jpg')] bg-cover bg-no-repeat bg-center h-full">
-      <div className="container py-4 mx-auto">
+      <div className="container p-4 mx-auto">
         <div className="flex flex-col gap-8">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-9 ">
             <div className="flex flex-col col-span-7 gap-4 p-4 rounded drop-shadow bg-white/70 backdrop-blur-[70px]">
@@ -75,98 +64,62 @@ const Recipes = () => {
               </div>
 
               <div className="grid grid-cols-3 px-2 py-1 bg-[#71CE6F] rounded">
-                <button
-                  className={`flex justify-center items-center flex-1 cursor-pointer transition-colors ${
-                    activeTab === "desayuno" ? "bg-white rounded" : ""
-                  }`}
-                  onClick={() => setActiveTab("desayuno")}
-                  type="button"
-                >
-                  <span>Desayuno</span>
-                </button>
-                <button
-                  className={`flex justify-center items-center flex-1 py-1 cursor-pointer ease-in-out duration-200 transition-colors ${
-                    activeTab === "almuerzo" ? "bg-white rounded" : ""
-                  }`}
-                  onClick={() => setActiveTab("almuerzo")}
-                  type="button"
-                >
-                  <span>Almuerzo</span>
-                </button>
-                <button
-                  className={`flex justify-center items-center cursor-pointer transition-colors ${
-                    activeTab === "cena" ? "bg-white rounded" : ""
-                  }`}
-                  onClick={() => setActiveTab("cena")}
-                  type="button"
-                >
-                  <span>Cena</span>
-                </button>
+                {TABS.map((tab) => (
+                  <button
+                    key={tab.key}
+                    className={`flex justify-center items-center flex-1 cursor-pointer transition-colors ${
+                      activeTab === tab.key ? "bg-white rounded" : ""
+                    }`}
+                    onClick={() => setActiveTab(tab.key)}
+                    type="button"
+                  >
+                    <span>{tab.label}</span>
+                  </button>
+                ))}
               </div>
+
               <div className="bg-transparent rounded-b min-h-[80px]">
-                {activeTab === "desayuno" && (
-                  <div className="grid grid-cols-3 gap-4">
-                    {paginatedRecipes.map((recipe) => (
-                      <CardRecipe
-                        key={recipe.id}
-                        title={recipe.name}
-                        time={"5 min"}
-                        kcal={recipe.calories}
-                        protein={recipe.protein}
-                        carbs={recipe.carbs}
-                        fats={recipe.fat}
-                      />
-                    ))}
-                  </div>
-                )}
-                {activeTab === "almuerzo" && (
-                  <div className="grid grid-cols-3 gap-4">
-                    {paginatedRecipes.map((recipe) => (
-                      <CardRecipe
-                        key={recipe.id}
-                        title={recipe.name}
-                        time={"5 min"}
-                        kcal={recipe.calories}
-                        protein={recipe.protein}
-                        carbs={recipe.carbs}
-                        fats={recipe.fat}
-                      />
-                    ))}
-                  </div>
-                )}
-                {activeTab === "cena" && (
-                  <div className="grid grid-cols-3 gap-4">
-                    {paginatedRecipes.map((recipe) => (
-                      <CardRecipe
-                        key={recipe.id}
-                        title={recipe.name}
-                        time={"5 min"}
-                        kcal={recipe.calories}
-                        protein={recipe.protein}
-                        carbs={recipe.carbs}
-                        fats={recipe.fat}
-                      />
-                    ))}
-                  </div>
-                )}
+                <div className="grid grid-cols-3 gap-4">
+                  {filteredRecipes.length === 0 && (
+                    <span className="col-span-3 text-center text-gray-400">
+                      No hay recetas para este tipo de comida.
+                    </span>
+                  )}
+                  {filteredRecipes.map((recipe) => (
+                    <CardRecipe
+                      key={recipe.id}
+                      id={recipe.id}
+                      title={recipe.name}
+                      time={
+                        recipe.preparationSteps?.length
+                          ? `${recipe.preparationSteps.length * 5} min`
+                          : "5 min"
+                      }
+                      kcal={recipe.calories}
+                      protein={recipe.protein}
+                      carbs={recipe.carbs}
+                      fats={recipe.fat}
+                      // Puedes pasar más props según tu CardRecipe
+                    />
+                  ))}
+                </div>
                 <div className="flex justify-center gap-2 mt-4">
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                  >
-                    Anterior
-                  </button>
-                  <span className="px-2 py-1">
-                    {page} / {totalPages}
-                  </span>
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                  >
-                    Siguiente
-                  </button>
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious href="#" />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink href="#">1</PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationNext href="#" />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
                 </div>
               </div>
             </div>
@@ -230,23 +183,20 @@ const Recipes = () => {
                   Condimentos
                 </Badge>
               </div>
-              {userIngredients.map((ing, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25"
-                >
-                  <div className="flex flex-col">
-                    <span className="font-bold">{ing.name}</span>
-                    <span className="text-xs font-extralight">{ing.type}</span>
-                  </div>
-                  <span>{ing.amount}</span>
+              <div className="flex items-center justify-between p-2 bg-white rounded-[7px] drop-shadow/25">
+                <div className="flex flex-col">
+                  <span className="font-bold">Pollo a la plancha</span>
+                  <span className="text-xs font-extralight">Proteina</span>
                 </div>
-              ))}
+                <span>
+                  <span className="text-xs font-extralight">2 unidades</span>
+                  <span className="text-xs font-extralight text-gray-500">
+                    (200g)
+                  </span>
+                </span>
+              </div>
 
-              <Dialog
-                open={showIngredientModal}
-                onOpenChange={setShowIngredientModal}
-              >
+              <Dialog>
                 <DialogTrigger asChild>
                   <Button className="cursor-pointer shadow/25">
                     <PlusCircle className="w-4 h-4 " />
@@ -260,42 +210,20 @@ const Recipes = () => {
                   <div className="flex flex-col gap-3">
                     <Input
                       placeholder="Nombre"
-                      value={newIngredient.name}
-                      onChange={(e) =>
-                        setNewIngredient({
-                          ...newIngredient,
-                          name: e.target.value,
-                        })
-                      }
+                      value={""}
                     />
-                    <Input
-                      placeholder="Tipo (ej: Proteina)"
-                      value={newIngredient.type}
-                      onChange={(e) =>
-                        setNewIngredient({
-                          ...newIngredient,
-                          type: e.target.value,
-                        })
-                      }
-                    />
-                    <Input
-                      placeholder="Cantidad (ej: 2 unidades)"
-                      value={newIngredient.amount}
-                      onChange={(e) =>
-                        setNewIngredient({
-                          ...newIngredient,
-                          amount: e.target.value,
-                        })
-                      }
-                    />
+                    <Input placeholder="Tipo (ej: Proteina)" />
+                    <Input placeholder="Cantidad (ej: 2 unidades)" />
                   </div>
                   <DialogFooter>
-                    <Button onClick={handleAddIngredient}>Guardar</Button>
+                    <Button>Guardar</Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
             </div>
           </div>
+
+          {/* <Foods /> */}
         </div>
       </div>
     </div>

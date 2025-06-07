@@ -12,21 +12,8 @@ import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
 import { useUserStore } from "../../store/userStore";
-
-const signupSchema = z.object({
-  firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  lastName: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
-  username: z.string().min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
-  email: z.string().email("El correo no es válido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-  terms: z.boolean().refine((val) => val === true, {
-    message: "Debes aceptar los términos y condiciones",
-  }),
-});
-
-type SignupValues = z.infer<typeof signupSchema>;
+import { signupSchema, type SignupValues } from "../../types/signupSchema";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -39,7 +26,7 @@ const Signup = () => {
       username: "",
       email: "",
       password: "",
-      terms: false,
+      termsAccepted: false,
     },
   });
 
@@ -220,18 +207,18 @@ const Signup = () => {
 
               <FormField
                 control={form.control}
-                name="terms"
+                name="termsAccepted"
                 render={({ field }) => (
                   <FormItem className="flex flex-col justify-center gap-2">
                     <div className="flex gap-2">
                       <FormControl>
                         <Checkbox
-                          id="terms"
+                          id="termsAccepted"
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel htmlFor="terms">
+                      <FormLabel htmlFor="termsAccepted">
                         Términos y condiciones
                       </FormLabel>
                     </div>

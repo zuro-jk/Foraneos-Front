@@ -10,7 +10,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { Grid2x2, List } from "lucide-react";
 import { useState } from "react";
-import { useExerciseStore } from "../../store/exerciseStore";
+import { useExerciseStore } from "../../../../store/overview/exerciseStore";
 
 interface AddExerciseModalProps {
   open: boolean;

@@ -1,3 +1,4 @@
+import { useGetFoodsFromUser } from "@/features/user/hooks/foods/useFoods";
 import { Badge } from "@/shared/ui/badge";
 import {
   Dialog,
@@ -9,10 +10,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { Grid2x2, List, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { FoodResponse } from "../../../foods/dto/response/foodResponse";
-import { useGetFoodsFromUser } from "../../../foods/hooks/useFoods";
-import { useFoodStore } from "../../store/foodStore";
-import type { Food } from "../../types/food";
+import type { FoodResponse } from "../../../../dto/response/food/foodResponse";
+import { useFoodStore } from "../../../../store/overview/foodStore";
 import CardFoodModalGrid from "./components/card-food-modal-grid/CardFoodModalGrid";
 import CardFoodModalList from "./components/card-food-modal-list/CardFoodModalList";
 import PaginationFoodModal from "./components/pagination-food-modal/PaginationFoodModal";
@@ -20,7 +19,7 @@ import PaginationFoodModal from "./components/pagination-food-modal/PaginationFo
 interface AddFoodModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  removeFoodEverywhere: (food: Food) => void;
+  removeFoodEverywhere: (food: FoodResponse) => void;
 }
 
 const AddFoodModal = ({

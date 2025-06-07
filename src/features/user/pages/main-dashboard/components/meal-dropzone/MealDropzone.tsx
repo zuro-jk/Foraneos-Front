@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { Plus } from "lucide-react";
-import type { Food, Meal } from "../../types/food";
+import type { Food, Meal } from "../../../../types/foods/food";
 import DraggableFood from "../draggable-food/DraggableFood";
 
 interface MealDropzoneProps {

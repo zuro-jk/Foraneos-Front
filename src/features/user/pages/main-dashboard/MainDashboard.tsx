@@ -13,17 +13,16 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
-import {
-  ArrowUpRight,
-  BarChart,
-  ChevronDown,
-  Clock,
-  Heart,
-  List,
-  Plus,
-  Siren,
-} from "lucide-react";
+import { List, Plus } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { FoodResponse } from "../../dto/response/food/foodResponse";
+import { useGetSummaryByUserAuth } from "../../hooks/summary/useSummary";
+import { useExerciseStore } from "../../store/overview/exerciseStore";
+import { useFoodStore } from "../../store/overview/foodStore";
+import { useGoalStore } from "../../store/overview/goalStore";
+import type { Meal } from "../../types/foods/food";
+import { buildInformationActivity } from "../../utils/summary";
 import AddExerciseModal from "./components/add-exercise-modal/AddExerciseModal";
 import AddFoodModal from "./components/add-food-modal/AddFoodModal";
 import AddGoalModal from "./components/add-goal-modal/AddGoalModal";
@@ -33,54 +32,6 @@ import ChartMacronutrients from "./components/chart-activity/ChartMacronutrients
 import ChartTotalCalories from "./components/chart-activity/ChartTotalCalories";
 import DraggableFood from "./components/draggable-food/DraggableFood";
 import MealDropzone from "./components/meal-dropzone/MealDropzone";
-import { useExerciseStore } from "./store/exerciseStore";
-import { useFoodStore } from "./store/foodStore";
-import { useGoalStore } from "./store/goalStore";
-import type { Food, Meal } from "./types/food";
-import { useNavigate } from "react-router-dom";
-
-const informationActivity = [
-  {
-    icon: Siren,
-    iconColor: "transparent",
-    backgroundColor: "transparent",
-    title: "Calorías",
-    value: "2,000",
-    percentage: "12% más que ayer",
-    percentageIcon: ArrowUpRight,
-    percentageColor: "text-green-600",
-  },
-  {
-    icon: Heart,
-    iconColor: "text-blue-600",
-    backgroundColor: "bg-blue-200",
-    title: "Ingesta de proteinas",
-    value: "82g",
-    percentage: "8% sobre el objetivo",
-    percentageIcon: ArrowUpRight,
-    percentageColor: "text-green-600",
-  },
-  {
-    icon: Clock,
-    iconColor: "text-pink-600",
-    backgroundColor: "bg-pink-200",
-    title: "Recuento de comidas",
-    value: "4/5",
-    percentage: "En camino",
-    percentageIcon: ArrowUpRight,
-    percentageColor: "text-yellow-600",
-  },
-  {
-    icon: BarChart,
-    iconColor: "text-purple-600",
-    backgroundColor: "bg-purple-200",
-    title: "Ingesta de agua",
-    value: "1.8L",
-    percentage: "0.7L restantes",
-    percentageIcon: ChevronDown,
-    percentageColor: "text-red-600",
-  },
-];
 
 const dataMeals = [
   { id: 1, title: "Desayuno", foods: [] },
@@ -97,11 +48,14 @@ interface modalState {
 // TODO ordenamiento de meals para que prefiera cual va primero
 
 const MainDashboard = () => {
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = useState<modalState["type"] | null>(null);
   const { selectedFoods, removeFood } = useFoodStore();
   const { selectedExercises } = useExerciseStore();
   const { selectedGoals } = useGoalStore();
-  const navigate = useNavigate();
+
+  const { data: informationActivityData } = useGetSummaryByUserAuth();
+  const informationActivity = buildInformationActivity(informationActivityData);
 
   const [meals, setMeals] = useState<Meal[]>(dataMeals);
   const [newMealTitle, setNewMealTitle] = useState("");
@@ -120,7 +74,7 @@ const MainDashboard = () => {
     );
   };
 
-  const handleRemoveFoodEverywhere = (food: Food) => {
+  const handleRemoveFoodEverywhere = (food: FoodResponse) => {
     // Quita de selectedFoods
     removeFood(food);
     // Quita de todos los meals

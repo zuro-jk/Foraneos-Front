@@ -1,11 +1,11 @@
+import type { FoodResponse } from "@/features/user/dto/response/food/foodResponse";
 import { cn } from "@/lib/utils";
 import { useDraggable } from "@dnd-kit/core";
 import { X } from "lucide-react";
-import type { Food } from "../../types/food";
 
 interface DraggableFoodProps {
-  food: Food;
-  removeFood: (food: Food) => void;
+  food: FoodResponse;
+  removeFood: (food: FoodResponse) => void;
 }
 
 const DraggableFood = ({ food, removeFood }: DraggableFoodProps) => {

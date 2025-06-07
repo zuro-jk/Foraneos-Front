@@ -1,37 +1,27 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getMe, loginApi } from "../api/authApi";
+import { getMe, loginApi, signupApi } from "../api/authApi";
+import type {
+  LoginUserRequest,
+  SignupUserRequest,
+} from "../dto/request/authUserRequest";
+import type { UserProfileResponse } from "../dto/response/userProfileResponse";
 
-export interface UserProfileResponse {
-  id: number;
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  weight: number;
-  height: number;
-  age: number;
-  gender: string; // O puedes definir un enum Gender si lo necesitas
-  activityLevel: string;
-  goal: string;
-  dietaryRestrictions: string;
+export function useAuthLogin() {
+  return useMutation({
+    mutationFn: (loginUser: LoginUserRequest) => loginApi(loginUser),
+  });
 }
 
-export function useLogin() {
+export function useAuthSignup() {
   return useMutation({
-    mutationFn: ({
-      username,
-      password,
-    }: {
-      username: string;
-      password: string;
-    }) => loginApi(username, password),
+    mutationFn: (signupUser: SignupUserRequest) => signupApi(signupUser),
   });
 }
 
 export function useMe(token?: string) {
   return useQuery<UserProfileResponse>({
     queryKey: ["me"],
-    queryFn: () => getMe().then((res) => res.data as UserProfileResponse),
+    queryFn: getMe,
     enabled: !!token,
   });
 }

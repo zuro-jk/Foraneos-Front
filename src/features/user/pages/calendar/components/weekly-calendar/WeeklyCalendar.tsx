@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { DndContext, DragOverlay, type DragEndEvent } from "@dnd-kit/core";
-import type { CalendarEvent } from "../../store/useScheduleStore";
+import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 import DraggableEvent from "../draggable-event/DraggableEvent";
 import ScheduleDayColumn from "../schedule-day-column/ScheduleDayColumn";
 import ScheduleDaysHeader from "../schedule-days-header/ScheduleDaysHeader";
@@ -26,7 +26,6 @@ const WeeklyCalendar = ({
   setActiveEvent,
   handleDragEnd,
 }: WeeklyCalendarProps) => {
-  
   return (
     <>
       {/* Encabezado */}
@@ -71,11 +70,7 @@ const WeeklyCalendar = ({
             })}
           </div>
           <DragOverlay>
-            {activeEvent && (
-              <DraggableEvent
-                {...activeEvent}
-              />
-            )}
+            {activeEvent && <DraggableEvent {...activeEvent} />}
           </DragOverlay>
         </DndContext>
       </ScrollArea>

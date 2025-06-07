@@ -9,7 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import { type JSX } from "react";
-import type { CalendarEvent } from "../../store/useScheduleStore";
+import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 
 const ICONS: Record<string, JSX.Element> = {
   comida: <Calendar className="w-4 h-4" />,
@@ -59,7 +59,6 @@ function DraggableEvent({
     id,
   });
 
-
   if (compact) {
     return (
       <div
@@ -94,7 +93,6 @@ function DraggableEvent({
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-
       className={cn(
         `w-full rounded-[5px] h-full overflow-hidden ${CATEGORY_COLORS[category]}`,
         isDragging ? "cursor-grabbing opacity-70" : "cursor-grab"

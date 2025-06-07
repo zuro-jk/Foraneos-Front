@@ -1,6 +1,6 @@
+import type { FoodResponse } from "@/features/user/dto/response/food/foodResponse";
 import { Badge } from "@/shared/ui/badge";
 import { Checkbox } from "@/shared/ui/checkbox";
-import type { FoodResponse } from "@/features/user/pages/foods/dto/response/foodResponse";
 
 interface CardModalListProps {
   food: FoodResponse;
@@ -26,11 +26,7 @@ const CardFoodModalList = ({
         className={`
         w-full flex items-center gap-3 p-3 rounded-lg border transition
         text-left shadow-sm drop-shadow-lg cursor-pointer
-        ${
-          checked
-            ? "bg-green-100"
-            : "bg-white"
-        }
+        ${checked ? "bg-green-100" : "bg-white"}
       `}
       >
         <Checkbox

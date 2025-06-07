@@ -25,18 +25,19 @@ import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import {
   useAddFoodFromUser,
   useGetCategoriesOfFoods,
   useGetFoodById,
   useGetUnitsOfFoods,
   useUpdateFoodFromUser,
-} from "../../hooks/useFoods";
+} from "@/features/user/hooks/foods/useFoods";
 import {
   foodFormDefaultValues,
   foodFormSchema,
   type FoodFormValues,
-} from "../../types/foodFormType";
+} from "../../../../types/foods/foodFormType";
 
 const FoodForm = () => {
   const { foodId } = useParams();
