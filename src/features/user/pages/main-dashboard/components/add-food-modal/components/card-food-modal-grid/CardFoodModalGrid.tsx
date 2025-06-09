@@ -23,7 +23,7 @@ const CardFoodModalGrid = ({
       }`}
     >
       <img
-        src="/images/recipes/receta-1.png"
+        src={food.imagePath}
         alt="Comida"
         className="w-full h-24 object-cover rounded mb-2"
       />
@@ -32,16 +32,16 @@ const CardFoodModalGrid = ({
         <p className="line-clamp-2 text-xs text-gray-600">{food.description}</p>
         <ul className="flex flex-wrap mt-2">
           <li className="text-xs">
-            <Badge variant="outline">Calorias | 515</Badge>
+            <Badge variant="outline">Calorias | {food.calories}</Badge>
           </li>
           <li className="text-xs">
-            <Badge variant="outline">Proteinas | 30g</Badge>
+            <Badge variant="outline">Proteinas | {food.protein}g</Badge>
           </li>
           <li className="text-xs">
-            <Badge variant="outline">Carbohidratos | 60g</Badge>
+            <Badge variant="outline">Carbohidratos | {food.carbs}g</Badge>
           </li>
           <li className="text-xs">
-            <Badge variant="outline">Grasa | 20g</Badge>
+            <Badge variant="outline">Grasa | {food.fat}g</Badge>
           </li>
         </ul>
       </div>

@@ -17,7 +17,8 @@ import { List, Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { FoodResponse } from "../../dto/response/food/foodResponse";
-import { useGetSummaryByUserAuth } from "../../hooks/summary/useSummary";
+import { useGetDailyCaloriesByUserAuthenticated } from "../../hooks/foods/useFoods";
+import { useGetSummaryByUserAuthByPeriod } from "../../hooks/summary/useSummary";
 import { useExerciseStore } from "../../store/overview/exerciseStore";
 import { useFoodStore } from "../../store/overview/foodStore";
 import { useGoalStore } from "../../store/overview/goalStore";
@@ -56,8 +57,12 @@ const MainDashboard = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { selectedGoals } = useGoalStore();
 
-  const { data: informationActivityData } = useGetSummaryByUserAuth();
+  const { data: informationActivityData } = useGetSummaryByUserAuthByPeriod();
+  const { data: dailyCalories } = useGetDailyCaloriesByUserAuthenticated();
   const informationActivity = buildInformationActivity(informationActivityData);
+  const totalWeeklyCalories = dailyCalories
+    ? dailyCalories.reduce((acc, curr) => acc + curr.totalCalories, 0)
+    : 0;
 
   const [meals, setMeals] = useState<Meal[]>(dataMeals);
   const [newMealTitle, setNewMealTitle] = useState("");
@@ -366,19 +371,25 @@ const MainDashboard = () => {
               Consumo semanal de calorías
             </span>
             <div className="flex flex-col items-center justify-center">
-              <ChartTotalCalories />
+              <ChartTotalCalories text={totalWeeklyCalories} />
             </div>
           </div>
           <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
             <span className="text-lg font-bold">Total de calorías</span>
-            <ChartCalories />
+            <ChartCalories calories={dailyCalories!} />
           </div>
 
           <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
             <span className="text-lg font-bold">
               Distribución de macronutrientes
             </span>
-            <ChartMacronutrients />
+            <ChartMacronutrients
+              carbsPercentage={informationActivityData?.carbsPercentage || 0}
+              proteinPercentage={
+                informationActivityData?.proteinPercentage || 0
+              }
+              fatsPercentage={informationActivityData?.fatsPercentage || 0}
+            />
           </div>
         </div>
       </div>

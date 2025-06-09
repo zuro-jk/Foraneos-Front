@@ -1,3 +1,4 @@
+import type { DailyCaloriesResponse } from "@/features/user/dto/response/meal/MealResponse";
 import { useTheme } from "@/shared/theme-provider/useTheme";
 import {
   ChartContainer,
@@ -5,18 +6,10 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/shared/ui/chart";
+import { format, parseISO } from "date-fns";
 import { Calendar } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-const chartData = [
-  { day: "Monday", calories: 2100 },
-  { day: "Tuesday", calories: 1950 },
-  { day: "Wednesday", calories: 2300 },
-  { day: "Thursday", calories: 2000 },
-  { day: "Friday", calories: 2200 },
-  { day: "Saturday", calories: 1800 },
-  { day: "Sunday", calories: 2400 },
-];
 
 const chartConfig = {
   day: {
@@ -33,8 +26,33 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const ChartCalories = () => {
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+interface ChartCaloriesProps {
+  calories: DailyCaloriesResponse[];
+}
+
+const ChartCalories = ({ calories }: ChartCaloriesProps) => {
   const { theme } = useTheme();
+
+  const chartData = daysOfWeek.map((day) => {
+    const entry = calories?.find(
+      (calorieEntry) => format(parseISO(calorieEntry.date), "EEEE") === day
+    );
+    return {
+      day,
+      calories: entry ? entry.totalCalories : 0,
+    };
+  });
+
 
   const barColor =
     chartConfig.calories.theme[

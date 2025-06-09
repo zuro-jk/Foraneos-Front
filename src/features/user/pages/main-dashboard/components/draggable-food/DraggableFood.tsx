@@ -17,23 +17,22 @@ const DraggableFood = ({ food, removeFood }: DraggableFoodProps) => {
     <div
       key={food.id}
       className={cn(
-        "flex flex-col gap-2 bg-white shadow drop-shadow-xl h-fit w-full rounded cursor-move relative",
+        "flex flex-col gap-1 bg-white shadow drop-shadow-xl h-fit w-full rounded cursor-move relative",
         isDragging ? "opacity-60" : ""
       )}
       ref={setNodeRef}
       {...attributes}
       {...listeners}
     >
-      <img
-        src="/images/recipes/receta-1.png"
-        alt="Comida"
-        className="w-full h-24 object-cover"
-      />
+      <div className="w-full h-20 relative">
+        <img
+          src={food.imagePath}
+          alt="Comida"
+          className="w-full h-full object-cover"
+        />
+      </div>
       <div className="flex flex-col items-start p-2">
-        <span className="font-bold">{food.name}</span>
-        <span className="text-gray-500 text-xs text-justify line-clamp-2">
-          {food.description}
-        </span>
+        <span className="font-bold text-xs">{food.name}</span>
         <button
           onClick={(e) => {
             e.stopPropagation();

@@ -5,6 +5,7 @@ import {
   deleteFoodFromUser,
   deleteMealById,
   getCategoriesOfFoods,
+  getDailyCaloriesByUserAuthenticated,
   getFoodById,
   getFoods,
   getFoodsFromGeneral,
@@ -117,11 +118,23 @@ export function useDeleteMealById() {
   });
 }
 
-export function useGetMealsWeeklyByUser(startDate: Date, endDate: Date) {
+export function useGetMealsWeeklyByUser(startDate?: Date, endDate?: Date) {
   return useQuery({
     queryKey: ["mealsWeekly", startDate, endDate],
     queryFn: () => getMealsWeeklyByUser(startDate, endDate),
-    enabled: !!startDate && !!endDate,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+}
+
+export function useGetDailyCaloriesByUserAuthenticated(
+  startDate?: Date,
+  endDate?: Date
+) {
+  return useQuery({
+    queryKey: ["dailyCalories"],
+    queryFn: () => getDailyCaloriesByUserAuthenticated(startDate, endDate),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: false,

@@ -7,11 +7,6 @@ import {
 } from "@/shared/ui/chart";
 import { Pie, PieChart } from "recharts";
 
-const chartData = [
-  { name: "Proteínas", calories: 30, fill: "#5941F6" },
-  { name: "Carbohidratos", calories: 45, fill: "#45C95E" },
-  { name: "Grasas", calories: 25, fill: "#DD44BC" },
-];
 
 const chartConfig = {
   proteinas: {
@@ -28,7 +23,36 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const ChartMacronutrients = () => {
+interface ChartMacronutrientsProps {
+  proteinPercentage: number;
+  carbsPercentage: number;
+  fatsPercentage: number;
+}
+
+const ChartMacronutrients = ({
+  proteinPercentage,
+  carbsPercentage,
+  fatsPercentage,
+}: ChartMacronutrientsProps) => {
+
+  const chartData = [
+    {
+      name: "Proteínas",
+      calories: proteinPercentage,
+      fill: chartConfig.proteinas.color,
+    },
+    {
+      name: "Carbohidratos",
+      calories: carbsPercentage,
+      fill: chartConfig.carbohidratos.color,
+    },
+    {
+      name: "Grasas",
+      calories: fatsPercentage,
+      fill: chartConfig.grasas.color,
+    },
+  ];
+
   return (
     <>
       <ChartContainer

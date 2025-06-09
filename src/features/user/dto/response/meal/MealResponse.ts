@@ -18,3 +18,8 @@ export interface MealResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface DailyCaloriesResponse {
+  date: string;
+  totalCalories: number;
+}

@@ -6,7 +6,7 @@ type Props = {
   strokeWidth?: number;
   color?: string;
   bgColor?: string;
-  text?: string;
+  text?: string| number;
   showPercentageText?: boolean;
   className?: string;
 };
@@ -89,7 +89,7 @@ const ChartTotalCalories = ({
             fontWeight="bold"
             fill="#222"
           >
-            {text}
+            {text} cal
           </text>
         </svg>
       </div>

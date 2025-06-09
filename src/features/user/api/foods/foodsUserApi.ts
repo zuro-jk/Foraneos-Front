@@ -1,9 +1,12 @@
 import api from "@/lib/api";
-import { format } from "date-fns";
+import { endOfWeek, format, startOfWeek } from "date-fns";
 import type { FoodPayload } from "../../dto/request/food/foodPayload";
 import type { MealRequest } from "../../dto/request/meal/MealRequest";
 import type { FoodResponse } from "../../dto/response/food/foodResponse";
-import type { MealResponse } from "../../dto/response/meal/MealResponse";
+import type {
+  DailyCaloriesResponse,
+  MealResponse,
+} from "../../dto/response/meal/MealResponse";
 import type { SummaryResponse } from "../../dto/response/summary/SummaryResponse";
 import type { FoodCategory, FoodUnit } from "../../types/foods/foodType";
 
@@ -89,11 +92,18 @@ export const deleteMealById = async (mealId: number) =>
   await api.delete(`/meals/${mealId}`);
 
 export const getMealsWeeklyByUser = async (
-  startDate: Date,
-  endDate: Date
+  startDate?: Date,
+  endDate?: Date
 ): Promise<MealResponse[]> => {
-  const formattedStart = format(startDate, "yyyy-MM-dd'T'00:00:00");
-  const formattedEnd = format(endDate, "yyyy-MM-dd'T'23:59:59");
+  const today = new Date();
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+
+  const start = startDate ?? weekStart;
+  const end = endDate ?? weekEnd;
+
+  const formattedStart = format(start, "yyyy-MM-dd'T'00:00:00");
+  const formattedEnd = format(end, "yyyy-MM-dd'T'23:59:59");
 
   return (
     await api.get(`/meals/user/weekly`, {
@@ -102,5 +112,47 @@ export const getMealsWeeklyByUser = async (
   ).data;
 };
 
+export const getDailyCaloriesByUserAuthenticated = async (
+  startDate?: Date,
+  endDate?: Date
+): Promise<DailyCaloriesResponse[]> => {
+  const today = new Date();
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+
+  const start = startDate ?? weekStart;
+  const end = endDate ?? weekEnd;
+
+  const formattedStart = format(start, "yyyy-MM-dd'T'00:00:00");
+  const formattedEnd = format(end, "yyyy-MM-dd'T'23:59:59");
+
+  return (
+    await api.get(`/meals/user/weekly/daily-calories`, {
+      params: { startDate: formattedStart, endDate: formattedEnd },
+    })
+  ).data;
+};
+
 export const getSummaryOfUserAuth = async (): Promise<SummaryResponse> =>
-  (await api.get(`/summary/userAuth`)).data;
+  (await api.get(`/summary/user`)).data;
+
+export const getSummaryOfUserAuthByPeriod = async (
+  startDate?: Date,
+  endDate?: Date
+): Promise<SummaryResponse> => {
+  const today = new Date();
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+
+  const start = startDate ?? weekStart;
+  const end = endDate ?? weekEnd;
+
+  const formattedStart = format(start, "yyyy-MM-dd'T'00:00:00");
+  const formattedEnd = format(end, "yyyy-MM-dd'T'23:59:59");
+
+  return (
+    await api.get(`/summary/user/period`, {
+      params: { startDate: formattedStart, endDate: formattedEnd },
+    })
+  ).data;
+};
