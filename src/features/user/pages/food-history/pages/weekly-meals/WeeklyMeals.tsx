@@ -1,7 +1,6 @@
 import { useGetMealsWeeklyByUser } from "@/features/user/hooks/foods/useFoods";
 import { Button } from "@/shared/ui/button";
-import { addDays, format, startOfWeek } from "date-fns";
-import { es } from "date-fns/locale";
+import { addDays, startOfWeek } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,13 +15,13 @@ const daysOfWeek = [
   "Domingo",
 ];
 
-const mealTypes = ["DESAYUNO", "ALMUERZO", "CENA", "SNACK"] as const;
-
-function getDayName(dateString: string) {
-  return format(new Date(dateString), "EEEE", { locale: es }).replace(
-    /^\w/,
-    (c) => c.toUpperCase()
-  );
+function normalizeMealType(name: string) {
+  const n = name.trim().toLowerCase();
+  if (n === "comida" || n === "almuerzo") return "Almuerzo";
+  if (n === "desayuno") return "Desayuno";
+  if (n === "cena") return "Cena";
+  if (n === "snack") return "Snack";
+  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
 
 const WeeklyMeals = () => {
@@ -33,6 +32,11 @@ const WeeklyMeals = () => {
   const [endDate, setEndDate] = useState(addDays(initialStartDate, 6));
 
   const { data: mealsWeekly } = useGetMealsWeeklyByUser(startDate, endDate);
+  const mealTypes = Array.from(
+    new Set((mealsWeekly ?? []).map((meal) => normalizeMealType(meal.name)))
+  );
+
+  const weekDates = Array.from({ length: 7 }, (_, i) => addDays(startDate, i));
 
   return (
     <div className="p-4">
@@ -83,42 +87,50 @@ const WeeklyMeals = () => {
           </Button>
         </div>
 
-        {/* <div>Filtro: Categoria [Todas | Alta Proteina | Vegetariana]</div> */}
-
         <table className="w-full border text-center mt-6">
           <thead>
             <tr>
               <th className="border px-2 py-1 bg-gray-100"></th>
-              {daysOfWeek.map((day) => (
+              {weekDates.map((date) => (
                 <th
-                  key={day}
+                  key={date.toISOString()}
                   className="border px-2 py-1 bg-gray-100"
                 >
-                  {day}
+                  {daysOfWeek[date.getDay() === 0 ? 6 : date.getDay() - 1]}
+                  <br />
+                  {date.getDate()}/{date.getMonth() + 1}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {mealTypes.map((mealType) => (
+            {mealTypes?.map((mealType) => (
               <tr key={mealType}>
                 <td className="border px-2 py-1 font-semibold bg-gray-50">
                   {mealType}
                 </td>
-                {daysOfWeek.map((day) => {
-                  const meal = mealsWeekly?.find(
-                    (m) =>
-                      getDayName(m.dateTime) === day &&
-                      m.name.toUpperCase() === mealType
+                {weekDates.map((day) => {
+                  const mealsForCell =
+                    mealsWeekly?.filter(
+                      (meal) =>
+                        normalizeMealType(meal.name) === mealType &&
+                        new Date(meal.dateTime).getFullYear() ===
+                          day.getFullYear() &&
+                        new Date(meal.dateTime).getMonth() === day.getMonth() &&
+                        new Date(meal.dateTime).getDate() === day.getDate()
+                    ) ?? [];
+
+                  const foodsForCell = mealsForCell.flatMap(
+                    (meal) => meal.foods
                   );
 
                   return (
                     <td
-                      key={day}
+                      key={day.toString()}
                       className="border px-2 py-1"
                     >
-                      {meal && meal.foods.length > 0 ? (
-                        meal.foods.map((food) => (
+                      {foodsForCell.length > 0 ? (
+                        foodsForCell.map((food) => (
                           <div
                             key={food.id}
                             className="flex items-center gap-1 justify-center"

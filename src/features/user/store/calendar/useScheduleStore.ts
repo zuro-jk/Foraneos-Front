@@ -24,7 +24,7 @@ type ScheduleState = {
 };
 
 export const useScheduleStore = create<ScheduleState>((set) => ({
-  currentDate: new Date("2025-04-07"),
+  currentDate: new Date(),
   setCurrentDate: (date) => set({ currentDate: date }),
   items: [],
   setItems: (items) => set({ items }),

@@ -5,6 +5,8 @@ export const foodFormSchema = z.object({
   description: z
     .string({ required_error: "La descripción es obligatoria" })
     .min(1, "La descripción es obligatoria"),
+  imagePath: z.string().min(1, "La imagen es obligatoria"),
+  imagePublicId: z.string().optional(),
   calories: z.preprocess(
     (val) => (val === "" ? undefined : Number(val)),
     z
@@ -62,6 +64,8 @@ export type FoodFormValues = z.infer<typeof foodFormSchema>;
 type FoodFormDefaultValues = {
   name: string;
   description: string;
+  imagePath: string;
+  imagePublicId?: string;
   calories: string;
   protein: string;
   carbs: string;
@@ -76,6 +80,8 @@ type FoodFormDefaultValues = {
 export const foodFormDefaultValues: FoodFormDefaultValues = {
   name: "",
   description: "",
+  imagePath: "",
+  imagePublicId: "",
   calories: "",
   protein: "",
   carbs: "",

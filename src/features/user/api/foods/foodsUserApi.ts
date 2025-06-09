@@ -91,12 +91,16 @@ export const deleteMealById = async (mealId: number) =>
 export const getMealsWeeklyByUser = async (
   startDate: Date,
   endDate: Date
-): Promise<MealResponse[]> =>
-  (
+): Promise<MealResponse[]> => {
+  const formattedStart = format(startDate, "yyyy-MM-dd'T'00:00:00");
+  const formattedEnd = format(endDate, "yyyy-MM-dd'T'23:59:59");
+
+  return (
     await api.get(`/meals/user/weekly`, {
-      params: { startDate, endDate },
+      params: { startDate: formattedStart, endDate: formattedEnd },
     })
   ).data;
+};
 
 export const getSummaryOfUserAuth = async (): Promise<SummaryResponse> =>
   (await api.get(`/summary/userAuth`)).data;

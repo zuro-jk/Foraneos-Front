@@ -54,8 +54,10 @@ const AddEditMeal = () => {
     if (mealId) {
       form.setValue("name", meal?.name || "");
       form.setValue("foodIds", meal?.foods.map((food) => food.id) || []);
+      form.setValue("dateTime", meal?.dateTime || new Date().toISOString());
+      form.setValue("userId", Number(user?.id));
     }
-  }, [meal, mealId, form]);
+  }, [meal, mealId, form, user]);
 
   const selectedFoodsIds = form.watch("foodIds");
   const selectedFoods =
@@ -168,6 +170,13 @@ const AddEditMeal = () => {
                           ]);
                         }}
                       >
+                        <div className="w-12 h-12">
+                          <img
+                            src={food.imagePath}
+                            alt={food.name}
+                            className="w-full h-full rounded-md object-cover"
+                          />
+                        </div>
                         <span>{food.name}</span>
                         <span className="text-gray-400 text-xs">
                           {food.calories} kcal
@@ -191,6 +200,13 @@ const AddEditMeal = () => {
                         );
                       }}
                     >
+                      <div className="w-12 h-12">
+                        <img
+                          src={food.imagePath}
+                          alt={food.name}
+                          className="w-full h-full rounded-md object-cover"
+                        />
+                      </div>
                       <span>{food.name}</span>
                       <span className="text-gray-400 text-xs">
                         {food.calories} kcal

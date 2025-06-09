@@ -88,18 +88,7 @@ const Recipes = () => {
                   {filteredRecipes.map((recipe) => (
                     <CardRecipe
                       key={recipe.id}
-                      id={recipe.id}
-                      title={recipe.name}
-                      time={
-                        recipe.preparationSteps?.length
-                          ? `${recipe.preparationSteps.length * 5} min`
-                          : "5 min"
-                      }
-                      kcal={recipe.calories}
-                      protein={recipe.protein}
-                      carbs={recipe.carbs}
-                      fats={recipe.fat}
-                      // Puedes pasar más props según tu CardRecipe
+                      recipe={recipe}
                     />
                   ))}
                 </div>

@@ -30,6 +30,8 @@ export interface FoodResponse {
   description: string;
   mealType: MealType;
   imagePath: string;
+  imagePublicId: string;
+  preparationTimeMinutes: number;
   calories: number;
   protein: number;
   carbs: number;

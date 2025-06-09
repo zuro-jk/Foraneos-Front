@@ -20,12 +20,13 @@ import {
   SelectValue,
 } from "@/shared/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Trash } from "lucide-react";
-import { useEffect } from "react";
+import { ArrowLeft, ImageIcon, Trash } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { useUploadImageToCloudinary } from "@/features/user/hooks/cloudinary/cloudinary";
 import {
   useAddFoodFromUser,
   useGetCategoriesOfFoods,
@@ -46,9 +47,14 @@ const FoodForm = () => {
   const { user } = useUserStore();
   const { data: food } = useGetFoodById(Number(foodId));
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const navigate = useNavigate();
   const addFoodMutation = useAddFoodFromUser();
   const updateFoodMutation = useUpdateFoodFromUser();
+  const uploadImageMutation = useUploadImageToCloudinary();
 
   const form = useForm({
     resolver: zodResolver(foodFormSchema),
@@ -76,31 +82,68 @@ const FoodForm = () => {
   useEffect(() => {
     if (food) {
       form.reset({
-        name: food.name,
-        description: food.description,
-        calories: food.calories,
-        protein: food.protein,
-        carbs: food.carbs,
-        fat: food.fat,
-        brand: food.brand,
-        barcode: food.barcode,
-        category: food.categories.map((cat) => cat.name),
+        name: food.name ?? "",
+        description: food.description ?? "",
+        imagePath: food.imagePath ?? "",
+        imagePublicId: food.imagePublicId ?? "",
+        calories:
+          food.calories !== undefined && food.calories !== null
+            ? food.calories.toString()
+            : "",
+        protein:
+          food.protein !== undefined && food.protein !== null
+            ? food.protein.toString()
+            : "",
+        carbs:
+          food.carbs !== undefined && food.carbs !== null
+            ? food.carbs.toString()
+            : "",
+        fat:
+          food.fat !== undefined && food.fat !== null
+            ? food.fat.toString()
+            : "",
+        brand: food.brand ?? "",
+        barcode: food.barcode ?? "",
+        category: food.categories.map((cat) => cat.name) ?? [],
         ingredients: food.ingredients.map((ingredient) => ({
-          name: ingredient.name,
-          amount: ingredient.amount,
+          name: ingredient.name ?? "",
+          amount:
+            ingredient.amount !== undefined && ingredient.amount !== null
+              ? ingredient.amount.toString()
+              : "",
           unit: ingredient.unit ? ingredient.unit.name : "",
         })),
         preparationSteps: food.preparationSteps.map((step) => ({
-          description: step.description,
+          description: step.description ?? "",
         })),
       });
     }
   }, [food, form]);
 
-  const onSubmit = (data: FoodFormValues) => {
+  const onSubmit = async (data: FoodFormValues) => {
+    if (!selectedImage && !data.imagePath) {
+      toast.error("Por favor, selecciona una imagen para el alimento.");
+      return;
+    }
+
     if (!user?.id) {
       toast.error("Usuario no encontrado. Por favor, inicia sesión.");
       return;
+    }
+
+    let imageUrl = data.imagePath;
+    let imagePublicId = "";
+
+    if (selectedImage) {
+      try {
+        const res = await uploadImageMutation.mutateAsync(selectedImage);
+        imageUrl = res.imagePath;
+        imagePublicId = res.publicId;
+      } catch (error) {
+        toast.error("Error al subir la imagen: " + error);
+        console.error("Error al subir la imagen:", error);
+        return;
+      }
     }
 
     const categoryIds =
@@ -124,6 +167,8 @@ const FoodForm = () => {
 
     const payload = {
       ...data,
+      imagePath: imageUrl || "",
+      imagePublicId: imagePublicId,
       categoryIds,
       ingredients,
       preparationSteps,
@@ -171,11 +216,73 @@ const FoodForm = () => {
       <h1 className="flex-1 text-2xl font-bold text-center">
         {foodId ? "Editar alimento" : "Crear alimento"}
       </h1>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-4 gap-4 mt-4"
         >
+          <div className="col-span-4">
+            <FormField
+              control={form.control}
+              name="imagePath"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormLabel>Imagen del alimento</FormLabel>
+                  <div
+                    className="w-32 h-32 flex items-center justify-center rounded-md bg-gray-200 overflow-hidden cursor-pointer hover:ring-2 hover:ring-zinc-400 transition"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Haz click para seleccionar una imagen"
+                  >
+                    {imagePreview || field.value ? (
+                      <img
+                        src={imagePreview || field.value}
+                        alt="Vista previa"
+                        className="w-32 h-32 object-cover rounded-md"
+                      />
+                    ) : (
+                      <ImageIcon className="w-12 h-12 text-gray-500" />
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    className="hidden"
+                    onChange={async (e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const file = e.target.files[0];
+                        setSelectedImage(file);
+                        setImagePreview(URL.createObjectURL(file));
+
+                        form.setValue("imagePath", "temporal");
+                      }
+                    }}
+                  />
+                  {/* <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const file = e.target.files[0];
+                          try {
+                            const imagePath =
+                              await uploadImageMutation.mutateAsync(file);
+                            field.onChange(imagePath);
+                          } catch (error) {
+                            toast.error("Error al subir la imagen: " + error);
+                          }
+                        }
+                      }}
+                    />
+                  </FormControl> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
             control={form.control}
             name="name"

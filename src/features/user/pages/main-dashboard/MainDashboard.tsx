@@ -51,7 +51,9 @@ const MainDashboard = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState<modalState["type"] | null>(null);
   const { selectedFoods, removeFood } = useFoodStore();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { selectedExercises } = useExerciseStore();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { selectedGoals } = useGoalStore();
 
   const { data: informationActivityData } = useGetSummaryByUserAuth();
@@ -150,7 +152,7 @@ const MainDashboard = () => {
 
           <div
             className={cn(
-              "flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12 md:col-span-6 lg:col-span-4",
+              "flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12",
               selectedFoods && selectedFoods.length > 0 ? "bg-gray-100" : ""
             )}
             onClick={() => setOpenModal("comida")}
@@ -173,7 +175,7 @@ const MainDashboard = () => {
             )}
           </div>
 
-          <button
+          {/* <button
             className="flex items-center justify-center p-4 transition duration-200 ease-in-out bg-white border-2 border-gray-300 border-dashed rounded shadow cursor-pointer hover:bg-gray-100 col-span-12 md:col-span-6 lg:col-span-4"
             onClick={() => setOpenModal("ejercicio")}
           >
@@ -190,7 +192,7 @@ const MainDashboard = () => {
               <Plus />
               Fijar un nuevo objetivo
             </span>
-          </button>
+          </button> */}
 
           {openModal === "comida" && (
             <AddFoodModal
@@ -302,7 +304,7 @@ const MainDashboard = () => {
             </div>
           </div>
 
-          <div className="p-4 bg-white rounded drop-shadow-lg col-span-12">
+          {/* <div className="p-4 bg-white rounded drop-shadow-lg col-span-12">
             <span className="text-lg font-bold">Ejercicios de hoy</span>
             {selectedExercises.length === 0 ? (
               <div className="py-8 text-center text-gray-500">
@@ -328,10 +330,10 @@ const MainDashboard = () => {
                 ))}
               </ul>
             )}
-          </div>
+          </div> */}
 
           {/* Sección de metas */}
-          <div className="col-span-12 p-4 bg-white rounded drop-shadow-lg">
+          {/* <div className="col-span-12 p-4 bg-white rounded drop-shadow-lg">
             <span className="text-lg font-bold">Metas de hoy</span>
             {selectedGoals.length === 0 ? (
               <div className="py-8 text-center text-gray-500">
@@ -357,7 +359,7 @@ const MainDashboard = () => {
                 ))}
               </ul>
             )}
-          </div>
+          </div> */}
 
           <div className="p-8 bg-white rounded drop-shadow-2xl col-span-12 md:col-span-6 lg:col-span-4">
             <span className="text-lg font-bold">
@@ -377,64 +379,6 @@ const MainDashboard = () => {
               Distribución de macronutrientes
             </span>
             <ChartMacronutrients />
-          </div>
-
-          <div className="col-span-12 md:col-span-6 lg:col-span-4 p-8 bg-white rounded drop-shadow-2xl">
-            <span className="text-lg font-bold">Comidas registradas</span>
-            <div className="flex items-center justify-center h-full">
-              <div className="bg-blue-800/10 w-[30rem] h-[16rem] p-4 flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-4 py-1 text-white uppercase rounded-full bg-gray-400/60 w-fit">
-                    Desayuno
-                  </span>
-                  <ChartTotalCalories
-                    value={60} // porcentaje de progreso, por ejemplo 60%
-                    size={48} // tamaño pequeño
-                    strokeWidth={6}
-                    color="#2563eb" // azul, puedes cambiarlo
-                    bgColor="#dbeafe" // azul claro, puedes cambiarlo
-                    text="83"
-                    showPercentageText={false}
-                    className="justify-end"
-                  />
-                </div>
-                <div className="flex flex-col px-6 py-2">
-                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
-                    <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 text-white bg-red-300 rounded-full">
-                        P
-                      </span>
-                      <span>4 Huevos Blancos</span>
-                    </div>
-                    <span className="text-blue-700/80">60 Cal</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
-                    <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 text-white bg-green-300 rounded-full">
-                        F
-                      </span>
-                      <span>1 Aguacate</span>
-                    </div>
-                    <span className="text-blue-700/80">60 Cal</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-gray-300">
-                    <div className="flex items-center gap-4">
-                      <span className="px-3 py-1 text-white bg-blue-300 rounded-full">
-                        C
-                      </span>
-                      <span>1 Taza de avena</span>
-                    </div>
-                    <span className="text-blue-700/80">60 Cal</span>
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <button className="absolute p-2 text-white -translate-x-1/2 bg-blue-500 rounded-full cursor-pointer left-1/2 bottom-10 drop-shadow-xl">
-                      <Plus size={34} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

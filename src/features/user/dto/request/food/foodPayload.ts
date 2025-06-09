@@ -1,8 +1,8 @@
-
-
 export interface FoodPayload {
   name: string;
   description: string;
+  imagePath: string;
+  imagePublicId: string;
   calories: number;
   protein: number;
   carbs: number;

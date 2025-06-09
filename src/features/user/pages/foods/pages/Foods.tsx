@@ -49,6 +49,8 @@ const Foods = () => {
     const payload: FoodPayload = {
       name: food.name,
       description: food.description,
+      imagePath: food.imagePath,
+      imagePublicId: food.imagePublicId,
       calories: food.calories,
       protein: food.protein,
       carbs: food.carbs,
@@ -225,7 +227,7 @@ const Foods = () => {
                 className="flex gap-4 bg-white rounded-xl shadow p-4 items-center"
               >
                 <img
-                  src={"/images/recipes/receta-1.png"}
+                  src={food.imagePath}
                   alt={food.name}
                   className="w-20 h-20 object-cover rounded-lg border"
                 />
@@ -282,7 +284,7 @@ const Foods = () => {
                 className="flex gap-4 bg-white rounded-xl shadow p-4 items-center"
               >
                 <img
-                  src={"/images/recipes/receta-1.png"}
+                  src={food.imagePath}
                   alt={food.name}
                   className="w-20 h-20 object-cover rounded-lg border"
                 />

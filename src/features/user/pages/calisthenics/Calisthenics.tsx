@@ -10,6 +10,7 @@ import {
 } from "@/shared/ui/table";
 import { Clock } from "lucide-react";
 import CardBodyDifficult from "./components/card-body-difficult/CardBodyDifficult";
+import UploadThingComponent from "@/shared/upload-button/UploadThingComponent";
 
 const exercises = [
   {
@@ -230,6 +231,8 @@ const Calisthenics = () => {
               ))}
             </TableBody>
           </Table>
+
+          <UploadThingComponent />
         </div>
       </div>
     </div>

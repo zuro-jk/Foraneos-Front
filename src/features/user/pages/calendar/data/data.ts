@@ -31,15 +31,6 @@ export const EVENT_CATEGORIES = [
   },
 ];
 
-// type FormValues = {
-//   title: string;
-//   description: string;
-//   category: string;
-//   startDate?: Date;
-//   endDate?: Date;
-//   startTime?: string;
-//   endTime?: string;
-// };
 
 
 export const INITIAL_EVENTS = [

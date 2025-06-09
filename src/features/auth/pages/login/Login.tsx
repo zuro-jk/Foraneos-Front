@@ -143,6 +143,7 @@ const Login = () => {
                         type="text"
                         placeholder="my-user"
                         className=""
+                        autoComplete="off"
                       />
                     </FormControl>
                     <FormMessage />
