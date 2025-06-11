@@ -163,7 +163,7 @@ const MainDashboard = () => {
             onClick={() => setOpenModal("comida")}
           >
             {unassignedFoods.length > 0 ? (
-              <div className="grid grid-cols-2 p-4 items-center justify-center gap-6 max-h-[23.5rem] overflow-y-auto">
+              <div className="flex p-4 items-center justify-center gap-6 max-h-[23.5rem] overflow-y-auto">
                 {unassignedFoods.map((food) => (
                   <DraggableFood
                     key={food.id}
