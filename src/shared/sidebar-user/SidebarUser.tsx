@@ -1,17 +1,16 @@
 import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
-import { Beef, Drumstick, Goal, LogOut} from "lucide-react";
-import { FaCalendarAlt, FaCreditCard } from "react-icons/fa";
+import { LogOut } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSidebarUserStore } from "./useSidebarUserStore";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useSidebarUserStore } from "./useSidebarUserStore";
 
 const menu = [
-  {
-    label: "Resumen",
-    icon: "/images/icons/overview.png",
-    to: "/user/main-dashboard",
-  },
+  // {
+  //   label: "Resumen",
+  //   icon: "/images/icons/overview.png",
+  //   to: "/user/main-dashboard",
+  // },
   {
     label: "Recetas",
     icon: "/images/icons/recipes.png",
@@ -22,42 +21,41 @@ const menu = [
     icon: "/images/icons/nutritionist-ia.png",
     to: "/user/nutritionist",
   },
-  {
-    label: "Calendario",
-    icon: FaCalendarAlt,
-    to: "/user/schedule",
-  },
-  {
-    label: "Calistenia",
-    icon: "/images/icons/calistenia.png",
-    to: "/user/calisthenics",
-  },
-  {
-    label: "Social",
-    icon: "/images/icons/social.png",
-    to: "/user/social",
-  },
-  {
-    label: "Metas",
-    icon: Goal,
-    to: "/user/targets",
-  },
-  {
-    label: "Comidas",
-    icon: Beef,
-    to: "/user/food-history",
-  },
-  {
-    label: "Alimentos",
-    icon: Drumstick,
-    to: "/user/foods",
-  },
-  {
-    label: "Metodos de pago",
-    icon: FaCreditCard,
-    to: "/user/payment-method",
-  },
-
+  // {
+  //   label: "Calendario",
+  //   icon: FaCalendarAlt,
+  //   to: "/user/schedule",
+  // },
+  // {
+  //   label: "Calistenia",
+  //   icon: "/images/icons/calistenia.png",
+  //   to: "/user/calisthenics",
+  // },
+  // {
+  //   label: "Social",
+  //   icon: "/images/icons/social.png",
+  //   to: "/user/social",
+  // },
+  // {
+  //   label: "Metas",
+  //   icon: Goal,
+  //   to: "/user/targets",
+  // },
+  // {
+  //   label: "Comidas",
+  //   icon: Beef,
+  //   to: "/user/food-history",
+  // },
+  // {
+  //   label: "Alimentos",
+  //   icon: Drumstick,
+  //   to: "/user/foods",
+  // },
+  // {
+  //   label: "Metodos de pago",
+  //   icon: FaCreditCard,
+  //   to: "/user/payment-method",
+  // },
   { label: "Logout", icon: LogOut, to: "/user/logout" },
 ];
 
@@ -120,7 +118,8 @@ const SidebarUser = () => {
             </Avatar>
             <div className="flex flex-col">
               <span className="font-bold">
-                {user?.firstName.concat(" ", user?.lastName) || "Usuario Anónimo"}
+                {user?.firstName.concat(" ", user?.lastName) ||
+                  "Usuario Anónimo"}
               </span>
               <span className="text-xs text-gray-500">
                 {user?.email || "email@mail.com"}

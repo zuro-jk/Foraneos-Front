@@ -56,11 +56,6 @@ const Recipes = () => {
                     Tus comidas recomendadas para hoy
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button className="px-4 py-2 transition-all duration-200 ease-in-out bg-white rounded shadow cursor-pointer hover:bg-gray-100 hover:scale-105">
-                    Ver Todas
-                  </button>
-                </div>
               </div>
 
               <div className="grid grid-cols-3 px-2 py-1 bg-[#71CE6F] rounded">
@@ -211,8 +206,6 @@ const Recipes = () => {
               </Dialog>
             </div>
           </div>
-
-          {/* <Foods /> */}
         </div>
       </div>
     </div>

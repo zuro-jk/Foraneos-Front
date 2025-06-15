@@ -4,17 +4,7 @@ import Login from "./features/auth/pages/login/Login";
 import Signup from "./features/auth/pages/signup/Signup";
 import CompleteProfile from "./features/auth/pages/signup/pages/complete-profile/CompleteProfile";
 import Home from "./features/home/pages/home/Home";
-import PaymentConfirmation from "./features/payment/pages/payment-confirmation/PaymentConfirmation";
-import PaymentMethod from "./features/payment/pages/payment-method/PaymentMethod";
 import Billing from "./features/user/pages/billing/Billing";
-import Schedule from "./features/user/pages/calendar/pages/schedule/Schedule";
-import Calisthenics from "./features/user/pages/calisthenics/Calisthenics";
-import FoodHistory from "./features/user/pages/food-history/pages/FoodHistory";
-import AddEditMeal from "./features/user/pages/food-history/pages/add-edit-meal/AddEditMeal";
-import WeeklyMeals from "./features/user/pages/food-history/pages/weekly-meals/WeeklyMeals";
-import FoodForm from "./features/user/pages/foods/components/food-form/FoodForm";
-import Foods from "./features/user/pages/foods/pages/Foods";
-import MainDashboard from "./features/user/pages/main-dashboard/MainDashboard";
 import Notifications from "./features/user/pages/notifications/Notifications";
 import NutritionistArtificial from "./features/user/pages/nutritionist-artificial/NutritionistArtificial";
 import Preferences from "./features/user/pages/preferences/Preferences";
@@ -23,8 +13,6 @@ import DetailRecipe from "./features/user/pages/recipes/pages/detail-recipe/Deta
 import RecipeForm from "./features/user/pages/recipes/pages/recipe-form/RecipeForm";
 import Recipes from "./features/user/pages/recipes/pages/recipes/Recipes";
 import Security from "./features/user/pages/security/Security";
-import Social from "./features/user/pages/social/Social";
-import Targets from "./features/user/pages/targets/Targets";
 import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
@@ -72,15 +60,15 @@ function App() {
             index
             element={
               <Navigate
-                to="main-dashboard"
+                to="recipes"
                 replace
               />
             }
           />
-          <Route
+          {/* <Route
             path="main-dashboard"
             element={<MainDashboard />}
-          />
+          /> */}
           <Route
             path="recipes"
             element={<Recipes />}
@@ -97,7 +85,7 @@ function App() {
             path="nutritionist"
             element={<NutritionistArtificial />}
           />
-          <Route
+          {/* <Route
             path="schedule"
             element={<Schedule />}
           />
@@ -151,7 +139,7 @@ function App() {
           <Route
             path="food-history/edit/:mealId"
             element={<AddEditMeal />}
-          />
+          /> */}
 
           <Route
             path="account"

@@ -1,3 +1,4 @@
+import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -42,6 +43,7 @@ const NutritionistArtificial = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     socketRef.current = io("http://localhost:3000", {
@@ -110,7 +112,10 @@ const NutritionistArtificial = () => {
     e.preventDefault();
     if (!input.trim() || !isConnected || isLoading) return;
 
-    socketRef.current?.emit("message", { message: input.trim() });
+    socketRef.current?.emit("message", {
+      userId: user?.id,
+      message: input.trim(),
+    });
     setInput("");
   };
 
@@ -124,7 +129,7 @@ const NutritionistArtificial = () => {
         {/* Sugerencias */}
         <div className="col-span-1 bg-gradient-to-br from-[#416450]/80 to-[#2e4734]/80 rounded-2xl p-6 flex flex-col gap-6 shadow-lg">
           <span className="text-2xl font-bold text-white text-center mb-2">
-            Sugerencias rápidas
+            Chats
           </span>
           <div className="flex flex-col gap-3 flex-1 overflow-y-auto">
             {suggestedQuestions.map((q, idx) => (
@@ -183,7 +188,11 @@ const NutritionistArtificial = () => {
                 {msg.from === "ia" ? (
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: parseMarkdownBlod(msg.text),
+                      __html: parseMarkdownBlod(
+                        Array.isArray(msg.text)
+                          ? msg.text[0]?.output ?? ""
+                          : msg.text ?? ""
+                      ),
                     }}
                   />
                 ) : (
