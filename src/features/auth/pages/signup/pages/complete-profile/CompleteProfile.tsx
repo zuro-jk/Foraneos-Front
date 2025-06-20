@@ -1,10 +1,8 @@
-import type { SignupUserRequest } from "@/features/auth/dto/request/authUserRequest";
-import { useAuthSignup } from "@/features/auth/hooks/useAuth";
-import { useUserStore } from "@/features/auth/store/userStore";
+import { useAuthSignup } from "@/hooks/auth/useAuth";
 import {
   completeProfileSchema,
   type CompleteProfileValues,
-} from "@/features/auth/types/signupSchema";
+} from "@/types/signupSchema";
 
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -21,6 +19,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useUserStore } from "@/store/userStore";
+import type { SignupUserRequest } from "@/dto/request/authUserRequest";
 
 const restrictionOptions = [
   "Sin gluten",

@@ -35,26 +35,15 @@ const CardRecipe = ({ recipe, className = "" }: CardRecipeProps) => {
           </span>
         </div>
       </div>
-      <div className="flex flex-wrap items-center justify-between px-4 py-2 text-sm">
-        <div className="flex flex-col items-center justify-center">
-          <span>{recipe.calories}</span>
-          <span className="text-gray-500">kcal</span>
-        </div>
-
-        <div className="flex flex-col items-center justify-center">
-          <span>{recipe.protein}g</span>
-          <span className="text-gray-500">prot</span>
-        </div>
-
-        <div className="flex flex-col items-center justify-center">
-          <span>{recipe.carbs}g</span>
-          <span className="text-gray-500">carbs</span>
-        </div>
-
-        <div className="flex flex-col items-center justify-center">
-          <span>{recipe.fat}g</span>
-          <span className="text-gray-500">Grasas</span>
-        </div>
+      <div className="flex flex-wrap items-center gap-2 px-4 py-2 text-sm">
+        {recipe.ingredients.map((ingredient) => (
+          <span
+            key={ingredient.name}
+            className="px-2 py-1 mb-1 text-xs text-gray-700 bg-gray-200 rounded"
+          >
+            {ingredient.name}
+          </span>
+        ))}
       </div>
       <div className="flex items-center justify-between">
         <Button

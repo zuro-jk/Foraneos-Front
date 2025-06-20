@@ -12,8 +12,11 @@ import { Input } from "@/shared/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserStore } from "../../store/userStore";
-import { signupSchema, type SignupValues } from "../../types/signupSchema";
+import {
+  signupSchema,
+  type SignupValues,
+} from "../../../../types/signupSchema";
+import { useUserStore } from "@/store/userStore";
 
 const Signup = () => {
   const navigate = useNavigate();

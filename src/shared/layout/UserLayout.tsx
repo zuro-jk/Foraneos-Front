@@ -1,5 +1,5 @@
-import { useMe } from "@/features/auth/hooks/useAuth";
-import { useUserStore } from "@/features/auth/store/userStore";
+import { useMe } from "@/hooks/auth/useAuth";
+import { useUserStore } from "@/store/userStore";
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";

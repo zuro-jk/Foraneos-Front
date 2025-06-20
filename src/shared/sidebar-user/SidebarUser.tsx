@@ -1,6 +1,15 @@
-import { useUserStore } from "@/features/auth/store/userStore";
 import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
+import { useUserStore } from "@/store/userStore";
+import useShoppingListStore from "@/store/useShoppingListStore";
+import {
+  Banknote,
+  Calendar,
+  CookingPot,
+  Home,
+  LogOut,
+  ShoppingCart,
+  Star,
+} from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSidebarUserStore } from "./useSidebarUserStore";
@@ -12,14 +21,39 @@ const menu = [
   //   to: "/user/main-dashboard",
   // },
   {
-    label: "Recetas",
-    icon: "/images/icons/recipes.png",
-    to: "/user/recipes",
+    label: "Overview",
+    icon: Home,
+    to: "/user/overview",
+  },
+  {
+    label: "Recetas económicas",
+    icon: CookingPot,
+    to: "/user/economic-recipes",
+  },
+  {
+    label: "Favoritos",
+    icon: Star,
+    to: "/user/favorite-recipes",
   },
   {
     label: "Nutricionista IA",
     icon: "/images/icons/nutritionist-ia.png",
-    to: "/user/nutritionist",
+    to: "/user/nutritionist-ia",
+  },
+  {
+    label: "Lista de compras",
+    icon: ShoppingCart,
+    to: "/user/shopping-list",
+  },
+  {
+    label: "Planificador semanal",
+    icon: Calendar,
+    to: "/user/weekly-planner",
+  },
+  {
+    label: "Presupuesto alimenticio",
+    icon: Banknote,
+    to: "/user/food-budget",
   },
   // {
   //   label: "Calendario",
@@ -65,6 +99,7 @@ const SidebarUser = () => {
   const navigate = useNavigate();
   const resetUser = useUserStore((state) => state.reset);
   const user = useUserStore((state) => state.user);
+  const count = useShoppingListStore((state) => state.items.length);
 
   const handleLogout = () => {
     resetUser();
@@ -135,7 +170,7 @@ const SidebarUser = () => {
                 onClick={handleLogout}
                 className={`flex items-center gap-3 px-4 justify-start py-2 rounded font-medium transition hover:bg-green-50 text-red-500 cursor-pointer`}
               >
-                <span>
+                <span className="relative">
                   <item.icon size={20} />
                 </span>
                 {!collapsable && <span className="text-sm">Logout</span>}
@@ -158,10 +193,17 @@ const SidebarUser = () => {
                       className="w-[20px] h-[20px] dark:invert"
                     />
                   ) : (
-                    <item.icon
-                      size={20}
-                      className="dark:text-white"
-                    />
+                    <span className="relative">
+                      <item.icon
+                        size={20}
+                        className="dark:text-white"
+                      />
+                      {count > 0 && item.label === "Lista de compras" && (
+                        <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] rounded-full px-1">
+                          {count}
+                        </span>
+                      )}
+                    </span>
                   )}
                 </span>
                 {!collapsable && (

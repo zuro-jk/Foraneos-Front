@@ -22,7 +22,7 @@ import {
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import NotificationCard from "./components/notification-card/NotificationCard";
-import { useUserStore } from "@/features/auth/store/userStore";
+import { useUserStore } from "@/store/userStore";
 
 const NavbarUser = () => {
   const { setTheme } = useTheme();

@@ -1,4 +1,4 @@
-import { getPlacedEvents } from "@/features/user/utils/calendarUtils";
+import { getPlacedEvents } from "@/utils/calendarUtils";
 import { useDroppable } from "@dnd-kit/core";
 import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 import DraggableEvent from "../../components/draggable-event/DraggableEvent";

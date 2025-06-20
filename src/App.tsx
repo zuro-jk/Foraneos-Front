@@ -5,14 +5,18 @@ import Signup from "./features/auth/pages/signup/Signup";
 import CompleteProfile from "./features/auth/pages/signup/pages/complete-profile/CompleteProfile";
 import Home from "./features/home/pages/home/Home";
 import Billing from "./features/user/pages/billing/Billing";
+import EconomicRecipes from "./features/user/pages/economic-recipes/EconomicRecipes";
+import RecipeDetail from "./features/user/pages/economic-recipes/components/recipe-detail/RecipeDetail";
+import FavoriteRecipes from "./features/user/pages/favorite-recipes/FavoriteRecipes";
+import FoodBudget from "./features/user/pages/food-budget/FoodBudget";
 import Notifications from "./features/user/pages/notifications/Notifications";
 import NutritionistArtificial from "./features/user/pages/nutritionist-artificial/NutritionistArtificial";
+import Overview from "./features/user/pages/ovewview/Overview";
 import Preferences from "./features/user/pages/preferences/Preferences";
 import Profile from "./features/user/pages/profile/Profile";
-import DetailRecipe from "./features/user/pages/recipes/pages/detail-recipe/DetailRecipe";
-import RecipeForm from "./features/user/pages/recipes/pages/recipe-form/RecipeForm";
-import Recipes from "./features/user/pages/recipes/pages/recipes/Recipes";
 import Security from "./features/user/pages/security/Security";
+import ShoppingList from "./features/user/pages/shopping-list/ShoppingList";
+import WeeklyPlanner from "./features/user/pages/weekly-planner/WeeklyPlanner";
 import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
@@ -60,30 +64,42 @@ function App() {
             index
             element={
               <Navigate
-                to="recipes"
+                to="overview"
                 replace
               />
             }
           />
-          {/* <Route
-            path="main-dashboard"
-            element={<MainDashboard />}
-          /> */}
           <Route
-            path="recipes"
-            element={<Recipes />}
+            path="overview"
+            element={<Overview />}
           />
           <Route
-            path="recipes/new"
-            element={<RecipeForm />}
+            path="favorite-recipes"
+            element={<FavoriteRecipes />}
           />
           <Route
-            path="recipes/:recipeId"
-            element={<DetailRecipe />}
+            path="economic-recipes"
+            element={<EconomicRecipes />}
           />
           <Route
-            path="nutritionist"
+            path="economic-recipes/:id"
+            element={<RecipeDetail />}
+          />
+          <Route
+            path="nutritionist-ia"
             element={<NutritionistArtificial />}
+          />
+          <Route
+            path="shopping-list"
+            element={<ShoppingList />}
+          />
+          <Route
+            path="weekly-planner"
+            element={<WeeklyPlanner />}
+          />
+          <Route
+            path="food-budget"
+            element={<FoodBudget />}
           />
           {/* <Route
             path="schedule"

@@ -1,8 +1,11 @@
-import { useUserStore } from "@/features/auth/store/userStore";
+import { useGetChatN8n } from "@/hooks/chat-n8n/useChatN8n";
 import { cn } from "@/lib/utils";
+import { useUserStore } from "@/store/userStore";
+import type { ChatMessageFromAPI, UnifiedChatMessage } from "@/types/chat-n8n/chatN8nTypes.types";
 import { Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+
 
 const suggestedQuestions = [
   "¿Qué puedo cenar si quiero bajar de peso?",
@@ -44,6 +47,27 @@ const NutritionistArtificial = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
   const user = useUserStore((state) => state.user);
+  const { data: chatHistory, isLoading: isChatLoading } = useGetChatN8n(
+    Number(user?.id)
+  );
+
+  const convertApiMessagesToLocal = (
+    apiMessages: ChatMessageFromAPI[]
+  ): UnifiedChatMessage[] => {
+    return apiMessages.map((msg) => ({
+      id: msg.id,
+      from: msg.message.type === "human" ? "user" : "ia",
+      text: msg.message.content,
+      timestamp: new Date(), // Agregar timestamp si está disponible en la API
+    }));
+  };
+
+  const allMessages = useMemo(() => {
+    const historyMessages = chatHistory
+      ? convertApiMessagesToLocal(chatHistory)
+      : [];
+    return [...historyMessages, ...messages];
+  }, [chatHistory, messages]);
 
   useEffect(() => {
     socketRef.current = io("http://localhost:3000", {
@@ -175,31 +199,33 @@ const NutritionistArtificial = () => {
             />
           </div>
           <div className="flex-1 flex flex-col gap-2 px-8 py-6 overflow-y-auto min-h-0">
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={cn(
-                  "px-4 py-3 rounded-xl max-w-[70%] break-words shadow whitespace-pre-wrap",
-                  msg.from === "user"
-                    ? "bg-green-100 self-end text-right text-green-900"
-                    : "bg-green-700/90 text-white self-start text-left"
-                )}
-              >
-                {msg.from === "ia" ? (
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: parseMarkdownBlod(
-                        Array.isArray(msg.text)
-                          ? msg.text[0]?.output ?? ""
-                          : msg.text ?? ""
-                      ),
-                    }}
-                  />
-                ) : (
-                  msg.text
-                )}
+            {isChatLoading ? (
+              <div className="flex justify-center items-center h-full">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
               </div>
-            ))}
+            ) : (
+              allMessages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={cn(
+                    "px-4 py-3 rounded-xl max-w-[70%] break-words shadow whitespace-pre-wrap",
+                    msg.from === "user"
+                      ? "bg-green-100 self-end text-right text-green-900"
+                      : "bg-green-700/90 text-white self-start text-left"
+                  )}
+                >
+                  {msg.from === "ia" ? (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: parseMarkdownBlod(msg.text),
+                      }}
+                    />
+                  ) : (
+                    msg.text
+                  )}
+                </div>
+              ))
+            )}
 
             {/* Indicador de carga */}
             {isLoading && (
