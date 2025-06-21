@@ -106,7 +106,8 @@ function ShoppingListTable() {
                         {item.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-300">
-                        {item.amount} {item.unit}
+                        <span className="font-medium">{item.amount}</span>{" "}
+                        <span>{item.unit || "sin unidad"}</span>
                       </p>
                       <AnimatePresence mode="wait">
                         {editingItemId === item.id && (
