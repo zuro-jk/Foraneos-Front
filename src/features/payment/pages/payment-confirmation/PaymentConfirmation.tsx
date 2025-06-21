@@ -1,5 +1,3 @@
-import { Button } from "@/shared/ui/button";
-
 const PaymentConfirmation = () => {
   return (
     <div className="flex flex-col items-center h-[75vh] max-h-screen px-4 py-12">
@@ -12,12 +10,12 @@ const PaymentConfirmation = () => {
           Juanito
         </h1>
       </div>
-      <Button
+      <button
         className="mt-auto mb-4 bg-green-300 px-8 py-8 text-xl font-bold uppercase rounded-lg shadow-lg hover:bg-green-400 transition duration-300 ease-in-out"
         variant="outline"
       >
         Continuar
-      </Button>
+      </button>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import {
   type CompleteProfileValues,
 } from "@/types/signupSchema";
 
-import { Button } from "@/shared/ui/button";
+import type { SignupUserRequest } from "@/dto/request/authUserRequest";
 import { Checkbox } from "@/shared/ui/checkbox";
 import {
   Form,
@@ -15,12 +15,11 @@ import {
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
+import { useUserStore } from "@/store/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUserStore } from "@/store/userStore";
-import type { SignupUserRequest } from "@/dto/request/authUserRequest";
 
 const restrictionOptions = [
   "Sin gluten",
@@ -258,12 +257,12 @@ const CompleteProfile = () => {
                 </FormItem>
               )}
             />
-            <Button
+            <button
               type="submit"
               className="w-full bg-[#D2EBBC] text-black font-bold mt-4"
             >
               Guardar y continuar
-            </Button>
+            </button>
           </form>
         </Form>
       </div>

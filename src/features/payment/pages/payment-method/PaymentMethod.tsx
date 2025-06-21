@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shared/ui/accordion";
-import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Link } from "react-router-dom";
@@ -21,11 +20,11 @@ const PaymentMethod = () => {
                 IA
               </span>
             </span>
-  
+
             <span className="text-center text-2xl mb-8">
               Registra tu tarjeta para continuar con el plan Premium
             </span>
-  
+
             <Accordion
               type="single"
               collapsible
@@ -72,13 +71,12 @@ const PaymentMethod = () => {
                         />
                       </div>
                     </div>
-                    <Button
+                    <button
                       type="submit"
                       className="w-full"
-                      variant="outline"
                     >
                       Pagar
-                    </Button>
+                    </button>
                   </form>
                 </AccordionContent>
               </AccordionItem>
@@ -109,7 +107,7 @@ const PaymentMethod = () => {
                 <span>S/7.99</span>
               </div>
             </div>
-  
+
             <img
               src="/images/payment/payment-card-example.png"
               alt="card-example"

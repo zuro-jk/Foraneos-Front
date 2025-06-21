@@ -1,4 +1,3 @@
-import { Button } from "@/shared/ui/button";
 import { Link } from "react-router-dom";
 
 const invoices = [
@@ -40,12 +39,7 @@ const Billing = () => {
                 Activo
               </span>
             </div>
-            <Button
-              variant="outline"
-              className="text-sm"
-            >
-              Cambiar plan
-            </Button>
+            <button className="text-sm">Cambiar plan</button>
           </div>
           <div className="text-gray-500 text-sm">Renovación: 01/06/2025</div>
         </div>
@@ -110,12 +104,7 @@ const Billing = () => {
               <span className="ml-2 text-xs text-gray-400">Expira 12/27</span>
             </div>
             <Link to="/user/payment-method">
-              <Button
-                variant="outline"
-                className="text-sm cursor-pointer"
-              >
-                Actualizar
-              </Button>
+              <button className="text-sm cursor-pointer">Actualizar</button>
             </Link>
           </div>
         </div>

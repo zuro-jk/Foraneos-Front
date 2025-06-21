@@ -9,6 +9,7 @@ interface ShoppingListState {
   toggleItem: (id: number) => void;
   removeItem: (id: number) => void;
   clearList: () => void;
+  updateItem: (id: number, changes: Partial<ShoppingItem>) => void;
 }
 
 const useShoppingListStore = create<ShoppingListState>()(
@@ -18,7 +19,9 @@ const useShoppingListStore = create<ShoppingListState>()(
       addItem: (newItem) => {
         set((state) => {
           const existingIndex = state.items.findIndex(
-            (item) => item.name.toLowerCase() === newItem.name.toLowerCase()
+            (item) =>
+              item.name.toLowerCase() === newItem.name.toLowerCase() &&
+              item.unit.toLowerCase() === newItem.unit.toLowerCase()
           );
 
           if (existingIndex !== -1) {
@@ -27,7 +30,7 @@ const useShoppingListStore = create<ShoppingListState>()(
 
             updated[existingIndex] = {
               ...updated[existingIndex],
-              quantity: `${updated[existingIndex].quantity} + ${newItem.quantity}`,
+              amount: updated[existingIndex].amount + newItem.amount,
               price: updated[existingIndex].price + newItem.price,
             };
 
@@ -49,6 +52,12 @@ const useShoppingListStore = create<ShoppingListState>()(
           items: state.items.filter((item) => item.id !== id),
         })),
       clearList: () => set({ items: [] }),
+      updateItem: (id, changes) =>
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.id === id ? { ...item, ...changes } : item
+          ),
+        })),
     }),
     {
       name: "shopping-list-storage",

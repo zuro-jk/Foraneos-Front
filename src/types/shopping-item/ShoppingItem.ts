@@ -11,7 +11,8 @@ export type IngredientCategory =
 export interface ShoppingItem {
   id: number;
   name: string;
-  quantity: string;
+  amount: number;
+  unit: string;
   price: number;
   checked: boolean;
   category: IngredientCategory;

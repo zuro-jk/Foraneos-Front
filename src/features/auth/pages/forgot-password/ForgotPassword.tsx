@@ -1,4 +1,3 @@
-import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Link } from "react-router-dom";
@@ -39,13 +38,12 @@ const ForgotPassword = () => {
                 placeholder="Correo electrónico"
                 className="w-full"
               />
-              <Button
+              <button
                 type="submit"
-                variant="outline"
                 className="cursor-pointer w-full bg-[#95b32d] text-white hover:bg-[#69b32d] transition duration-300 hover:text-white"
               >
                 Restablecer contraseña
-              </Button>
+              </button>
               <p className="flex items-center justify-center gap-2 text-xs ">
                 ¿Ya tienes una cuenta?
                 <Link to="/login">

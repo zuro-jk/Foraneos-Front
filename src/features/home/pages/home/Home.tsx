@@ -1,5 +1,4 @@
 import Footer from "@/shared/footer/Footer";
-import { Button } from "@/shared/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { User } from "lucide-react";
@@ -61,7 +60,9 @@ const Home = () => {
             recomendaciones personalizadas y disfruta de una experiencia única.
           </span>
           <Link to="/login">
-            <Button className="ml-0 md:ml-14 lg:ml-28 xl:ml-56 w-fit">Comenzar</Button>
+            <button className="ml-0 md:ml-14 lg:ml-28 xl:ml-56 w-fit">
+              Comenzar
+            </button>
           </Link>
         </div>
         <img
@@ -196,9 +197,9 @@ const Home = () => {
               <span className="absolute top-6">/mes</span>
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
-              <Button className="bg-[#B1DF88] text-black font-bold hover:bg-[#a4cf7e]/80">
+              <button className="bg-[#B1DF88] text-black font-bold hover:bg-[#a4cf7e]/80">
                 Continuar sin anuncios
-              </Button>
+              </button>
               <span className="text-[8px] underline">
                 Continuar con anuncios
               </span>

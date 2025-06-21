@@ -1,4 +1,3 @@
-import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import {
   Form,
@@ -9,6 +8,7 @@ import {
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
+import { useUserStore } from "@/store/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ import {
   signupSchema,
   type SignupValues,
 } from "../../../../types/signupSchema";
-import { useUserStore } from "@/store/userStore";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -62,10 +61,7 @@ const Signup = () => {
               Bienvenido a nuestra web, inicia sesión para continuar
             </span>
           </div>
-          <Button
-            variant="outline"
-            className="cursor-pointer w-full"
-          >
+          <button className="cursor-pointer w-full">
             <svg
               enable-background="new 0 0 128 128"
               id="Social_Icons"
@@ -110,7 +106,7 @@ const Signup = () => {
               </g>
             </svg>
             Continuar con Google
-          </Button>
+          </button>
           <div className="flex items-center justify-center gap-2 w-[10rem] mx-auto">
             <div className="h-[0.2px] bg-[#9A9A9AA8] flex-1"></div>
             <span className="text-[#9A9A9AA8]">O</span>
@@ -229,9 +225,9 @@ const Signup = () => {
                   </FormItem>
                 )}
               />
-              <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
+              <button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
                 Registrarse
-              </Button>
+              </button>
             </form>
           </Form>
           <p className="flex items-center justify-center gap-2 text-xs ">

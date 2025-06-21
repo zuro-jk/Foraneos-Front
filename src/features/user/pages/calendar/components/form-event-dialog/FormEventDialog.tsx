@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/shared/ui/button";
 import { Calendar } from "@/shared/ui/calendar";
 import {
   Command,
@@ -29,10 +28,10 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Textarea } from "@/shared/ui/textarea";
+import type { CalendarEvent } from "@/store/calendar/useScheduleStore";
 import { CalendarIcon, Check, ChevronsUpDown, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { CalendarEvent } from "../../../../store/calendar/useScheduleStore";
 import { EVENT_CATEGORIES } from "../../data/data";
 
 interface FormEventDialogProps {
@@ -104,9 +103,9 @@ const FormEventDialog = ({
     >
       {showTrigger && (
         <DialogTrigger asChild>
-          <Button variant="outline">
+          <button>
             <Plus className="w-4 h-4" /> Nuevo Evento
-          </Button>
+          </button>
         </DialogTrigger>
       )}
       <DialogContent className="sm:max-w-md">
@@ -149,8 +148,7 @@ const FormEventDialog = ({
                     <FormLabel>Fecha de inicio</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
+                        <button
                           className={cn("pl-3 text-left font-normal w-full")}
                         >
                           {field.value ? (
@@ -167,7 +165,7 @@ const FormEventDialog = ({
                             </span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
+                        </button>
                       </PopoverTrigger>
                       <PopoverContent
                         className="w-auto p-0"
@@ -218,8 +216,7 @@ const FormEventDialog = ({
                     <FormLabel>Fecha de fin</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
+                        <button
                           className={cn("pl-3 text-left font-normal w-full")}
                         >
                           {field.value ? (
@@ -236,7 +233,7 @@ const FormEventDialog = ({
                             </span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
+                        </button>
                       </PopoverTrigger>
                       <PopoverContent
                         className="w-auto p-0"
@@ -304,8 +301,7 @@ const FormEventDialog = ({
                   <FormLabel>Categoria</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
+                      <button
                         role="combobox"
                         className="w-full justify-between"
                       >
@@ -330,7 +326,7 @@ const FormEventDialog = ({
                           </span>
                         )}
                         <ChevronsUpDown className="w-4 h-4" />
-                      </Button>
+                      </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[240px] p-0">
                       <Command>
@@ -375,19 +371,13 @@ const FormEventDialog = ({
               )}
             />
             <DialogFooter className="sm:justify-end">
-              <Button
+              <button
                 type="button"
-                variant="outline"
                 onClick={() => setOpen(false)}
               >
                 Close
-              </Button>
-              <Button
-                type="button"
-                variant="default"
-              >
-                Guardar
-              </Button>
+              </button>
+              <button type="button">Guardar</button>
             </DialogFooter>
           </form>
         </Form>
