@@ -1,4 +1,5 @@
 import useShoppingListStore from "@/store/useShoppingListStore";
+import type { IngredientCategory } from "@/types/shopping-item/ShoppingItem";
 import { Calendar, CheckSquare, Square } from "lucide-react";
 
 function ShoppingListTable() {
@@ -21,12 +22,23 @@ function ShoppingListTable() {
     return acc;
   }, {});
 
+  const categoryIcon: Record<IngredientCategory, string> = {
+    Vegetales: "🥦",
+    Lácteos: "🥛",
+    Frutas: "🍎",
+    Granos: "🌾",
+    Proteínas: "🍗",
+    Enlatados: "🥫",
+    Condimentos: "🧂",
+    Otros: "🛒",
+  };
+
   return (
     <div className="space-y-2">
       {Object.entries(grouped).map(([category, items]) => (
         <section key={category}>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-            🧺 {category}
+            {categoryIcon[category as IngredientCategory] ?? "🛒"} {category}
           </h3>
           <div className="space-y-2">
             {items.map((item) => (

@@ -1,10 +1,13 @@
 import useShoppingListStore from "@/store/useShoppingListStore";
-import { CircleX, ShoppingCart } from "lucide-react";
+import { CircleX, PlusCircle, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import AddItemDialog from "./components/shopping-list-add/AddItemDialog";
 import ShoppingListSummary from "./components/shopping-list-summary/ShoppingListSummary";
 import ShoppingListTable from "./components/shopping-list-table/ShoppingListTable";
 
 function ShoppingList() {
+  const [open, setOpen] = useState(false);
   const items = useShoppingListStore((state) => state.items);
   const clearList = useShoppingListStore((state) => state.clearList);
 
@@ -26,6 +29,17 @@ function ShoppingList() {
               eficiente.
             </p>
           </div>
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 px-4 py-2 rounded-full cursor-pointer shadow-lg transition-colors duration-200"
+          >
+            <PlusCircle size={20} />
+            Añadir producto
+          </button>
+          <AddItemDialog
+            open={open}
+            onOpenChange={setOpen}
+          />
         </header>
 
         <ShoppingListSummary />

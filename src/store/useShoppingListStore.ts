@@ -1,4 +1,5 @@
 import type { ShoppingItem } from "@/types/shopping-item/ShoppingItem";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -14,10 +15,29 @@ const useShoppingListStore = create<ShoppingListState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (item) =>
-        set((state) => ({
-          items: [...state.items, item],
-        })),
+      addItem: (newItem) => {
+        set((state) => {
+          const existingIndex = state.items.findIndex(
+            (item) => item.name.toLowerCase() === newItem.name.toLowerCase()
+          );
+
+          if (existingIndex !== -1) {
+            // Ya existe, fusionar
+            const updated = [...state.items];
+
+            updated[existingIndex] = {
+              ...updated[existingIndex],
+              quantity: `${updated[existingIndex].quantity} + ${newItem.quantity}`,
+              price: updated[existingIndex].price + newItem.price,
+            };
+
+            toast.warning("Ya tenías este ingrediente, se sumaron cantidades.");
+            return { items: updated };
+          }
+
+          return { items: [...state.items, newItem] };
+        });
+      },
       toggleItem: (id) =>
         set((state) => ({
           items: state.items.map((item) =>
