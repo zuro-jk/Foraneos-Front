@@ -27,7 +27,7 @@ function RecipeDetail() {
     recipe.ingredients.forEach((ingredient) =>
       addItem({
         ...ingredient,
-        id: Date.now() + Math.random(),
+        id: Date.now() + Math.random(),        
         checked: false,
         category: ingredient.category ?? "Otros",
       })
@@ -110,7 +110,7 @@ function RecipeDetail() {
                     className="flex justify-between items-center bg-gray-50 dark:bg-zinc-800 rounded-lg p-3"
                   >
                     <span className="text-sm text-gray-800 dark:text-white">
-                      {ingredient.quantity} de {ingredient.name}
+                      {ingredient.amount} de {ingredient.name}
                     </span>
                     <span className="text-sm font-semibold text-green-600 dark:text-green-400">
                       S/ {ingredient.price.toFixed(2)}

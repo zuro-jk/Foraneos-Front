@@ -11,6 +11,7 @@ function GenerateShoppingListButton() {
 
   const handleGenerate = () => {
     const generated = generateShoppingListFromPlanner(planner);
+    console.log(generated);
     clearList();
     generated.forEach(addItem);
     toast("Lista de compras generada con éxito");

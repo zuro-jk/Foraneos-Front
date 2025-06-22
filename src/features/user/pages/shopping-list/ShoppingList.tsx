@@ -17,27 +17,35 @@ function ShoppingList() {
     clearList();
     toast.success("Lista de compras vaciada");
   };
+  
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="bg-gradient-to-br from-white to-gray-100 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl shadow-xl p-8 space-y-8 transition-all duration-300">
         <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex gap-2 items-center">
-              <ShoppingCart size={24} /> Lista de Compras
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              Visualiza, organiza y optimiza tus compras semanales de forma
-              eficiente.
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="bg-green-100 dark:bg-green-800 p-3 rounded-full">
+              <ShoppingCart
+                size={20}
+                className="text-green-700 dark:text-green-300"
+              />
+            </div>
+            <div>
+              <h1 className="text-3xl font-extrabold text-gray-800 dark:text-white">
+                Lista de Compras
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-300">
+                Organiza tus compras con eficiencia y estilo
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             {items.length > 0 && <ConfirmClearDialog onConfirm={handleClear} />}
             <Button
               onClick={() => setOpen(true)}
-              className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 px-4 py-2 rounded-full cursor-pointer shadow-lg transition-colors duration-200"
+              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-5 py-2 rounded-full shadow-lg transition-transform hover:scale-105 cursor-pointer"
             >
-              <PlusCircle size={20} />
+              <PlusCircle size={18} />
               Añadir producto
             </Button>
           </div>

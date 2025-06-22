@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useAuthLogin } from "../../../../hooks/auth/useAuth";
+import { Button } from "@/shared/ui/button";
 
 const loginSchema = z.object({
   username: z
@@ -70,7 +71,7 @@ const Login = () => {
               Bienvenido a nuestra web, inicia sesión para continuar
             </span>
           </div>
-          <button className="cursor-pointer w-full">
+          <Button className="cursor-pointer w-full">
             <svg
               enable-background="new 0 0 128 128"
               id="Social_Icons"
@@ -115,7 +116,7 @@ const Login = () => {
               </g>
             </svg>
             Continuar con Google
-          </button>
+          </Button>
           <div className="flex items-center justify-center gap-2 w-[10rem] mx-auto">
             <div className="h-[0.2px] bg-[#9A9A9AA8] flex-1"></div>
             <span className="text-[#9A9A9AA8]">O</span>

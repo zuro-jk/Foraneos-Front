@@ -15,7 +15,8 @@ export function generateShoppingListFromPlanner(
           ingredientMap.set(key, {
             id: Math.random(),
             name: ingredient.name,
-            quantity: ingredient.quantity,
+            amount: ingredient.amount,
+            unit: ingredient.unit,
             price: ingredient.price,
             checked: false,
             category: ingredient.category ?? "Otros",

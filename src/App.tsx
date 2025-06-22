@@ -11,7 +11,6 @@ import FavoriteRecipes from "./features/user/pages/favorite-recipes/FavoriteReci
 import FoodBudget from "./features/user/pages/food-budget/FoodBudget";
 import Notifications from "./features/user/pages/notifications/Notifications";
 import NutritionistArtificial from "./features/user/pages/nutritionist-artificial/NutritionistArtificial";
-import Overview from "./features/user/pages/ovewview/Overview";
 import Preferences from "./features/user/pages/preferences/Preferences";
 import Profile from "./features/user/pages/profile/Profile";
 import Security from "./features/user/pages/security/Security";
@@ -21,6 +20,7 @@ import AccountLayout from "./shared/layout/AccountLayout";
 import Layout from "./shared/layout/Layout";
 import UserLayout from "./shared/layout/UserLayout";
 import NotFound from "./shared/not-found/NotFound";
+import Overview from "./features/user/pages/overview/Overview";
 
 function App() {
   return (

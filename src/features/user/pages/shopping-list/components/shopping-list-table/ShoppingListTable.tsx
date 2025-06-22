@@ -202,13 +202,11 @@ function ShoppingListTable() {
               ))}
             </AnimatePresence>
 
-            <div className="flex justify-end mt-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Subtotal:{" "}
-                <span className="font-bold text-green-700 dark:text-green-400">
-                  S/{" "}
-                  {items.reduce((acc, i) => acc + (i.price || 0), 0).toFixed(2)}
-                </span>
+            <div className="text-right text-sm mt-8 font-medium text-gray-800 dark:text-white">
+              Total:{" "}
+              <span className="font-bold text-green-700 dark:text-green-400">
+                S/{" "}
+                {items.reduce((acc, i) => acc + (i.price || 0), 0).toFixed(2)}
               </span>
             </div>
           </div>

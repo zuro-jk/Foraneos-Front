@@ -1,3 +1,4 @@
+import { mockRecipes } from "@/data/mockRecipes";
 import usePlannerStore from "@/store/usePlannerStore";
 import type { PlannedRecipe } from "@/types/planned-recipe/PlannedRecipe.types";
 import { X } from "lucide-react";
@@ -7,39 +8,6 @@ interface AddRecipeModalProps {
   day: string;
   onClose: () => void;
 }
-
-const fakeRecipes: PlannedRecipe[] = [
-  {
-    id: 1,
-    title: "Tallarines rojos",
-    ingredients: [
-      { name: "Tallarines", quantity: "200g", price: 1.5 },
-      { name: "Salsa de tomate", quantity: "100g", price: 0.5 },
-      { name: "Carne molida", quantity: "150g", price: 2.0 },
-      { name: "Cebolla", quantity: "50g", price: 0.2 },
-    ],
-  },
-  {
-    id: 2,
-    title: "Sopa de verduras",
-    ingredients: [
-      { name: "Zanahoria", quantity: "100g", price: 0.3 },
-      { name: "Papa", quantity: "150g", price: 0.4 },
-      { name: "Apio", quantity: "50g", price: 0.2 },
-      { name: "Caldo de verduras", quantity: "500ml", price: 0.5 },
-    ],
-  },
-  {
-    id: 3,
-    title: "Lentejitas con arroz",
-    ingredients: [
-      { name: "Lentejas", quantity: "200g", price: 0.8 },
-      { name: "Arroz", quantity: "150g", price: 0.6 },
-      { name: "Cebolla", quantity: "50g", price: 0.2 },
-      { name: "Pimiento", quantity: "50g", price: 0.3 },
-    ],
-  },
-];
 
 function AddRecipeModal({ day, onClose }: AddRecipeModalProps) {
   const addRecipe = usePlannerStore((state) => state.addRecipeToDay);
@@ -79,7 +47,7 @@ function AddRecipeModal({ day, onClose }: AddRecipeModalProps) {
         </div>
 
         <ul className="space-y-2">
-          {fakeRecipes.map((recipe) => (
+          {mockRecipes.map((recipe) => (
             <li
               key={recipe.id}
               onClick={() => handleSelect(recipe)}

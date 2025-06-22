@@ -30,7 +30,7 @@ const UserLayout = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-[url('/images/recipes/fondo.jpg')] bg-cover bg-no-repeat bg-center">
+    <div className="flex flex-col min-h-screen w-full bg-gray-100 dark:bg-zinc-800 bg-cover bg-no-repeat bg-center">
       <NavbarUser />
       <div className="flex flex-1">
         <SidebarUser />

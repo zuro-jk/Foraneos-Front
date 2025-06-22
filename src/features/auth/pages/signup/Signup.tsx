@@ -1,3 +1,4 @@
+import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import {
   Form,
@@ -34,7 +35,9 @@ const Signup = () => {
 
   const onSubmit = (values: SignupValues) => {
     setSignupData(values);
-    navigate("/complete-profile");
+    navigate("/user/overview");
+    // Aquí podrías agregar la lógica para enviar los datos al backend
+    console.log("Formulario enviado:", values);
   };
 
   return (
@@ -61,7 +64,7 @@ const Signup = () => {
               Bienvenido a nuestra web, inicia sesión para continuar
             </span>
           </div>
-          <button className="cursor-pointer w-full">
+          <Button className="cursor-pointer w-full">
             <svg
               enable-background="new 0 0 128 128"
               id="Social_Icons"
@@ -106,7 +109,7 @@ const Signup = () => {
               </g>
             </svg>
             Continuar con Google
-          </button>
+          </Button>
           <div className="flex items-center justify-center gap-2 w-[10rem] mx-auto">
             <div className="h-[0.2px] bg-[#9A9A9AA8] flex-1"></div>
             <span className="text-[#9A9A9AA8]">O</span>
@@ -225,9 +228,9 @@ const Signup = () => {
                   </FormItem>
                 )}
               />
-              <button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
+              <Button className="uppercase cursor-pointer w-full bg-[#D2EBBC] text-black font-bold border border-black rounded-lg py-3 shadow-lg hover:bg-[#bcebc0] hover:scale-[1.03] transition-all duration-200">
                 Registrarse
-              </button>
+              </Button>
             </form>
           </Form>
           <p className="flex items-center justify-center gap-2 text-xs ">

@@ -12,15 +12,20 @@ function ShoppingListSummary() {
   const boxStyle = "p-4 rounded-xl shadow flex flex-col items-center gap-2";
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div
-        className={`${boxStyle} bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-300`}
-      >
-        <CheckCircle size={28} />
-        <p className="text-sm">Completados</p>
-        <h2 className="text-xl font-bold">
-          {checkedItems}/{totalItems}
-        </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
+      <div className="flex items-center gap-4 p-4 rounded-2xl bg-green-100 dark:bg-green-900 shadow-sm">
+        <CheckCircle
+          className="text-green-700 dark:text-green-300"
+          size={32}
+        />
+        <div>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Completados
+          </p>
+          <h2 className="text-2xl font-bold text-green-800 dark:text-green-200">
+            {checkedItems}/{totalItems}
+          </h2>
+        </div>
       </div>
 
       <div

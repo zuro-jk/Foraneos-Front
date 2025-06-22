@@ -1,34 +1,19 @@
+import { mockRecipes } from "@/data/mockRecipes";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const recipes = [
-  {
-    id: 1,
-    title: "Arroz Tapado",
-    image: "/images/foods/arroz-tapado.jpg",
-    cost: 4.5,
-  },
-  {
-    id: 2,
-    title: "Tallarines con Huevo",
-    image: "/images/foods/tallarines.jpg",
-    cost: 3.8,
-  },
-  {
-    id: 3,
-    title: "Lentejitas Criollas",
-    image: "/images/foods/lentejas.avif",
-    cost: 5.2,
-  },
-];
+
 
 function RecipeSuggestions() {
+  const navigate = useNavigate();
+
   return (
     <div className="col-span-1 lg:col-span-2 xl:col-span-3 bg-white dark:bg-zinc-800 rounded-2xl shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
         🥗 Recetas sugeridas para hoy
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {recipes.map((recipe) => (
+        {mockRecipes.map((recipe) => (
           <div
             key={recipe.id}
             className="bg-white dark:bg-zinc-800 rounded-2xl shadow p-4 hover:shadow-lg transition"
@@ -42,9 +27,13 @@ function RecipeSuggestions() {
               {recipe.title}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-300">
-              Costo estimado: S/{recipe.cost.toFixed(2)}
+              Costo estimado: S/{recipe.price.toFixed(2)}
             </p>
-            <button className="flex items-center gap-2 cursor-pointer mt-3 text-sm text-green-600 dark:text-green-400 hover:underline">
+            <button
+              aria-label="Ver receta"
+              onClick={() => navigate(`/user/economic-recipes/${recipe.id}`)}
+              className="flex items-center gap-2 cursor-pointer mt-3 text-sm text-green-600 dark:text-green-400 hover:underline"
+            >
               Ver receta <ArrowRight size={16} />
             </button>
           </div>

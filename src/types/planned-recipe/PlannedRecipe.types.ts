@@ -1,13 +1,11 @@
-import type { IngredientCategory } from "../shopping-item/ShoppingItem";
+import type { ShoppingItem } from "../shopping-item/ShoppingItem";
 
 export type RecipeDifficulty = "Fácil" | "Medio" | "Difícil";
 
-export interface Ingredient {
-  name: string;
-  quantity: string;
-  price: number;
-  category?: IngredientCategory;
-}
+export type Ingredient = Pick<
+  ShoppingItem,
+  "name" | "amount" | "unit" | "price" | "category"
+>;
 
 export interface PlannedRecipe {
   id: number;
