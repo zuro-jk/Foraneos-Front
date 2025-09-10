@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 
 function PublicHeader() {
   return (
     <header className="bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white shadow-md">
       <div className="flex justify-between items-center h-16 container mx-auto">
-        {/* Logo */}
         <div className="flex items-center space-x-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,6 @@ function PublicHeader() {
           <span className="text-xl font-bold tracking-wide">Foráneos</span>
         </div>
 
-        {/* Nav links */}
         <nav className="hidden md:flex space-x-10 font-medium gap-4">
           <a
             href="/"
@@ -38,23 +37,26 @@ function PublicHeader() {
             Menú
           </a>
           <a
-            href="/reservas"
+            href="/reservations"
             className="hover:text-yellow-100 transition"
           >
             Reservas
           </a>
           <a
-            href="/contacto"
+            href="/contact"
             className="hover:text-yellow-100 transition"
           >
             Contacto
           </a>
         </nav>
 
-        {/* Actions */}
         <div className="flex items-center space-x-3 p-4">
-          <Button>Iniciar Sesion</Button>
-          <Button>Registrarse</Button>
+          <Link to="/auth/login">
+            <Button>Iniciar Sesion</Button>
+          </Link>
+          <Link to="/auth/signup">
+            <Button>Registrarse</Button>
+          </Link>
         </div>
       </div>
     </header>

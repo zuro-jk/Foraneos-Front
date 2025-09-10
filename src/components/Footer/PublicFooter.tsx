@@ -2,7 +2,6 @@ function PublicFooter() {
   return (
     <footer className="bg-gradient-to-r from-red-700 via-amber-600 to-red-600 text-white py-6">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Logo */}
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +14,6 @@ function PublicFooter() {
           <span className="font-semibold text-lg">Foraneos</span>
         </div>
 
-        {/* Links */}
         <nav className="flex gap-6 text-sm font-medium">
           <a
             href="/about"
@@ -37,7 +35,6 @@ function PublicFooter() {
           </a>
         </nav>
 
-        {/* Copyright */}
         <p className="text-xs text-gray-200">
           © {new Date().getFullYear()} Foraneos. Todos los derechos
           reservados.

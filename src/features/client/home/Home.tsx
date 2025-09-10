@@ -1,10 +1,9 @@
 function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-red-50">
-      {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center py-28 px-10">
         <h1 className="text-6xl md:text-7xl font-extrabold text-red-700 mb-8">
-          Bienvenido a Mi Restaurante 🍴
+          Bienvenido a Foraneos
         </h1>
         <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mb-12">
           Sabores auténticos, ingredientes frescos y un ambiente acogedor para
@@ -26,7 +25,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Platos destacados */}
       <section className="py-24 px-10 bg-white">
         <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
           Platos Destacados
@@ -65,7 +63,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Sobre nosotros */}
       <section className="py-28 px-10 text-center bg-gradient-to-r from-amber-100 to-red-100">
         <h2 className="text-4xl font-bold text-red-700 mb-10">
           Sobre Nosotros
@@ -78,7 +75,6 @@ function Home() {
         </p>
       </section>
 
-      {/* Testimonios */}
       <section className="py-24 px-10 bg-white">
         <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
           Lo que dicen nuestros clientes
@@ -129,7 +125,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Horarios y ubicación */}
       <section className="py-24 px-10 bg-gradient-to-r from-red-50 to-amber-50 relative">
         <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
           Encuéntranos
