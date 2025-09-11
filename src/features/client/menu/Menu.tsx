@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
-
-interface Dish {
-  name: string;
-  category: string;
-  description: string;
-  price: string;
-  rating: number;
-  image: string;
-}
+import type { Dish } from "../Types/dish";
+import ProductDrawer from "../Card/ProductDrawer";
 
 function Menu() {
   const categories = [
@@ -26,7 +19,8 @@ function Menu() {
       description: "Pescado fresco, limón, cebolla, ají.",
       price: "S/ 30",
       rating: 5,
-      image: "https://source.unsplash.com/400x300/?ceviche",
+      image:
+        "https://i.pinimg.com/1200x/a3/58/10/a3581087164a115d344af9ff06d0c059.jpg",
     },
     {
       name: "Lomo Saltado",
@@ -34,15 +28,8 @@ function Menu() {
       description: "Carne de res, cebolla, tomate, papas fritas.",
       price: "S/ 28",
       rating: 4,
-      image: "https://source.unsplash.com/400x300/?lomo",
-    },
-    {
-      name: "Pizza Margherita",
-      category: "Platos principales",
-      description: "Tomate, mozzarella, albahaca fresca.",
-      price: "S/ 25",
-      rating: 4,
-      image: "https://source.unsplash.com/400x300/?pizza",
+      image:
+        "https://i.pinimg.com/736x/47/af/ef/47afef2090332ab31ae40854669d8356.jpg",
     },
     {
       name: "Tiramisú",
@@ -50,7 +37,8 @@ function Menu() {
       description: "Postre italiano con café y mascarpone.",
       price: "S/ 18",
       rating: 5,
-      image: "https://source.unsplash.com/400x300/?dessert",
+      image:
+        "https://i.pinimg.com/736x/47/af/ef/47afef2090332ab31ae40854669d8356.jpg",
     },
     {
       name: "Limonada",
@@ -58,7 +46,8 @@ function Menu() {
       description: "Refrescante bebida natural de limón.",
       price: "S/ 10",
       rating: 4,
-      image: "https://source.unsplash.com/400x300/?lemonade",
+      image:
+        "https://i.pinimg.com/736x/93/ee/20/93ee20287f13f86937f425ac053b7a21.jpg",
     },
     {
       name: "Ensalada César",
@@ -66,15 +55,8 @@ function Menu() {
       description: "Lechuga, pollo, queso parmesano y aderezo César.",
       price: "S/ 20",
       rating: 4,
-      image: "https://source.unsplash.com/400x300/?salad",
-    },
-    {
-      name: "Hamburguesa Clásica",
-      category: "Platos principales",
-      description: "Carne, queso, lechuga, tomate y pan brioche.",
-      price: "S/ 22",
-      rating: 4,
-      image: "https://source.unsplash.com/400x300/?burger",
+      image:
+        "https://i.pinimg.com/1200x/04/44/31/044431c8343b5801ff75f4b493fd6a24.jpg",
     },
     {
       name: "Brownie con Helado",
@@ -82,7 +64,8 @@ function Menu() {
       description: "Brownie de chocolate con helado de vainilla.",
       price: "S/ 16",
       rating: 5,
-      image: "https://source.unsplash.com/400x300/?brownie",
+      image:
+        "https://i.pinimg.com/736x/0f/ce/b8/0fceb803cfa5ac4ddee46ccd9cf2874b.jpg",
     },
     {
       name: "Jugo de Mango",
@@ -90,19 +73,28 @@ function Menu() {
       description: "Natural y fresco.",
       price: "S/ 12",
       rating: 4,
-      image: "https://source.unsplash.com/400x300/?mango-juice",
+      image:
+        "https://i.pinimg.com/736x/a2/49/d8/a249d8ff5080446d3621783856e9181f.jpg",
     },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
+  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
 
   const filteredDishes =
     selectedCategory === "Todos"
       ? allDishes
-      : allDishes.filter((dish) => dish.category === selectedCategory);
+      : allDishes.filter((d) => d.category === selectedCategory);
+
+  const handleOpen = (dish: Dish) => setSelectedDish(dish);
+  const handleClose = () => setSelectedDish(null);
+
+  const drawer = selectedDish ? (
+    <ProductDrawer dish={selectedDish} isOpen={true} onClose={handleClose} />
+  ) : null;
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-red-50 to-amber-50">
+    <section className="py-24 px-6 bg-gradient-to-b from-red-50 to-amber-50 relative">
       <h2 className="text-5xl font-bold text-center text-red-700 mb-12">
         Nuestro Menú
       </h2>
@@ -111,7 +103,6 @@ function Menu() {
         fácilmente.
       </p>
 
-      {/* Botones de categoría */}
       <div className="flex justify-center gap-4 mb-10 flex-wrap">
         {categories.map((cat) => (
           <button
@@ -128,7 +119,6 @@ function Menu() {
         ))}
       </div>
 
-      {/* Grid de platos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
         {filteredDishes.map((dish) => (
           <div
@@ -160,13 +150,19 @@ function Menu() {
                   ))}
                 </div>
               </div>
-              <button className="mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
+
+              <button
+                className="mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors"
+                onClick={() => handleOpen(dish)}
+              >
                 Agregar
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {drawer}
     </section>
   );
 }
