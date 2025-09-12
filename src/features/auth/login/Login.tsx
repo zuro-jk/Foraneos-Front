@@ -1,4 +1,41 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../core/stores/authStore";
+
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  
+  const { login } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const user = login(email, password);
+      
+      if (user) {
+        // Redirección basada en el rol
+        if (user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/");
+        }
+      } else {
+        setError("Credenciales incorrectas");
+      }
+    } catch (err) {
+      setError("Error al iniciar sesión");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
       {/* Logo */}
@@ -13,15 +50,25 @@ function Login() {
         Inicia sesión en <span className="text-red-600">Foráneos</span>
       </h2>
 
+      {/* Error Message */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+          {error}
+        </div>
+      )}
+
       {/* Formulario */}
-      <form className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Correo electrónico
           </label>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="tu@email.com"
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
           />
         </div>
@@ -32,7 +79,10 @@ function Login() {
           </label>
           <input
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
           />
         </div>
@@ -57,9 +107,10 @@ function Login() {
         {/* Botón */}
         <button
           type="submit"
-          className="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+          disabled={loading}
+          className="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
         >
-          Iniciar sesión
+          {loading ? "Iniciando sesión..." : "Iniciar sesión"}
         </button>
       </form>
 
