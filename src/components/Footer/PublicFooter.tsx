@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Youtube, MapPin, Phone, Mail } 
 
 export default function PublicFooter() {
   return (
-    <footer className="bg-gray-800 text-white">
+  <footer className="bg-neutral-900 text-white">
       {/* Sección principal del footer */}
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -151,7 +151,7 @@ export default function PublicFooter() {
                 <div className="bg-blue-600 px-3 py-1 rounded text-white text-xs font-semibold">PayPal</div>
                 <div className="bg-red-500 px-3 py-1 rounded text-white text-xs font-semibold">MasterCard</div>
                 <div className="bg-blue-700 px-3 py-1 rounded text-white text-xs font-semibold">VISA</div>
-                <div className="bg-orange-500 px-3 py-1 rounded text-white text-xs font-semibold">YAPE</div>
+                <div className="bg-purple-500 px-3 py-1 rounded text-white text-xs font-semibold">YAPE</div>
                 <div className="bg-blue-800 px-3 py-1 rounded text-white text-xs font-semibold">BCP</div>
               </div>
             </div>

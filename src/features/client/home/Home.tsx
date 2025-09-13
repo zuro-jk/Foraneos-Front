@@ -14,7 +14,7 @@ function Home() {
             <img 
               src="public/images/inicio/centralLogo.png" 
               alt="Foraneos Logo" 
-              className="w-24 h-12 object-contain"
+              className="w-50 h-15 object-contain"
             />
           </div>
 
@@ -47,28 +47,17 @@ function Home() {
       </header>
 
       {/* Sección de Bienvenida con Video */}
-      <section className="relative flex items-center justify-center text-center h-screen overflow-hidden">
+  <section className="relative flex items-center justify-center text-center h-screen overflow-hidden bg-neutral-900">
         {/* Video de Fondo */}
         <div className="absolute inset-0 w-full h-full">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            style={{ filter: 'brightness(0.7)' }}
-          >
-            <source src="/public/images/inicio/227131.mp4" type="video/mp4" />
-            {/* Fallback para navegadores que no soporten video */}
-            <div className="w-full h-full bg-gradient-to-br from-red-600 to-amber-600"></div>
-          </video>
+          <img src="/images/inicio/home-fondo.png" alt="Fondo Home" className="w-full h-full object-cover" />
           {/* Overlay para mejorar legibilidad del texto */}
           <div className="absolute inset-0 bg-black/30"></div>
         </div>
 
         {/* Contenido sobre el video */}
   <div className="flex flex-col items-center justify-start h-screen w-full pt-2">
-          <h1 className="text-6xl md:text-7xl font-extrabold text-white drop-shadow-lg mt-2" style={{ fontFamily: 'Asimovian, sans-serif' }}>Bienvenido</h1>
+          <h1 className="text-6xl md:text-8xl font-extrabold text-white drop-shadow-lg mt-2" style={{ fontFamily: 'Caveat, cursive' }}>Bienvenido</h1>
           <div className="absolute left-8 bottom-8">
             <p className="text-white text-lg bg-black/50 px-4 py-2 rounded-lg shadow-md">
               Av. Principal 123, Ciudad, País
@@ -77,23 +66,53 @@ function Home() {
         </div>
       </section>
 
-      <section className="py-24 px-10 bg-white">
-        <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
+  <section className="bg-neutral-900 flex justify-center items-center py-10">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg flex flex-col md:flex-row overflow-hidden">
+        {/* Imagen */}
+        <div className="md:w-1/2">
+          <img
+            src="/public/images/inicio/central-info.jpg" 
+            alt="Gastronomía de Ica y Pisco"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Texto */}
+        <div className="md:w-1/2 p-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            Central, lo mejor de Ica y el Perú.
+          </h2>
+          <h3 className="text-xl font-semibold text-gray-800 mb-3">
+            La Gastronomía tambien es una forma de vivir
+          </h3>
+          <p className="text-gray-600 leading-relaxed">
+            Central es un espacio que resalta lo mejor de Ica y del Perú, 
+            donde cada detalle conecta con la esencia cultural y natural de nuestra tierra. 
+            La gastronomía no solo es sabor, es una forma de vivir que celebra tradiciones, 
+            ingredientes únicos y la pasión de nuestra gente. Aquí, cada experiencia es un encuentro
+            con identidad y orgullo peruano.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  <section className="py-24 px-10 bg-neutral-900">
+        <h2 className="text-4xl font-bold text-center text-white mb-16">
           Platos Destacados
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {[
             {
               name: "Lomo Saltado",
-              img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Lomo-saltado-perudelights.jpg/960px-Lomo-saltado-perudelights.jpg",
+              img: "/public/images/inicio/home-lomoSaltado.png",
             },
             {
               name: "Ceviche Fresco",
-              img: "https://www.peru.travel/Contenido/Noticia/Imagen/es/1990/1.0/Principal/ceviche-desktop.jpg",
+              img: "/public/images/inicio/home-ceviche.png",
             },
             {
               name: "Causa Limeña",
-              img: "https://d2j9trpqxd6hrn.cloudfront.net/uploads/recipe/main_image/889/causa_limen%CC%83a.webp",
+              img: "/public/images/inicio/home-causa.png",
             },
           ].map((dish) => (
             <div
@@ -115,22 +134,22 @@ function Home() {
         </div>
       </section>
 
-      <section className="py-28 px-10 text-center bg-gradient-to-r from-amber-100 to-red-100">
-        <h2 className="text-4xl font-bold text-red-700 mb-10">
+  <section className="py-28 px-10 text-center bg-neutral-900">
+        <h2 className="text-4xl font-bold text-white mb-10">
           Sobre Nosotros
         </h2>
-        <p className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed">
-          En Foraneos creemos en la magia de la buena comida y en la
-          importancia de compartir momentos inolvidables. Usamos ingredientes
-          frescos, recetas auténticas y un ambiente acogedor para que cada
-          visita sea especial.
+        <p className="max-w-4xl mx-auto text-lg text-white leading-relaxed">
+          En Central nos inspira mostrar lo mejor de Ica y del Perú a través de experiencias
+          que unen tradición y modernidad. Valoramos nuestros orígenes y llevamos a la mesa la
+          riqueza de nuestra tierra con ingredientes auténticos y sabores que cuentan historias.
+          Creemos que la gastronomía es más que comer: es compartir, aprender y vivir intensamente nuestra cultura.
         </p>
       </section>
 
       
 
-      <section className="py-24 px-10 bg-gradient-to-r from-red-50 to-amber-50 relative">
-        <h2 className="text-4xl font-bold text-center text-red-700 mb-16">
+  <section className="py-24 px-10 bg-neutral-900 relative">
+        <h2 className="text-4xl font-bold text-center text-white mb-16">
           Encuéntranos
         </h2>
         <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-10 mb-10">
