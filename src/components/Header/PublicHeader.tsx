@@ -1,5 +1,40 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/core/stores/authStore";
 import Button from "../ui/Button";
+
+function UserSection() {
+  const { user, isLoggedIn, logout } = useAuthStore();
+
+  if (isLoggedIn && user) {
+    return (
+      <div className="flex items-center space-x-3">
+        <span className="text-sm">Hola, {user.name}</span>
+        {user.role === 'admin' && (
+          <Link to="/admin/dashboard">
+            <Button>Dashboard</Button>
+          </Link>
+        )}
+        <button
+          onClick={logout}
+          className="px-3 py-1 text-sm bg-red-700 hover:bg-red-800 rounded transition-colors"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Link to="/auth/login">
+        <Button>Iniciar Sesión</Button>
+      </Link>
+      <Link to="/auth/signup">
+        <Button>Registrarse</Button>
+      </Link>
+    </>
+  );
+}
 
 function PublicHeader() {
   return (
@@ -51,12 +86,7 @@ function PublicHeader() {
         </nav>
 
         <div className="flex items-center space-x-3 p-4">
-          <Link to="/auth/login">
-            <Button>Iniciar Sesion</Button>
-          </Link>
-          <Link to="/auth/signup">
-            <Button>Registrarse</Button>
-          </Link>
+          <UserSection />
         </div>
       </div>
     </header>

@@ -99,7 +99,7 @@ export default function PublicFooter() {
             </div>
 
             {/* Download App */}
-            <div>
+            {/* <div>
               <h4 className="text-lg font-semibold mb-4">Descarga la APP</h4>
               <p className="text-gray-300 text-sm mb-4">Ahorre $3 con la aplicación y solo para nuevos usuarios</p>
               
@@ -132,7 +132,7 @@ export default function PublicFooter() {
                   </div>
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function PublicFooter() {
               ©2025. Todos los derechos reservados por  <span className="text-white font-semibold">Foraneos</span>
             </p>
             
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <span className="text-gray-400 text-sm">Aceptamos:</span>
               <div className="flex space-x-2">
                 <div className="bg-blue-600 px-3 py-1 rounded text-white text-xs font-semibold">PayPal</div>
@@ -154,7 +154,7 @@ export default function PublicFooter() {
                 <div className="bg-purple-500 px-3 py-1 rounded text-white text-xs font-semibold">YAPE</div>
                 <div className="bg-blue-800 px-3 py-1 rounded text-white text-xs font-semibold">BCP</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

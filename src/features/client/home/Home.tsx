@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,7 +8,6 @@ function Home() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-red-50">
       {/* Header con Logo y Menú */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
-
         <div className="flex justify-between items-center px-6 py-4">
           {/* Logo */}
           <div className="flex items-center">
@@ -19,26 +19,51 @@ function Home() {
           </div>
 
           {/* Menú Hamburguesa */}
-          <div className="relative">
+          <div className="relative flex flex-row gap-4">
+
+            <div className="text-white flex gap-2 items-center justify-center">
+              <Link to="/menu">Menu</Link>
+              <Link to="/reservations">Reservas</Link>
+              <Link to="/contact">Contacto</Link>
+            </div>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none"
             >
-              <div className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
-              <div className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></div>
-              <div className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
+              <div
+                className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              ></div>
+              <div
+                className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${
+                  isMenuOpen ? "opacity-0" : ""
+                }`}
+              ></div>
+              <div
+                className={`w-6 h-0.5 bg-red-600 transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              ></div>
             </button>
 
             {/* Dropdown Menu */}
             {isMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100">
                 <div className="py-2">
-                  <a href="/login" className="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                  <Link
+                    to="/auth/login"
+                    className="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
+                  >
                     Iniciar Sesión
-                  </a>
-                  <a href="/register" className="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                  </Link>
+                  <Link
+                    to="/auth/register"
+                    className="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
+                  >
                     Registrarse
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
@@ -157,15 +182,23 @@ function Home() {
             {/* Info izquierda */}
             <div className="flex-1 flex flex-col justify-center md:items-start items-center text-center md:text-left">
               <div>
-                <h3 className="text-xl font-semibold text-red-600 mb-2">📍 Dirección</h3>
+                <h3 className="text-xl font-semibold text-red-600 mb-2">
+                  📍 Dirección
+                </h3>
                 <p className="text-gray-700">Av. Principal 123, Lima – Perú</p>
               </div>
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-red-600 mb-2">🕒 Horarios</h3>
-                <p className="text-gray-700">Lunes a Domingo: 12:00pm – 11:00pm</p>
+                <h3 className="text-xl font-semibold text-red-600 mb-2">
+                  🕒 Horarios
+                </h3>
+                <p className="text-gray-700">
+                  Lunes a Domingo: 12:00pm – 11:00pm
+                </p>
               </div>
               <div className="mt-6">
-                <h3 className="text-xl font-semibold text-red-600 mb-2">📞 Reservas</h3>
+                <h3 className="text-xl font-semibold text-red-600 mb-2">
+                  📞 Reservas
+                </h3>
                 <p className="text-gray-700">(+51) 987 654 321</p>
               </div>
             </div>
